@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1945711983",
+    "firebase_url": "https://zed-social-media-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "zed-social-media",
+    "storage_bucket": "zed-social-media.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1945711983:android:6491b6f9e71631f92b649a",
+        "android_client_info": {
+          "package_name": "com.example.zed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe2kCPQOlaju9W3CpfGyFTbfAkVt153RM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
