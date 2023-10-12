@@ -38,6 +38,10 @@ dependencies:
   firebase_core: ^2.17.0
   google_fonts: ^6.1.0
   iconsax: ^0.0.8
+  flutter_bloc: ^8.1.3
+  bloc: ^8.1.2
+  firebase_auth: ^4.10.1
+  rive: ^0.11.17
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +64,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+   - assets/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
