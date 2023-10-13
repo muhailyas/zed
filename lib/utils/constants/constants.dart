@@ -9,7 +9,7 @@ customFontStyle(
     FontWeight fontWeight = FontWeight.w400,
     FontStyle italic = FontStyle.normal}) {
   return GoogleFonts.lato(
-      fontSize: size,
+      fontSize: textSize * size,
       color: color,
       letterSpacing: letterSpacing,
       fontWeight: fontWeight,
@@ -29,6 +29,7 @@ setScreenSize(BuildContext context) {
 }
 
 // constant heights
+SizedBox height05 = SizedBox(height: screenHeight * 0.01);
 SizedBox height10 = SizedBox(height: screenHeight * 0.02);
 SizedBox height20 = SizedBox(height: screenHeight * 0.04);
 
@@ -47,7 +48,9 @@ enum UserValidation {
   wrongPassword,
   signUpSuccess,
   loginSuccess,
-  error
+  error,
+  verified,
+  
 }
 // add detail
 

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
 import 'package:zed/firebase_options.dart';
 import 'package:zed/presentation/screens/auth/auth.dart';
+import 'package:zed/presentation/screens/root_page/root_page.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 void main() async {
@@ -33,7 +35,15 @@ class MyApp extends StatelessWidget {
         title: 'Zed',
         theme: ThemeData(fontFamily: GoogleFonts.lato().fontFamily),
         debugShowCheckedModeBanner: false,
-        home: AuthScreen(result: UserValidation.oldUser),
+        home: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return const RootPage();
+              }
+
+              return const AuthScreen();
+            }),
       ),
     );
   }

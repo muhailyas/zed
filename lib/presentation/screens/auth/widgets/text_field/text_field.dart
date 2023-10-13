@@ -22,6 +22,12 @@ class TextFieldWidget extends StatelessWidget {
     return TextFormField(
       obscureText: obscureText,
       controller: controller,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return '$hint is required';
+        }
+        return null;
+      },
       style: customFontStyle(size: 16, color: greyColor),
       cursorColor: greyColor,
       decoration: InputDecoration(
