@@ -28,6 +28,13 @@ class TextFieldWidget extends StatelessWidget {
         }
         return null;
       },
+      onChanged: (value) {
+        obscureText
+            ? controller.text.length >= 8
+                ? isValid.value = true
+                : isValid.value = false
+            : null;
+      },
       style: customFontStyle(size: 16, color: greyColor),
       cursorColor: greyColor,
       decoration: InputDecoration(

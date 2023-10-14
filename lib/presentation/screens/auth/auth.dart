@@ -65,10 +65,9 @@ class AuthScreen extends StatelessWidget {
                 height10,
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    state.userValidation != null
+                    state.isLogin && state.authResults != AuthResults.initial
                         ? userValidationResult(
-                            userValidation: state.userValidation!,
-                            context: context)
+                            authResults: state.authResults, context: context)
                         : null;
                   },
                   child: ElevatedButtonWidget(
@@ -82,9 +81,7 @@ class AuthScreen extends StatelessWidget {
                         context.read<AuthBloc>().add(Login(
                             email: blocProvider.emailController.text,
                             password: blocProvider.passwordController.text));
-                      } else {
-                        // handle error here
-                      }
+                      } else {}
                     },
                   ),
                 ),

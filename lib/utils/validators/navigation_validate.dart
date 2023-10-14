@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:zed/presentation/screens/root_page/root_page.dart';
-import 'package:zed/presentation/screens/user_name_setup/user_name_setup.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 void userValidationResult(
-    {required UserValidation userValidation,
-    required BuildContext context,
-    String? name,
-    String? email}) {
-  Navigator.pop(context);
-  if (userValidation == UserValidation.verified) {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserNameSetup(name: name!),
-        ),
-        (route) => false);
-  } else if (userValidation == UserValidation.loginSuccess) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const RootPage(),
-        ),
-        (route) => false);
-  } else {
-    print(userValidation.name);
+    {required AuthResults authResults, required BuildContext context}) {
+  if (authResults == AuthResults.loginSuccess) {
+    showErrorSnackBar(authResults.name, context, Colors.green);
+    Navigator.pop(context);
+    return;
   }
+
+  if (authResults == AuthResults.verified) {
+    showErrorSnackBar(authResults.name, context, Colors.green);
+  } else if (authResults == AuthResults.loginSuccess) {
+    showErrorSnackBar(authResults.name, context, Colors.green);
+  } else if (authResults == AuthResults.userNotFound) {
+    showErrorSnackBar(authResults.name, context, Colors.red);
+  } else if (authResults == AuthResults.invalidEmail) {
+    showErrorSnackBar(authResults.name, context, Colors.red);
+  } else if (authResults == AuthResults.wrongPassword) {
+    showErrorSnackBar(authResults.name, context, Colors.red);
+  } else if (authResults != AuthResults.signUpSuccess) {
+    showErrorSnackBar(authResults.name, context, Colors.red);
+  }
+}
+
+void showErrorSnackBar(String errorMessage, BuildContext context, Color color) {
+  final snackBar = SnackBar(
+    content: Text(errorMessage),
+    backgroundColor: color,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

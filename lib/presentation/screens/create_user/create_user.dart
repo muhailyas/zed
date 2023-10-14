@@ -7,6 +7,7 @@ import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
+import 'package:zed/utils/validators/navigation_validate.dart';
 
 class CreateUser extends StatelessWidget {
   final AuthPages authPages;
@@ -62,15 +63,20 @@ class CreateUser extends StatelessWidget {
                     controller: blocProvider.passwordController,
                     hint: 'Type password',
                     iconData: Icons.fingerprint,
+                    obscureText: true,
                   ),
                   height05,
                   Row(
                     children: [
-                      const Icon(
-                        Icons.check_circle_outline_rounded,
-                        color: greyColor,
-                        size: 18,
-                      ),
+                      ValueListenableBuilder(
+                          valueListenable: isValid,
+                          builder: (context, value, _) {
+                            return Icon(
+                              Icons.check_circle_outline_rounded,
+                              color: value ? Colors.green : greyColor,
+                              size: textSize * 18,
+                            );
+                          }),
                       const SizedBox(width: 5),
                       Text(
                         "Password should contain atleast 8 characters",
@@ -90,7 +96,21 @@ class CreateUser extends StatelessWidget {
               ),
             ),
             height10,
-            BlocBuilder<AuthBloc, AuthState>(
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state.authResults == AuthResults.signUpSuccess) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EmailVerification(
+                            fullName: blocProvider.fullNameController.text),
+                      ));
+                }
+                state.authResults == AuthResults.initial
+                    ? null
+                    : userValidationResult(
+                        authResults: state.authResults, context: context);
+              },
               builder: (context, state) {
                 if (state.isSaving) {
                   return const Center(
@@ -104,23 +124,19 @@ class CreateUser extends StatelessWidget {
                     if (blocProvider.emailController.text.isEmpty ||
                         blocProvider.fullNameController.text.isEmpty ||
                         blocProvider.passwordController.text.isEmpty) {
-                      print("Complete full fields");
                       return;
                     }
                     blocProvider.add(SignUp(
                         email: blocProvider.emailController.text,
                         password: blocProvider.passwordController.text));
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EmailVerification(
-                              email: blocProvider.emailController.text,
-                              fullName: blocProvider.fullNameController.text),
-                        ));
+                    blocProvider.emailController.clear();
+                    blocProvider.fullNameController.clear();
+                    blocProvider.passwordController.clear();
                   },
                 );
               },
             ),
+            height10
           ],
         ),
       ),

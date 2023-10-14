@@ -25,7 +25,7 @@ class RootPage extends StatelessWidget {
                 FirebaseAuth.instance.signOut();
               },
               icon: const Icon(Icons.logout),
-              label: Text("Log out"))
+              label: const Text("Log out"))
         ],
       ),
     );

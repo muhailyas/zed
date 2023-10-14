@@ -12,16 +12,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final passwordController = TextEditingController();
   AuthBloc() : super(AuthInitial()) {
     on<SignUp>((event, emit) async {
-      emit(AuthState(isSaving: true));
-      UserValidation userValidation = await AuthRepository.signUpWithEmail(
+      emit(AuthState(isSaving: true, authResults: AuthResults.initial));
+      AuthResults authResults = await AuthRepository.signUpWithEmail(
           email: event.email, password: event.password);
-      return emit(AuthState(isSaving: false, userValidation: userValidation));
+      emit(AuthState(isSaving: false, authResults: authResults));
     });
     on<Login>((event, emit) async {
-      emit(AuthState(isSaving: true));
-      UserValidation userValidation = await AuthRepository.signInWithEmail(
+      emit(AuthState(
+          isSaving: true, authResults: AuthResults.initial, isLogin: true));
+      AuthResults authResults = await AuthRepository.signInWithEmail(
           email: event.email, password: event.password);
-      return emit(AuthState(isSaving: false, userValidation: userValidation));
+      return emit(
+          AuthState(isSaving: false, authResults: authResults, isLogin: true));
+    });
+    on<VerifyEmailEvent>((event, emit) async {
+      emit(AuthState(isSaving: false, authResults: AuthResults.initial));
+      AuthResults authResults = await AuthRepository.verifyEmail();
+      emit(AuthState(isSaving: false, authResults: authResults));
     });
   }
 }

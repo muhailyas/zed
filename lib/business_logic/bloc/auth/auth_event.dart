@@ -13,3 +13,5 @@ class Login extends AuthEvent {
   String password;
   Login({required this.email, required this.password});
 }
+
+class VerifyEmailEvent extends AuthEvent {}

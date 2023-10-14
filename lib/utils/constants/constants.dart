@@ -50,10 +50,24 @@ enum UserValidation {
   loginSuccess,
   error,
   verified,
-  
+}
+
+enum AuthResults {
+  initial,
+  loginSuccess,
+  signUpSuccess,
+  emailAlreadyExists,
+  invalidEmail,
+  weakPassword,
+  userNotFound,
+  wrongPassword,
+  error,
+  verified
 }
 // add detail
 
 enum AddUserDetailWithSignUp {
   addImage,
 }
+
+ValueNotifier<bool> isValid = ValueNotifier(false);
