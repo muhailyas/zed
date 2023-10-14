@@ -43,6 +43,7 @@ dependencies:
   firebase_auth: ^4.10.1
   rive: ^0.11.17
   flutter_otp_text_field: ^1.1.1
+  icons_animate: ^0.0.2
 
 dev_dependencies:
   flutter_test:

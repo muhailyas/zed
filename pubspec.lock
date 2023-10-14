@@ -208,6 +208,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  icons_animate:
+    dependency: "direct main"
+    description:
+      name: icons_animate
+      sha256: c0fed05d762e8ab9cd021cd41412df44a57d3456af1c6a7bc6e8849b8e685009
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   iconsax:
     dependency: "direct main"
     description:
