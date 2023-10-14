@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
+import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/presentation/screens/auth/widgets/text_field/text_field.dart';
 import 'package:zed/presentation/screens/email_verification/email_verification.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
@@ -40,51 +41,54 @@ class CreateUser extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Full Name", style: customFontStyle(size: 16)),
-                  TextFieldWidget(
-                    controller: blocProvider.fullNameController,
-                    hint: 'Type your name',
-                    iconData: Icons.edit_note_sharp,
-                  ),
-                  height05,
-                  Text("Email", style: customFontStyle(size: 16)),
-                  TextFieldWidget(
-                    controller: blocProvider.emailController,
-                    hint: 'Type your email',
-                    iconData: Icons.email_outlined,
-                  ),
-                  height05,
-                  Text("Password", style: customFontStyle(size: 16)),
-                  TextFieldWidget(
-                    controller: blocProvider.passwordController,
-                    hint: 'Type password',
-                    iconData: Icons.fingerprint,
-                    obscureText: true,
-                  ),
-                  height05,
-                  Row(
-                    children: [
-                      ValueListenableBuilder(
-                          valueListenable: isValid,
-                          builder: (context, value, _) {
-                            return Icon(
-                              Icons.check_circle_outline_rounded,
-                              color: value ? Colors.green : greyColor,
-                              size: textSize * 18,
-                            );
-                          }),
-                      const SizedBox(width: 5),
-                      Text(
-                        "Password should contain atleast 8 characters",
-                        style: customFontStyle(size: 13),
-                      ),
-                    ],
-                  )
-                ],
+              child: Form(
+                key: blocProvider.signUpformKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Full Name", style: customFontStyle(size: 16)),
+                    TextFieldWidget(
+                      controller: blocProvider.fullNameController,
+                      hint: 'Type your name',
+                      iconData: Icons.edit_note_sharp,
+                    ),
+                    height05,
+                    Text("Email", style: customFontStyle(size: 16)),
+                    TextFieldWidget(
+                      controller: blocProvider.emailController,
+                      hint: 'Type your email',
+                      iconData: Icons.email_outlined,
+                    ),
+                    height05,
+                    Text("Password", style: customFontStyle(size: 16)),
+                    TextFieldWidget(
+                      controller: blocProvider.passwordController,
+                      hint: 'Type password',
+                      iconData: Icons.fingerprint,
+                      obscureText: true,
+                    ),
+                    height05,
+                    Row(
+                      children: [
+                        ValueListenableBuilder(
+                            valueListenable: isValid,
+                            builder: (context, value, _) {
+                              return Icon(
+                                Icons.check_circle_outline_rounded,
+                                color: value ? Colors.green : greyColor,
+                                size: textSize * 18,
+                              );
+                            }),
+                        const SizedBox(width: 5),
+                        Text(
+                          "Password should contain atleast 8 characters",
+                          style: customFontStyle(size: 13),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
             Text(
@@ -109,7 +113,9 @@ class CreateUser extends StatelessWidget {
                 state.authResults == AuthResults.initial
                     ? null
                     : userValidationResult(
-                        authResults: state.authResults, context: context);
+                        authResults: state.authResults,
+                        context: context,
+                        isLogin: state.isLogin);
               },
               builder: (context, state) {
                 if (state.isSaving) {
@@ -121,17 +127,14 @@ class CreateUser extends StatelessWidget {
                   color: secondaryBlue,
                   label: 'Continue',
                   onPressed: () {
-                    if (blocProvider.emailController.text.isEmpty ||
-                        blocProvider.fullNameController.text.isEmpty ||
-                        blocProvider.passwordController.text.isEmpty) {
+                    if (!blocProvider.signUpformKey.currentState!.validate()) {
                       return;
                     }
-                    blocProvider.add(SignUp(
+                    final signUp = SignUp(
                         email: blocProvider.emailController.text,
-                        password: blocProvider.passwordController.text));
-                    blocProvider.emailController.clear();
-                    blocProvider.fullNameController.clear();
-                    blocProvider.passwordController.clear();
+                        password: blocProvider.passwordController.text);
+                    blocProvider.add(SignUpEvent(signUp: signUp));
+                    blocProvider.signUpformKey.currentState!.reset();
                   },
                 );
               },

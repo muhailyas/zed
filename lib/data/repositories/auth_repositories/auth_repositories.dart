@@ -38,10 +38,6 @@ class AuthRepository {
           return AuthResults.invalidEmail;
         case 'weak-password':
           return AuthResults.weakPassword;
-        case 'user-not-found':
-          return AuthResults.userNotFound;
-        case 'wrong-password':
-          return AuthResults.wrongPassword;
         default:
           return AuthResults.error;
       }

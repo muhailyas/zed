@@ -9,7 +9,6 @@ import 'package:zed/presentation/screens/user_name_setup/user_name_setup.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
-import 'package:zed/utils/loadings/loadings.dart';
 import 'package:zed/utils/validators/navigation_validate.dart';
 
 class EmailVerification extends StatelessWidget {
@@ -85,7 +84,6 @@ class EmailVerification extends StatelessWidget {
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state.authResults == AuthResults.verified) {
-                        threeDotLoading(context);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) =>
                                 UserNameSetup(name: fullName)));

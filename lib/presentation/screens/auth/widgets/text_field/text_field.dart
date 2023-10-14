@@ -24,7 +24,7 @@ class TextFieldWidget extends StatelessWidget {
       controller: controller,
       validator: (value) {
         if (value!.isEmpty) {
-          return '$hint is required';
+          return 'required field';
         }
         return null;
       },

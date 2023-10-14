@@ -13,7 +13,7 @@ class UserNameSetup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final blocProvider = BlocProvider.of<AuthBloc>(context, listen: false);
+    final blocProvider = BlocProvider.of<AuthBloc>(context);
     blocProvider.userNameController.text = name;
     return Scaffold(
       backgroundColor: primaryColor,
@@ -57,12 +57,15 @@ class UserNameSetup extends StatelessWidget {
                 color: secondaryBlue,
                 label: 'Finish Setup',
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RootPage(),
-                      ),
-                      (route) => false);
+                  if (blocProvider.userNameController.text.isNotEmpty) {
+                    // create user collection from here
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RootPage(),
+                        ),
+                        (route) => false);
+                  }
                 })
           ],
         ),

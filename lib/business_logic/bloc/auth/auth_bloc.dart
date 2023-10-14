@@ -1,27 +1,31 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:zed/data/models/login/login.dart';
+import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/data/repositories/auth_repositories/auth_repositories.dart';
 import 'package:zed/utils/constants/constants.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final signUpformKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   AuthBloc() : super(AuthInitial()) {
-    on<SignUp>((event, emit) async {
+    on<SignUpEvent>((event, emit) async {
       emit(AuthState(isSaving: true, authResults: AuthResults.initial));
       AuthResults authResults = await AuthRepository.signUpWithEmail(
-          email: event.email, password: event.password);
+          email: event.signUp.email, password: event.signUp.password);
       emit(AuthState(isSaving: false, authResults: authResults));
     });
-    on<Login>((event, emit) async {
+    on<LoginEvent>((event, emit) async {
       emit(AuthState(
           isSaving: true, authResults: AuthResults.initial, isLogin: true));
       AuthResults authResults = await AuthRepository.signInWithEmail(
-          email: event.email, password: event.password);
+          email: event.login.email, password: event.login.password);
       return emit(
           AuthState(isSaving: false, authResults: authResults, isLogin: true));
     });
