@@ -28,7 +28,8 @@ class ElevatedButtonWidget extends StatelessWidget {
       style: ButtonStyle(
           shape: MaterialStatePropertyAll(
               RoundedRectangleBorder(borderRadius: radius20)),
-          fixedSize: MaterialStatePropertyAll(Size(screenWidth,
+          fixedSize: MaterialStatePropertyAll(Size(
+              width == null ? screenWidth : screenWidth * width!,
               height == null ? screenHeight * 0.05 : screenHeight * height!)),
           backgroundColor: MaterialStatePropertyAll(color)),
       icon: prefix ?? const SizedBox(),

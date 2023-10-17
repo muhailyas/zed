@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
-import 'package:zed/presentation/screens/auth/widgets/text_field/text_field.dart';
+import 'package:zed/presentation/screens/login_page/widgets/text_field/text_field.dart';
 import 'package:zed/presentation/screens/email_verification/email_verification.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
-import 'package:zed/utils/validators/navigation_validate.dart';
+import 'package:zed/utils/validators/snackbars.dart';
+import 'package:zed/utils/validators/validations.dart';
 
 class CreateUser extends StatelessWidget {
   final AuthPages authPages;
@@ -52,6 +54,7 @@ class CreateUser extends StatelessWidget {
                       controller: blocProvider.fullNameController,
                       hint: 'Type your name',
                       iconData: Icons.edit_note_sharp,
+                      function: isFullNameValid,
                     ),
                     height05,
                     Text("Email", style: customFontStyle(size: 16)),
@@ -59,14 +62,30 @@ class CreateUser extends StatelessWidget {
                       controller: blocProvider.emailController,
                       hint: 'Type your email',
                       iconData: Icons.email_outlined,
+                      function: isEmailValid,
                     ),
                     height05,
                     Text("Password", style: customFontStyle(size: 16)),
+                    ValueListenableBuilder(
+                        valueListenable: isObscure,
+                        builder: (context, value, _) {
+                          return TextFieldWidget(
+                            controller: blocProvider.passwordController,
+                            hint: 'Enter password',
+                            iconData: Iconsax.lock4,
+                            obscureText: true,
+                            function: isPasswordValid,
+                          );
+                        }),
+                    height05,
+                    Text("Confirm Password", style: customFontStyle(size: 16)),
                     TextFieldWidget(
-                      controller: blocProvider.passwordController,
-                      hint: 'Type password',
-                      iconData: Icons.fingerprint,
+                      controller: blocProvider.confirmPasswordController,
+                      hint: 'Enter confirm password',
+                      iconData: Iconsax.lock4,
                       obscureText: true,
+                      isConfirm: true,
+                      function: isPasswordValid,
                     ),
                     height05,
                     Row(
@@ -109,6 +128,8 @@ class CreateUser extends StatelessWidget {
                         builder: (context) => EmailVerification(
                             fullName: blocProvider.fullNameController.text),
                       ));
+                  blocProvider.emailController.clear();
+                  blocProvider.passwordController.clear();
                 }
                 state.authResults == AuthResults.initial
                     ? null
@@ -127,14 +148,15 @@ class CreateUser extends StatelessWidget {
                   color: secondaryBlue,
                   label: 'Continue',
                   onPressed: () {
-                    if (!blocProvider.signUpformKey.currentState!.validate()) {
+                    if (!blocProvider.signUpformKey.currentState!.validate() &&
+                        blocProvider.confirmPasswordController.text !=
+                            blocProvider.passwordController.text) {
                       return;
                     }
                     final signUp = SignUp(
                         email: blocProvider.emailController.text,
                         password: blocProvider.passwordController.text);
                     blocProvider.add(SignUpEvent(signUp: signUp));
-                    blocProvider.signUpformKey.currentState!.reset();
                   },
                 );
               },

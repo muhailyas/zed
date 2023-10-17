@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
 import 'package:zed/data/data_providers/email_verify/email_verify.dart';
 import 'package:zed/data/repositories/auth_repositories/auth_repositories.dart';
-import 'package:zed/presentation/screens/auth/auth.dart';
+import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/presentation/screens/user_name_setup/user_name_setup.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
-import 'package:zed/utils/validators/navigation_validate.dart';
+import 'package:zed/utils/validators/snackbars.dart';
 
 class EmailVerification extends StatelessWidget {
   const EmailVerification({super.key, required this.fullName});
@@ -17,7 +17,10 @@ class EmailVerification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<AuthBloc>().add(VerifyEmailEvent());
+    final blocProvider = BlocProvider.of<AuthBloc>(context, listen: false);
+    blocProvider.add(VerifyEmailEvent());
+    blocProvider.userNameController.text = fullName;
+    print(fullName);
     return WillPopScope(
       onWillPop: () async {
         AuthRepository.deleteUser();
@@ -83,10 +86,10 @@ class EmailVerification extends StatelessWidget {
                   height20,
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
+                      blocProvider.userNameController.text = fullName;
                       if (state.authResults == AuthResults.verified) {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) =>
-                                UserNameSetup(name: fullName)));
+                            builder: (context) => const UserNameSetup()));
                       }
                     },
                     child: ElevatedButtonWidget(
@@ -99,8 +102,7 @@ class EmailVerification extends StatelessWidget {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      UserNameSetup(name: fullName),
+                                  builder: (context) => const UserNameSetup(),
                                 ));
                           } else {
                             showErrorSnackBar('verify your email and continue',

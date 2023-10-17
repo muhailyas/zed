@@ -10,10 +10,11 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final signUpformKey = GlobalKey<FormState>();
   final loginFormKey = GlobalKey<FormState>();
-  final userNameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   AuthBloc() : super(AuthInitial()) {
     on<SignUpEvent>((event, emit) async {
       emit(AuthState(isSaving: true, authResults: AuthResults.initial));
@@ -33,6 +34,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthState(isSaving: false, authResults: AuthResults.initial));
       AuthResults authResults = await AuthRepository.verifyEmail();
       emit(AuthState(isSaving: false, authResults: authResults));
+    });
+    on<GoogleSignUpEvent>((event, emit) async {
+      emit(AuthState(
+          isSaving: false, authResults: AuthResults.initial, isLogin: false));
+      AuthResults authResults = await AuthRepository.signInWithGoogle();
+      emit(AuthState(
+          isSaving: false,
+          authResults: authResults,
+          authProviders: AuthProviders.google));
+    });
+    on<PasswordResetEvent>((event, emit) async {
+      emit(AuthState(isSaving: true, authResults: AuthResults.passwordReset));
+      final result = await AuthRepository.passwordReset(email: event.email);
+      emit(AuthState(
+          isSaving: false,
+          authResults: AuthResults.passwordReset,
+          passReset: result));
     });
   }
 }

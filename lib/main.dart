@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
 import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:zed/firebase_options.dart';
-import 'package:zed/presentation/screens/auth/auth.dart';
+import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/presentation/screens/root_page/root_page.dart';
 import 'package:zed/utils/constants/constants.dart';
 
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
               if (snapshot.hasData) {
                 return const RootPage();
               }
-              return const AuthScreen();
+              return AuthScreen();
             }),
       ),
     );

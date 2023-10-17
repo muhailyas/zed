@@ -62,12 +62,13 @@ enum AuthResults {
   userNotFound,
   wrongPassword,
   error,
-  verified
+  verified,
+  googleSignInVerified,
+  passwordReset
 }
-// add detail
 
-enum AddUserDetailWithSignUp {
-  addImage,
-}
+enum AuthProviders { google, emailAndPassword }
 
 ValueNotifier<bool> isValid = ValueNotifier(false);
+ValueNotifier<bool> isObscure = ValueNotifier(false);
+

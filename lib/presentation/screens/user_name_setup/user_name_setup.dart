@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
-import 'package:zed/presentation/screens/auth/widgets/text_field/text_field.dart';
+import 'package:zed/presentation/screens/login_page/widgets/text_field/text_field.dart';
 import 'package:zed/presentation/screens/root_page/root_page.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/validators/validations.dart';
 
 class UserNameSetup extends StatelessWidget {
-  const UserNameSetup({super.key, required this.name});
-  final String name;
+  const UserNameSetup({super.key});
 
   @override
   Widget build(BuildContext context) {
     final blocProvider = BlocProvider.of<AuthBloc>(context);
-    blocProvider.userNameController.text = name;
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
@@ -49,9 +48,11 @@ class UserNameSetup extends StatelessWidget {
             ),
             height10,
             TextFieldWidget(
-                controller: blocProvider.userNameController,
-                hint: 'Username',
-                iconData: Icons.account_circle_outlined),
+              controller: blocProvider.userNameController,
+              hint: 'Username',
+              iconData: Icons.account_circle_outlined,
+              function: isUsernameValid,
+            ),
             height10,
             ElevatedButtonWidget(
                 color: secondaryBlue,

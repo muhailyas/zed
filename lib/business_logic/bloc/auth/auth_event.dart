@@ -13,3 +13,10 @@ class LoginEvent extends AuthEvent {
 }
 
 class VerifyEmailEvent extends AuthEvent {}
+
+class GoogleSignUpEvent extends AuthEvent {}
+
+class PasswordResetEvent extends AuthEvent {
+  final String email;
+  PasswordResetEvent({required this.email});
+}

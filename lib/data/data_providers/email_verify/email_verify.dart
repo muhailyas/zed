@@ -16,4 +16,12 @@ class EmailVerify {
       log(e.toString());
     }
   }
+
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }
