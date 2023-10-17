@@ -20,6 +20,8 @@ class BottomNavigationWidget extends StatelessWidget {
             },
             selectedItemColor: secondaryBlue,
             unselectedItemColor: greyColor,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
             items: const [
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.home), label: 'Home'),

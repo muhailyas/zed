@@ -69,5 +69,5 @@ enum AuthResults {
 }
 
 ValueNotifier<bool> isValid = ValueNotifier(false);
-ValueNotifier<bool> isObscure = ValueNotifier(false);
+ValueNotifier<bool> isObscure = ValueNotifier(true);
 ValueNotifier<bool> isAvailable = ValueNotifier(false);

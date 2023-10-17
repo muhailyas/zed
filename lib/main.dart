@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +6,7 @@ import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
 import 'package:zed/business_logic/bloc/bloc/user_bloc.dart';
 import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:zed/firebase_options.dart';
-import 'package:zed/presentation/screens/login_page/login.dart';
-import 'package:zed/presentation/screens/root_page/root_page.dart';
+import 'package:zed/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 void main() async {
@@ -47,14 +45,7 @@ class MyApp extends StatelessWidget {
         title: 'Zed',
         theme: ThemeData(fontFamily: GoogleFonts.lato().fontFamily),
         debugShowCheckedModeBanner: false,
-        home: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return const RootPage();
-              }
-              return const AuthScreen();
-            }),
+        home: const SplashScreen(),
       ),
     );
   }

@@ -1,43 +1,80 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:zed/presentation/screens/login_page/login.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:zed/presentation/screens/chat_list/chat_list.dart';
+import 'package:zed/utils/colors/colors.dart';
+import 'package:zed/utils/constants/constants.dart';
+
+import 'widgets/post_widget/post_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: IconButton(
-            onPressed: () async {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AuthScreen(),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "ZED",
+                    style:
+                        customFontStyle(size: 35, fontWeight: FontWeight.bold),
                   ),
-                  (route) => false);
-              await Future.delayed(const Duration(seconds: 1));
-              if (getProviderForCurrentUser() == 'Google Provider') {
-                GoogleSignIn().signOut();
-              }
-              FirebaseAuth.instance.signOut();
-            },
-            icon: const Icon(Icons.logout)));
-  }
-}
-
-String getProviderForCurrentUser() {
-  User? user = FirebaseAuth.instance.currentUser;
-
-  if (user != null && user.providerData.isNotEmpty) {
-    String primaryProvider = user.providerData[0].providerId;
-    if (primaryProvider == 'google.com') {
-      return 'Google Provider';
-    } else {
-      return 'Email/Password Provider';
-    }
-  } else {
-    return 'No associated providers';
+                  InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ChatListScreen(),
+                        ));
+                      },
+                      child: const Icon(Iconsax.message,
+                          color: whiteColor, size: 30))
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 90,
+              width: double.infinity,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    Container(
+                      height: 70,
+                      width: 70,
+                      decoration: const BoxDecoration(
+                          color: secondaryDark, shape: BoxShape.circle),
+                      child: index == 0
+                          ? const Icon(Icons.add, size: 30, color: whiteColor)
+                          : null,
+                    ),
+                    Text(index == 0 ? "My story" : "username",
+                        style: customFontStyle(size: 14))
+                  ],
+                ),
+                itemCount: 10,
+                separatorBuilder: (context, index) => const SizedBox(width: 10),
+              ),
+            ),
+            height05,
+            const Divider(color: whiteColor),
+            ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) => const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: PostWidget(),
+                    ),
+                separatorBuilder: (context, index) =>
+                    const Divider(color: whiteColor),
+                itemCount: 10),
+          ],
+        ),
+      ),
+    );
   }
 }
