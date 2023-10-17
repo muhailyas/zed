@@ -39,10 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthState(
           isSaving: false, authResults: AuthResults.initial, isLogin: false));
       AuthResults authResults = await AuthRepository.signInWithGoogle();
-      emit(AuthState(
-          isSaving: false,
-          authResults: authResults,
-          authProviders: AuthProviders.google));
+      emit(AuthState(isSaving: false, authResults: authResults));
     });
     on<PasswordResetEvent>((event, emit) async {
       emit(AuthState(isSaving: true, authResults: AuthResults.passwordReset));

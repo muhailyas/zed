@@ -5,6 +5,7 @@ import 'package:zed/data/models/login/login.dart';
 import 'package:zed/presentation/screens/create_user/create_user.dart';
 import 'package:zed/presentation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:zed/presentation/screens/root_page/root_page.dart';
+import 'package:zed/presentation/screens/user_name_setup/user_name_setup.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -99,6 +100,8 @@ class AuthScreen extends StatelessWidget {
                             builder: (context) => const RootPage(),
                           ),
                           (route) => false);
+                      blocProvider.emailController.clear();
+                      blocProvider.passwordController.clear();
                     }
                   },
                   child: ElevatedButtonWidget(
@@ -119,16 +122,21 @@ class AuthScreen extends StatelessWidget {
                 height10,
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    state.authProviders == AuthProviders.google &&
-                            state.authResults ==
-                                AuthResults.googleSignInVerified
+                    state.authResults == AuthResults.googleSignInVerified
                         ? Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const RootPage(),
                             ),
                             (route) => false)
-                        : null;
+                        : state.authResults ==
+                                AuthResults.googleSignInVerifiedNewUser
+                            ? Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UserNameSetup()))
+                            : null;
                   },
                   child: ElevatedButtonWidget(
                     color: secondaryDark,

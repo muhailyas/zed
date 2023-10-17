@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:zed/data/data_providers/firestore_service/username_exist.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 class AuthRepository {
@@ -84,10 +85,14 @@ class AuthRepository {
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
       await FirebaseAuth.instance.signInWithCredential(credential);
+      final exist = await FireStoreService.userIdExist();
+      if (exist) {
+        return AuthResults.googleSignInVerified;
+      }
+      return AuthResults.googleSignInVerifiedNewUser;
     } catch (e) {
       return AuthResults.error;
     }
-    return AuthResults.googleSignInVerified;
   }
 
   // password reset

@@ -1,4 +1,8 @@
 part of 'user_bloc.dart';
 
-@immutable
-sealed class UserEvent {}
+class UserEvent {}
+
+class CreateUserEvent extends UserEvent {
+  final UserProfile userProfile;
+  CreateUserEvent({required this.userProfile});
+}

@@ -64,11 +64,10 @@ enum AuthResults {
   error,
   verified,
   googleSignInVerified,
+  googleSignInVerifiedNewUser,
   passwordReset
 }
 
-enum AuthProviders { google, emailAndPassword }
-
 ValueNotifier<bool> isValid = ValueNotifier(false);
 ValueNotifier<bool> isObscure = ValueNotifier(false);
-
+ValueNotifier<bool> isAvailable = ValueNotifier(false);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
+import 'package:zed/business_logic/bloc/bloc/user_bloc.dart';
 import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:zed/firebase_options.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
@@ -35,6 +36,11 @@ class MyApp extends StatelessWidget {
           create: (context) {
             return BottomNavigationCubit();
           },
+        ),
+        BlocProvider(
+          create: (context) {
+            return UserBloc();
+          },
         )
       ],
       child: MaterialApp(
@@ -47,7 +53,7 @@ class MyApp extends StatelessWidget {
               if (snapshot.hasData) {
                 return const RootPage();
               }
-              return AuthScreen();
+              return const AuthScreen();
             }),
       ),
     );

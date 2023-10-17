@@ -1,6 +1,8 @@
 part of 'user_bloc.dart';
 
-@immutable
-sealed class UserState {}
+class UserState {
+  bool isSaving;
+  UserState({this.isSaving = false});
+}
 
 final class UserInitial extends UserState {}

@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zed/data/models/user/user.dart';
 
 class UserRepository {
-  addUser(UserProfile profile) async {
+  static Future addUser(UserProfile profile) async {
     final CollectionReference collection =
         FirebaseFirestore.instance.collection('users');
     final DocumentReference userProfile = collection.doc();
     final Map<String, dynamic> userData = {
+      'uid': FirebaseAuth.instance.currentUser!.uid,
       'id': userProfile.id,
       'username': profile.userName,
       'fullname': profile.fullname,

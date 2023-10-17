@@ -20,7 +20,6 @@ class EmailVerification extends StatelessWidget {
     final blocProvider = BlocProvider.of<AuthBloc>(context, listen: false);
     blocProvider.add(VerifyEmailEvent());
     blocProvider.userNameController.text = fullName;
-    print(fullName);
     return WillPopScope(
       onWillPop: () async {
         AuthRepository.deleteUser();
