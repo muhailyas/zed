@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/presentation/screens/root_page/root_page.dart';
 import 'package:zed/utils/colors/colors.dart';
+import 'package:zed/utils/constants/constants.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -36,18 +37,19 @@ class SplashScreen extends StatelessWidget {
           primaryColor,
         ]),
       ),
-      child: const Scaffold(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(width: double.infinity),
+            const SizedBox(width: double.infinity),
             Text(
               'Welcome to ZED',
-              style: TextStyle(fontSize: 24, color: Colors.white),
+              style: customFontStyle(),
             ),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            height10,
+            const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(whiteColor),
             ),
           ],
         ),
