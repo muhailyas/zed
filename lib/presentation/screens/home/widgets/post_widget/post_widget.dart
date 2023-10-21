@@ -74,17 +74,20 @@ class PostWidget extends StatelessWidget {
         SizedBox(width: screenWidth * 0.11),
         Column(
           children: [
-            Container(
-              height: screenHeight * 0.25,
-              width: screenWidth * 0.845,
-              decoration: BoxDecoration(
-                borderRadius: radius10,
-                image: DecorationImage(
-                  image: NetworkImage(postImage),
+            ClipRRect(
+              borderRadius: radius10,
+              child: Container(
+                constraints: BoxConstraints(maxHeight: screenHeight * 0.4),
+                width: screenWidth * 0.84,
+                decoration: BoxDecoration(
+                  borderRadius: radius10,
+                ),
+                child: Image.network(
+                  postImage,
                   fit: BoxFit.cover,
                 ),
               ),
-            ),
+            )
           ],
         ),
       ],

@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:zed/presentation/screens/create_post/create_post.dart';
 import 'package:zed/presentation/widgets/bottom_navigation/bottom_navigation.dart';
@@ -27,12 +27,12 @@ class RootPage extends StatelessWidget {
           }
           return FloatingActionButton(
             backgroundColor: secondaryBlue,
-            child: const Icon(Icons.add),
+            child: const Icon(Iconsax.additem),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CreatePostScreen(),
+                    builder: (context) => CreatePostScreen(),
                   ));
             },
           );

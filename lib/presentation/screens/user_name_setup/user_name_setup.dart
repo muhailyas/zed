@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
-import 'package:zed/business_logic/bloc/bloc/user_bloc.dart';
+import 'package:zed/business_logic/bloc/user/user_bloc.dart';
 import 'package:zed/data/models/user/user.dart';
 import 'package:zed/data/repositories/auth_repositories/auth_repositories.dart';
 import 'package:zed/presentation/screens/login_page/widgets/text_field/text_field.dart';

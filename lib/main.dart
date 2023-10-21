@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
-import 'package:zed/business_logic/bloc/bloc/user_bloc.dart';
+import 'package:zed/business_logic/bloc/post/post_bloc.dart';
+import 'package:zed/business_logic/bloc/user/user_bloc.dart';
 import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:zed/firebase_options.dart';
 import 'package:zed/presentation/screens/splash_screen/splash_screen.dart';
@@ -25,21 +26,10 @@ class MyApp extends StatelessWidget {
     setScreenSize(context);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) {
-            return AuthBloc();
-          },
-        ),
-        BlocProvider(
-          create: (context) {
-            return BottomNavigationCubit();
-          },
-        ),
-        BlocProvider(
-          create: (context) {
-            return UserBloc();
-          },
-        )
+        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => BottomNavigationCubit()),
+        BlocProvider(create: (context) => UserBloc()),
+        BlocProvider(create: (context) => PostBloc())
       ],
       child: MaterialApp(
         title: 'Zed',

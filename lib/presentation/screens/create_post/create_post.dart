@@ -1,12 +1,19 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zed/business_logic/bloc/post/post_bloc.dart';
 import 'package:zed/data/data_providers/image_picker/image_picker.dart';
+import 'package:zed/data/data_providers/image_upload_to_storage/image_upload_to_storage.dart';
+import 'package:zed/data/models/post/post.dart';
+import 'package:zed/data/repositories/post_repositories/post_repositories.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+
+final captionController = TextEditingController();
 
 class CreatePostScreen extends StatelessWidget {
   const CreatePostScreen({super.key});
@@ -14,11 +21,12 @@ class CreatePostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: primaryColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
+            _buildHeader(context),
             height05,
             _bulidPostContent(),
             height05,
@@ -92,21 +100,19 @@ class CreatePostScreen extends StatelessWidget {
                 builder: (context, value, _) {
                   return value.isEmpty
                       ? const SizedBox()
-                      : Container(
-                          height: screenHeight * 0.25,
-                          width: screenWidth * 0.86,
-                          decoration: BoxDecoration(
+                      : ClipRRect(
+                          borderRadius: radius10,
+                          child: Container(
+                            constraints:
+                                BoxConstraints(maxHeight: screenHeight * 0.4),
+                            width: screenWidth * 0.86,
+                            decoration: BoxDecoration(
                               borderRadius: radius10,
-                              image: DecorationImage(
-                                  image: FileImage(File(image.value)),
-                                  fit: BoxFit.cover)),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                                onPressed: () {
-                                  image.value = '';
-                                },
-                                icon: const Icon(Iconsax.close_circle5)),
+                            ),
+                            child: Image.file(
+                              File(value),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                 }),
@@ -129,6 +135,7 @@ class CreatePostScreen extends StatelessWidget {
           width10,
           Expanded(
               child: TextFormField(
+            controller: captionController,
             style: customFontStyle(),
             maxLines: null,
             decoration: InputDecoration(
@@ -141,12 +148,12 @@ class CreatePostScreen extends StatelessWidget {
     );
   }
 
-  Padding _buildHeader() {
+  Padding _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
         children: [
-          const Icon(Icons.close, color: whiteColor, size: 30),
+          _closeButton(),
           const Spacer(),
           ElevatedButtonWidget(
               width: 0.21,
@@ -155,9 +162,46 @@ class CreatePostScreen extends StatelessWidget {
               label: 'Post',
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              onPressed: () {}),
+              onPressed: () async {
+                if (image.value.isNotEmpty) {
+                  final imageUrl = await FireStoreStorage()
+                      .uploadImageAndGetUrl(image.value, 'posts');
+                  final post = Post(
+                      userId: FirebaseAuth.instance.currentUser!.uid,
+                      caption: captionController.text,
+                      imageUrl: imageUrl,
+                      likes: 0,
+                      commentCount: 0,
+                      views: 0);
+                  PostRepository().addPost(post);
+                } else {
+                  print(" post not eligible");
+                }
+              }),
         ],
       ),
+    );
+  }
+
+  BlocConsumer<PostBloc, PostState> _closeButton() {
+    return BlocConsumer<PostBloc, PostState>(
+      buildWhen: (previous, current) =>
+          current is! ClosePostScreenToHomeActionState,
+      listenWhen: (previous, current) =>
+          current is ClosePostScreenToHomeActionState,
+      listener: (context, state) {
+        if (state is ClosePostScreenToHomeActionState) {
+          Navigator.pop(context);
+        }
+      },
+      builder: (context, state) {
+        return IconButton(
+          onPressed: () {
+            context.read<PostBloc>().add(ClosePostScreenEvent());
+          },
+          icon: const Icon(Icons.close, color: whiteColor, size: 30),
+        );
+      },
     );
   }
 }
