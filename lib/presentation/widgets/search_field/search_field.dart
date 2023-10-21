@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zed/data/models/user/user.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 
@@ -15,6 +16,7 @@ class SearchFieldWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: TextField(
+          onChanged: (value) async {},
           decoration: InputDecoration(
               hintStyle: customFontStyle(size: 16),
               prefixIcon: const Icon(Icons.search_rounded, color: whiteColor),
@@ -26,3 +28,5 @@ class SearchFieldWidget extends StatelessWidget {
     );
   }
 }
+
+ValueNotifier<List<UserProfile>> listN = ValueNotifier([]);

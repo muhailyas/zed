@@ -25,4 +25,16 @@ class UserRepository {
   }
 
   updateUser(UserProfile profile) {}
+
+  Future<UserProfile?> getUserByUid(String uid) async {
+    final CollectionReference collection =
+        FirebaseFirestore.instance.collection('users');
+    final result = await collection.where('uid', isEqualTo: uid).get();
+    if (result.docs.isNotEmpty) {
+      final data = result.docs.first.data() as Map<String, dynamic>;
+      final UserProfile userProfile = UserProfile.fromJson(data);
+      return userProfile;
+    }
+    return null;
+  }
 }

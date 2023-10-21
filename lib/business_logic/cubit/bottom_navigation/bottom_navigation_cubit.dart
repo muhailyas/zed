@@ -12,7 +12,7 @@ class BottomNavigationCubit extends Cubit<BottomNavigationState> {
     emit(BottomNavigationState(index: index));
   }
 
-  List screens = const[
+  List screens = const [
     HomeScreen(),
     SearchScreen(),
     NotificationScreen(),
