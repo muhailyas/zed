@@ -4,7 +4,10 @@ class PostEvent {}
 
 class ClosePostScreenEvent extends PostEvent {}
 
-class AddPostEvent extends PostEvent {}
+class AddPostEvent extends PostEvent {
+  final Post post;
+  AddPostEvent({required this.post});
+}
 
 class OpenCameraEvent extends PostEvent {}
 

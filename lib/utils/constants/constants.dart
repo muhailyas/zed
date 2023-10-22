@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zed/presentation/screens/home/home_screen.dart';
+import 'package:zed/presentation/screens/notifications/notification_screen.dart';
+import 'package:zed/presentation/screens/profile/profile_screen.dart';
+import 'package:zed/presentation/screens/search/search_screen.dart';
 import 'package:zed/utils/colors/colors.dart';
 
 const testImage =
@@ -82,3 +86,11 @@ ValueNotifier<bool> isObscure = ValueNotifier(true);
 ValueNotifier<bool> isAvailable = ValueNotifier(false);
 
 ValueNotifier<String> image = ValueNotifier('');
+
+// screens
+List screens = const [
+  HomeScreen(),
+  SearchScreen(),
+  NotificationScreen(),
+  ProfileScreen()
+];

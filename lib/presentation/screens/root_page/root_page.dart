@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
+import 'package:zed/business_logic/bloc/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/presentation/screens/create_post/create_post.dart';
 import 'package:zed/presentation/widgets/bottom_navigation/bottom_navigation.dart';
 import 'package:zed/utils/colors/colors.dart';
+import 'package:zed/utils/constants/constants.dart';
 
 class RootPage extends StatelessWidget {
   const RootPage({super.key});
@@ -13,14 +14,14 @@ class RootPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
-      body: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+      body: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
         builder: (context, state) {
-          return BottomNavigationCubit().screens[state.index];
+          return screens[state.index];
         },
       ),
       bottomNavigationBar: const BottomNavigationWidget(),
       floatingActionButton:
-          BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+          BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
         builder: (context, state) {
           if (state.index != 0) {
             return const SizedBox();
@@ -32,7 +33,7 @@ class RootPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreatePostScreen(),
+                    builder: (context) => const CreatePostScreen(),
                   ));
             },
           );

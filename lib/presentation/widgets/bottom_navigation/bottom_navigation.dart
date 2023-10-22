@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
+import 'package:zed/business_logic/bloc/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/utils/colors/colors.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
@@ -9,14 +9,16 @@ class BottomNavigationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+    return BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
       builder: (context, state) {
         return BottomNavigationBar(
             backgroundColor: primaryColor,
             type: BottomNavigationBarType.fixed,
             currentIndex: state.index,
             onTap: (value) {
-              context.read<BottomNavigationCubit>().indexChanger(value);
+              context
+                  .read<BottomNavigationBloc>()
+                  .add(IndexChagerEvent(index: value));
             },
             selectedItemColor: secondaryBlue,
             unselectedItemColor: greyColor,

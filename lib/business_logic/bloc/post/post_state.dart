@@ -2,10 +2,12 @@ part of 'post_bloc.dart';
 
 class PostState {}
 
-final class PostInitial extends PostState {}
+class PostInitial extends PostState {}
 
-final class ClosePostScreenToHomeActionState extends PostState {}
+class PostLoading extends PostState {}
 
-final class PostAddSuccessState extends PostState {}
+class ClosePostScreenToHome extends PostState {}
 
-final class SelectedImageSuccessState extends PostState {}
+class PostAddSuccess extends PostState {}
+
+class SelectedImageSuccess extends PostState {}

@@ -1,14 +1,13 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zed/business_logic/bloc/post/post_bloc.dart';
 import 'package:zed/data/data_providers/image_picker/image_picker.dart';
-import 'package:zed/data/data_providers/image_upload_to_storage/image_upload_to_storage.dart';
 import 'package:zed/data/models/post/post.dart';
-import 'package:zed/data/repositories/post_repositories/post_repositories.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -155,29 +154,46 @@ class CreatePostScreen extends StatelessWidget {
         children: [
           _closeButton(),
           const Spacer(),
-          ElevatedButtonWidget(
-              width: 0.21,
-              height: 0.02,
-              color: secondaryBlue,
-              label: 'Post',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              onPressed: () async {
-                if (image.value.isNotEmpty) {
-                  final imageUrl = await FireStoreStorage()
-                      .uploadImageAndGetUrl(image.value, 'posts');
-                  final post = Post(
-                      userId: FirebaseAuth.instance.currentUser!.uid,
-                      caption: captionController.text,
-                      imageUrl: imageUrl,
-                      likes: 0,
-                      commentCount: 0,
-                      views: 0);
-                  PostRepository().addPost(post);
-                } else {
-                  print(" post not eligible");
-                }
-              }),
+          BlocConsumer<PostBloc, PostState>(
+            listenWhen: (previous, current) => current is PostAddSuccess,
+            buildWhen: (previous, current) =>
+                current is PostLoading || current is PostAddSuccess,
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Post added successfully")));
+              image.value = '';
+              captionController.clear();
+              Navigator.pop(context);
+            },
+            builder: (context, state) {
+              if (state is PostLoading) {
+                return Center(
+                    child: CupertinoActivityIndicator(
+                        radius: screenHeight * 0.015, color: greyColor));
+              }
+              return ElevatedButtonWidget(
+                  width: 0.21,
+                  height: 0.02,
+                  color: secondaryBlue,
+                  label: 'Post',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () async {
+                    if (image.value.isNotEmpty) {
+                      final post = Post(
+                          userId: FirebaseAuth.instance.currentUser!.uid,
+                          caption: captionController.text,
+                          imageUrl: image.value,
+                          likes: 0,
+                          commentCount: 0,
+                          views: 0);
+                      context.read<PostBloc>().add(AddPostEvent(post: post));
+                    } else {
+                      print(" post not eligible");
+                    }
+                  });
+            },
+          ),
         ],
       ),
     );
@@ -185,12 +201,10 @@ class CreatePostScreen extends StatelessWidget {
 
   BlocConsumer<PostBloc, PostState> _closeButton() {
     return BlocConsumer<PostBloc, PostState>(
-      buildWhen: (previous, current) =>
-          current is! ClosePostScreenToHomeActionState,
-      listenWhen: (previous, current) =>
-          current is ClosePostScreenToHomeActionState,
+      buildWhen: (previous, current) => current is! ClosePostScreenToHome,
+      listenWhen: (previous, current) => current is ClosePostScreenToHome,
       listener: (context, state) {
-        if (state is ClosePostScreenToHomeActionState) {
+        if (state is ClosePostScreenToHome) {
           Navigator.pop(context);
         }
       },

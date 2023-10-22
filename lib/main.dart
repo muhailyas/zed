@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
+import 'package:zed/business_logic/bloc/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/business_logic/bloc/post/post_bloc.dart';
 import 'package:zed/business_logic/bloc/user/user_bloc.dart';
-import 'package:zed/business_logic/cubit/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:zed/firebase_options.dart';
 import 'package:zed/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthBloc()),
-        BlocProvider(create: (context) => BottomNavigationCubit()),
+        BlocProvider(create: (context) => BottomNavigationBloc()),
         BlocProvider(create: (context) => UserBloc()),
         BlocProvider(create: (context) => PostBloc())
       ],
