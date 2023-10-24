@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
+import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/presentation/screens/login_page/widgets/text_field/text_field.dart';
 import 'package:zed/presentation/screens/email_verification/email_verification.dart';

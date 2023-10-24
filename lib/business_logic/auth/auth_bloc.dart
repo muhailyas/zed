@@ -15,35 +15,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  AuthBloc() : super(AuthInitial()) {
+  final AuthRepository authRepository;
+
+  AuthBloc(this.authRepository) : super(AuthInitial()) {
     on<SignUpEvent>((event, emit) async {
       emit(AuthState(isSaving: true, authResults: AuthResults.initial));
-      AuthResults authResults = await AuthRepository.signUpWithEmail(
+      AuthResults authResults = await authRepository.signUpWithEmail(
           email: event.signUp.email, password: event.signUp.password);
       emit(AuthState(isSaving: false, authResults: authResults));
     });
     on<LoginEvent>((event, emit) async {
       emit(AuthState(
           isSaving: true, authResults: AuthResults.initial, isLogin: true));
-      AuthResults authResults = await AuthRepository.signInWithEmail(
+      AuthResults authResults = await authRepository.signInWithEmail(
           email: event.login.email, password: event.login.password);
       return emit(
           AuthState(isSaving: false, authResults: authResults, isLogin: true));
     });
     on<VerifyEmailEvent>((event, emit) async {
       emit(AuthState(isSaving: false, authResults: AuthResults.initial));
-      AuthResults authResults = await AuthRepository.verifyEmail();
+      AuthResults authResults = await authRepository.verifyEmail();
       emit(AuthState(isSaving: false, authResults: authResults));
     });
     on<GoogleSignUpEvent>((event, emit) async {
       emit(AuthState(
           isSaving: false, authResults: AuthResults.initial, isLogin: false));
-      AuthResults authResults = await AuthRepository.signInWithGoogle();
+      AuthResults authResults = await authRepository.signInWithGoogle();
       emit(AuthState(isSaving: false, authResults: authResults));
     });
     on<PasswordResetEvent>((event, emit) async {
       emit(AuthState(isSaving: true, authResults: AuthResults.passwordReset));
-      final result = await AuthRepository.passwordReset(email: event.email);
+      final result = await authRepository.passwordReset(email: event.email);
       emit(AuthState(
           isSaving: false,
           authResults: AuthResults.passwordReset,

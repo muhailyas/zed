@@ -4,15 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:zed/business_logic/bloc/post/post_bloc.dart';
-import 'package:zed/data/data_providers/image_picker/image_picker.dart';
+import 'package:zed/business_logic/post/post_bloc.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
-
-final captionController = TextEditingController();
 
 class CreatePostScreen extends StatelessWidget {
   const CreatePostScreen({super.key});
@@ -27,11 +23,11 @@ class CreatePostScreen extends StatelessWidget {
           children: [
             _buildHeader(context),
             height05,
-            _bulidPostContent(),
+            _bulidPostContent(context),
             height05,
             _buildPostImage(),
             height05,
-            _buildPickImageOptions(),
+            _buildPickImageOptions(context),
             height10
           ],
         ),
@@ -39,7 +35,7 @@ class CreatePostScreen extends StatelessWidget {
     );
   }
 
-  Expanded _buildPickImageOptions() {
+  Expanded _buildPickImageOptions(BuildContext context) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -50,8 +46,7 @@ class CreatePostScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () async {
-                    image.value = await ImagePickerProvider()
-                        .pickImage(ImageSource.camera);
+                    context.read<PostBloc>().add(OpenCameraEvent());
                   },
                   child: Container(
                     height: screenHeight * 0.06,
@@ -65,9 +60,8 @@ class CreatePostScreen extends StatelessWidget {
                 ),
                 width10,
                 InkWell(
-                  onTap: () async {
-                    image.value = await ImagePickerProvider()
-                        .pickImage(ImageSource.gallery);
+                  onTap: () {
+                    context.read<PostBloc>().add(SelectImageFromGalleryEvent());
                   },
                   child: Container(
                     height: screenHeight * 0.06,
@@ -94,34 +88,44 @@ class CreatePostScreen extends StatelessWidget {
         children: [
           SizedBox(width: screenWidth * 0.12),
           Expanded(
-            child: ValueListenableBuilder(
-                valueListenable: image,
-                builder: (context, value, _) {
-                  return value.isEmpty
-                      ? const SizedBox()
-                      : ClipRRect(
-                          borderRadius: radius10,
-                          child: Container(
-                            constraints:
-                                BoxConstraints(maxHeight: screenHeight * 0.4),
-                            width: screenWidth * 0.86,
-                            decoration: BoxDecoration(
-                              borderRadius: radius10,
-                            ),
-                            child: Image.file(
-                              File(value),
-                              fit: BoxFit.cover,
-                            ),
+            child: BlocConsumer<PostBloc, PostState>(
+              listener: (context, state) {
+                if (state.image == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Image not selected")));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Image selected")));
+                }
+              },
+              builder: (context, state) {
+                return state.image == null
+                    ? const SizedBox()
+                    : ClipRRect(
+                        borderRadius: radius10,
+                        child: Container(
+                          constraints:
+                              BoxConstraints(maxHeight: screenHeight * 0.4),
+                          width: screenWidth * 0.86,
+                          decoration: BoxDecoration(
+                            borderRadius: radius10,
                           ),
-                        );
-                }),
+                          child: Image.file(
+                            File(state.image ?? ''),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  Padding _bulidPostContent() {
+  Padding _bulidPostContent(BuildContext context) {
+    final blocProvider = BlocProvider.of<PostBloc>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
@@ -134,7 +138,7 @@ class CreatePostScreen extends StatelessWidget {
           width10,
           Expanded(
               child: TextFormField(
-            controller: captionController,
+            controller: blocProvider.captionController,
             style: customFontStyle(),
             maxLines: null,
             decoration: InputDecoration(
@@ -148,6 +152,7 @@ class CreatePostScreen extends StatelessWidget {
   }
 
   Padding _buildHeader(BuildContext context) {
+    final blocProvider = BlocProvider.of<PostBloc>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
@@ -161,8 +166,7 @@ class CreatePostScreen extends StatelessWidget {
             listener: (context, state) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Post added successfully")));
-              image.value = '';
-              captionController.clear();
+              blocProvider.captionController.clear();
               Navigator.pop(context);
             },
             builder: (context, state) {
@@ -179,10 +183,10 @@ class CreatePostScreen extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   onPressed: () async {
-                    if (image.value.isNotEmpty) {
+                    if (state.image != null || state.image!.isNotEmpty) {
                       final post = Post(
                           userId: FirebaseAuth.instance.currentUser!.uid,
-                          caption: captionController.text,
+                          caption: blocProvider.captionController.text,
                           imageUrl: image.value,
                           likes: 0,
                           commentCount: 0,

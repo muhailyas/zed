@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
+import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/presentation/screens/login_page/widgets/text_field/text_field.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';

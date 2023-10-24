@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
+import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/presentation/screens/create_user/create_user.dart';
 import 'package:zed/presentation/screens/forgot_password/forgot_password_screen.dart';

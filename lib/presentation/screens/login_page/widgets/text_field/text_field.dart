@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:zed/data/data_providers/firestore_service/username_exist.dart';
+import 'package:zed/data/data_resources/firestore_service/username_exist.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/validators/validations.dart';

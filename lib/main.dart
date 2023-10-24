@@ -2,10 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zed/business_logic/bloc/auth/auth_bloc.dart';
-import 'package:zed/business_logic/bloc/bottom_nav/bottom_navigation_bloc.dart';
-import 'package:zed/business_logic/bloc/post/post_bloc.dart';
-import 'package:zed/business_logic/bloc/user/user_bloc.dart';
+import 'package:zed/business_logic/auth/auth_bloc.dart';
+import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
+import 'package:zed/business_logic/post/post_bloc.dart';
+import 'package:zed/business_logic/user/user_bloc.dart';
+import 'package:zed/data/data_resources/authentication_data_source/authentication_data_source.dart';
 import 'package:zed/firebase_options.dart';
 import 'package:zed/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     setScreenSize(context);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => AuthBloc(AuthenticationDataSource())),
         BlocProvider(create: (context) => BottomNavigationBloc()),
         BlocProvider(create: (context) => UserBloc()),
         BlocProvider(create: (context) => PostBloc())

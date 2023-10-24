@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:zed/business_logic/bloc/bottom_nav/bottom_navigation_bloc.dart';
+import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/presentation/screens/create_post/create_post.dart';
 import 'package:zed/presentation/widgets/bottom_navigation/bottom_navigation.dart';
 import 'package:zed/utils/colors/colors.dart';
