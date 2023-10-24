@@ -85,7 +85,7 @@ class EmailVerification extends StatelessWidget {
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
                       blocProvider.userNameController.text = fullName;
-                      if (state.authResults == AuthResults.verified) {
+                      if (state is EmailVerified) {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => const UserNameSetup()));
                       }

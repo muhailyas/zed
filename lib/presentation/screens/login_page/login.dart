@@ -85,15 +85,18 @@ class AuthScreen extends StatelessWidget {
                 height10,
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    if (state.isLogin &&
-                        state.authResults != AuthResults.initial) {
+                    if (state is AuthError) {
                       userValidationResult(
                           authResults: state.authResults,
                           context: context,
-                          isLogin: state.isLogin);
+                          isLogin: AuthProvider.login);
                     }
-                    if (state.isLogin &&
-                        state.authResults == AuthResults.loginSuccess) {
+                    state as AuthSuccess;
+                    if (state.authResults == AuthResults.loginSuccess) {
+                      userValidationResult(
+                          authResults: state.authResults,
+                          context: context,
+                          isLogin: AuthProvider.login);
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -121,22 +124,23 @@ class AuthScreen extends StatelessWidget {
                 ),
                 height10,
                 BlocListener<AuthBloc, AuthState>(
+                  listenWhen: (previous, current) => current is AuthSuccess,
                   listener: (context, state) {
-                    state.authResults == AuthResults.googleSignInVerified
-                        ? Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RootPage(),
-                            ),
-                            (route) => false)
-                        : state.authResults ==
-                                AuthResults.googleSignInVerifiedNewUser
-                            ? Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const UserNameSetup()))
-                            : null;
+                    state as AuthSuccess;
+                    if (AuthResults.googleSignInVerified == state.authResults) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RootPage(),
+                          ),
+                          (route) => false);
+                    } else if (state.authResults ==
+                        AuthResults.googleSignInVerifiedNewUser) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserNameSetup()));
+                    }
                   },
                   child: ElevatedButtonWidget(
                     color: secondaryDark,
@@ -170,8 +174,7 @@ class AuthScreen extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const CreateUser(
-                                    authPages: AuthPages.email),
+                                builder: (context) => const CreateUser(),
                               ));
                             },
                             child: Text(

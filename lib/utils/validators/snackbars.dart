@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/enums/enums.dart';
 
 void userValidationResult(
     {required AuthResults authResults,
     required BuildContext context,
-    required bool isLogin}) {
-  if (isLogin) {
+    required AuthProvider isLogin}) {
+  if (isLogin == AuthProvider.login) {
     Navigator.pop(context);
   }
   if (authResults == AuthResults.loginSuccess) {
@@ -33,11 +36,11 @@ void userValidationResult(
 }
 
 void showErrorSnackBar(String errorMessage, BuildContext context, Color color) {
-  final snackBar = SnackBar(
-    content: Text(errorMessage),
-    backgroundColor: color,
-    behavior: SnackBarBehavior.floating,
-    duration: const Duration(seconds: 1),
+  showTopSnackBar(
+    Overlay.of(context),
+    CustomSnackBar.success(
+      message: errorMessage,
+      backgroundColor: color,
+    ),
   );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

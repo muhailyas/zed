@@ -13,8 +13,7 @@ import 'package:zed/utils/validators/snackbars.dart';
 import 'package:zed/utils/validators/validations.dart';
 
 class CreateUser extends StatelessWidget {
-  final AuthPages authPages;
-  const CreateUser({super.key, required this.authPages});
+  const CreateUser({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +131,8 @@ class CreateUser extends StatelessWidget {
                     height10,
                     BlocConsumer<AuthBloc, AuthState>(
                       listener: (context, state) {
-                        if (state.authResults == AuthResults.signUpSuccess) {
+                        if (state is AuthSuccess &&
+                            state.authResults == AuthResults.signUpSuccess) {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -141,15 +141,15 @@ class CreateUser extends StatelessWidget {
                                         blocProvider.fullNameController.text),
                               ));
                         }
-                        state.authResults == AuthResults.initial
-                            ? null
-                            : userValidationResult(
-                                authResults: state.authResults,
-                                context: context,
-                                isLogin: state.isLogin);
+                        if (state is AuthError) {
+                          userValidationResult(
+                              authResults: state.authResults,
+                              context: context,
+                              isLogin: AuthProvider.signUp);
+                        }
                       },
                       builder: (context, state) {
-                        if (state.isSaving) {
+                        if (state is AuthLoading) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );

@@ -57,26 +57,28 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                     height10,
                     BlocConsumer<AuthBloc, AuthState>(
+                      listenWhen: (previous, current) =>
+                          current is PasswordResetSuccess,
+                      buildWhen: (previous, current) =>
+                          current is! PasswordResetSuccess,
                       listener: (context, state) {
-                        if (state.authResults == AuthResults.passwordReset &&
-                            state.passReset != null) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              backgroundColor: Colors.transparent,
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  state.passReset!,
-                                  style: customFontStyle(),
-                                ),
+                        state as PasswordResetSuccess;
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            backgroundColor: Colors.transparent,
+                            content: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                state.result,
+                                style: customFontStyle(),
                               ),
                             ),
-                          );
-                        }
+                          ),
+                        );
                       },
                       builder: (context, state) {
-                        if (state.isSaving) {
+                        if (state is AuthLoading) {
                           return const Center(
                               child: CircularProgressIndicator());
                         }

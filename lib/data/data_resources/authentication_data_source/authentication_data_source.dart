@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zed/data/data_resources/firestore_service/username_exist.dart';
+import 'package:zed/data/models/login/login.dart';
+import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/data/repositories/auth_repositories/auth_repositories.dart';
 import 'package:zed/utils/constants/constants.dart';
 
@@ -32,11 +34,11 @@ class AuthenticationDataSource implements AuthRepository {
   }
 
   @override
-  Future<AuthResults> signUpWithEmail(
-      {required String email, required String password}) async {
+  Future<AuthResults> signUpWithEmail({required SignUp signUp}) async {
     try {
       final UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+          .createUserWithEmailAndPassword(
+              email: signUp.email, password: signUp.password);
       userCredential.user!.sendEmailVerification();
       return AuthResults.signUpSuccess;
     } on FirebaseAuthException catch (e) {
@@ -56,11 +58,10 @@ class AuthenticationDataSource implements AuthRepository {
   }
 
   @override
-  Future<AuthResults> signInWithEmail(
-      {required String email, required String password}) async {
+  Future<AuthResults> signInWithEmail({required Login login}) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: login.email, password: login.password);
       return AuthResults.loginSuccess;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'INVALID_LOGIN_CREDENTIALS') {

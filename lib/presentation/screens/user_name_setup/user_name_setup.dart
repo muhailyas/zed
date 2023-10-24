@@ -35,7 +35,9 @@ class UserNameSetup extends StatelessWidget {
                 style: customFontStyle(fontWeight: FontWeight.bold),
               ),
               BlocBuilder<AuthBloc, AuthState>(
+                buildWhen: (previous, current) => current is AuthSuccess,
                 builder: (context, state) {
+                  state as AuthSuccess;
                   return Text(
                     state.authResults == AuthResults.googleSignInVerifiedNewUser
                         ? "Step 1 of 1"

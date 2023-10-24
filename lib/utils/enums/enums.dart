@@ -1,7 +1,1 @@
-enum AuthPages {
-  email,
-  otp,
-  dateOfBirth,
-  userName,
-  password,
-}
+enum AuthProvider { google, login, signUp }
