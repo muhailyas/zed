@@ -95,3 +95,8 @@ List screens = const [
   ProfileScreen()
 ];
 
+// Tab bar name
+const List<Tab> myTabs = <Tab>[
+    Tab(text: 'Posts'),
+    Tab(text: 'Saved'),
+  ];

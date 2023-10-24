@@ -19,10 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     _tabController = TabController(vsync: this, length: myTabs.length);
   }
 
-  static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Posts'),
-    Tab(text: 'Saved'),
-  ];
   late TabController _tabController;
 
   @override
@@ -61,7 +57,9 @@ class _ProfileScreenState extends State<ProfileScreen>
         controller: _tabController,
         children: myTabs.map((Tab tab) {
           return ListView.builder(
+              shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
+              itemCount: 5,
               itemBuilder: (context, index) => const PostWidget(
                   userProfileImage: testImage,
                   username: 'ilyas',

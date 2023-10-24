@@ -35,13 +35,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   FutureOr<void> openCameraEvent(
       OpenCameraEvent event, Emitter<PostState> emit) async {
-    String image = await ImagePickerProvider().pickImage(ImageSource.camera);
-    emit(PostState(image: image));
+    String? image = await ImagePickerProvider().pickImage(ImageSource.camera);
+    emit(PostImageSelected(image: image));
   }
 
   FutureOr<void> selectImageFromGalleryEvent(
       SelectImageFromGalleryEvent event, Emitter<PostState> emit) async {
-    String image = await ImagePickerProvider().pickImage(ImageSource.gallery);
-    emit(PostState(image: image));
+    String? image = await ImagePickerProvider().pickImage(ImageSource.gallery);
+    emit(PostImageSelected(image: image));
   }
 }

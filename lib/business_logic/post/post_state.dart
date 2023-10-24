@@ -1,8 +1,10 @@
 part of 'post_bloc.dart';
 
-class PostState {
+class PostState {}
+
+class PostImageSelected extends PostState {
   String? image;
-  PostState({this.image});
+  PostImageSelected({this.image});
 }
 
 class PostInitial extends PostState {}

@@ -35,8 +35,10 @@ void userValidationResult(
   }
 }
 
-void showErrorSnackBar(String errorMessage, BuildContext context, Color color) {
+void showErrorSnackBar(String errorMessage, BuildContext context, Color color,
+    [int seconds = 2]) {
   showTopSnackBar(
+    reverseAnimationDuration: Duration(seconds: seconds),
     Overlay.of(context),
     CustomSnackBar.success(
       message: errorMessage,

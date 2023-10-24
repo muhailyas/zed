@@ -9,6 +9,7 @@ import 'package:zed/data/models/post/post.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/validators/snackbars.dart';
 
 class CreatePostScreen extends StatelessWidget {
   const CreatePostScreen({super.key});
@@ -89,17 +90,18 @@ class CreatePostScreen extends StatelessWidget {
           SizedBox(width: screenWidth * 0.12),
           Expanded(
             child: BlocConsumer<PostBloc, PostState>(
+              listenWhen: (previous, current) => current is PostImageSelected,
+              buildWhen: (previous, current) => current is PostImageSelected,
               listener: (context, state) {
+                state as PostImageSelected;
                 if (state.image == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Image not selected")));
+                  showErrorSnackBar('image not selected', context, red, 1);
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Image selected")));
+                  showErrorSnackBar('Image selected', context, green, 1);
                 }
               },
               builder: (context, state) {
-                return state.image == null
+                return state is! PostImageSelected
                     ? const SizedBox()
                     : ClipRRect(
                         borderRadius: radius10,
@@ -164,8 +166,6 @@ class CreatePostScreen extends StatelessWidget {
             buildWhen: (previous, current) =>
                 current is PostLoading || current is PostAddSuccess,
             listener: (context, state) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Post added successfully")));
               blocProvider.captionController.clear();
               Navigator.pop(context);
             },
@@ -183,7 +183,8 @@ class CreatePostScreen extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   onPressed: () async {
-                    if (state.image != null || state.image!.isNotEmpty) {
+                    state as PostImageSelected;
+                    if (state.image != null) {
                       final post = Post(
                           userId: FirebaseAuth.instance.currentUser!.uid,
                           caption: blocProvider.captionController.text,
@@ -193,7 +194,7 @@ class CreatePostScreen extends StatelessWidget {
                           views: 0);
                       context.read<PostBloc>().add(AddPostEvent(post: post));
                     } else {
-                      print(" post not eligible");
+                      showErrorSnackBar('please select an image', context, red);
                     }
                   });
             },
