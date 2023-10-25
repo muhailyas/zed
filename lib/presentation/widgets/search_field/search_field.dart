@@ -11,11 +11,12 @@ class SearchFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      decoration: BoxDecoration(color: secondaryDark, borderRadius: radius20),
+      decoration: BoxDecoration(color: primaryColor, borderRadius: radius10),
       width: width,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: TextField(
+          style: customFontStyle(),
           onChanged: (value) async {},
           decoration: InputDecoration(
               hintStyle: customFontStyle(size: 16),

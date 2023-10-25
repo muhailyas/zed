@@ -15,9 +15,9 @@ class SearchScreen extends StatelessWidget {
         child: Column(
           children: [
             height05,
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: SearchFieldWidget(width: 440),
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: SearchFieldWidget(width: screenWidth * 1),
             ),
             height05,
             // GridView.builder(
@@ -33,7 +33,7 @@ class SearchScreen extends StatelessWidget {
             //         color: secondaryDark, borderRadius: radius10),
             //   ),
             // ),
-            ListView.separated(
+            ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) => Container(
@@ -64,8 +64,8 @@ class SearchScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                separatorBuilder: (context, index) => Container(
-                    width: double.infinity, color: whiteColor, height: 0.1),
+                // separatorBuilder: (context, index) => Container(
+                //     width: double.infinity, color: whiteColor, height: 0.1),
                 itemCount: 10),
           ],
         ),

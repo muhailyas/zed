@@ -49,16 +49,18 @@ class PostWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: screenHeight * 0.018,
-          backgroundImage: NetworkImage(userProfileImage),
+          backgroundImage:
+              NetworkImage(userProfileImage.isEmpty ? test2 : userProfileImage),
         ),
         SizedBox(width: screenWidth * 0.03),
         Expanded(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 username,
-                style: customFontStyle(size: 20),
+                style: customFontStyle(size: 20, fontWeight: FontWeight.w700),
               ),
               const Icon(Icons.more_vert_rounded, color: whiteColor),
             ],

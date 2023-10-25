@@ -6,6 +6,8 @@ import 'package:zed/presentation/screens/profile/profile_screen.dart';
 import 'package:zed/presentation/screens/search/search_screen.dart';
 import 'package:zed/utils/colors/colors.dart';
 
+const test2 =
+    "https://imgs.search.brave.com/lhaUuKqVZHWV-FM3aV4SsEXvzByBnS00INwYkxAPwME/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzM3LzQ0LzIy/LzM2MF9GXzYzNzQ0/MjIxN18zc0pMUkVO/dlZlajZyTFl1VW5D/SjN2VEkzVnluS3J4/VC5qcGc";
 const testImage =
     'https://imgs.search.brave.com/8Si_AZEDfKmdc3P6BB1Yi0m831lxClEL9I77mwshNHI/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMw/MzIwNjY0NC9waG90/by9wb3J0cmFpdC1v/Zi1zbWlsaW5nLWNh/dWNhc2lhbi1tYW4t/cG9zZS1pbi1vZmZp/Y2UuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPTdscGJ4NWpF/VlFrZEcwaUE5VXZz/RVVtZXU3b2VkMkEz/c3V2TXdNUEFlSXM9';
 customFontStyle(
@@ -97,6 +99,6 @@ List screens = const [
 
 // Tab bar name
 const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Posts'),
-    Tab(text: 'Saved'),
-  ];
+  Tab(text: 'Posts'),
+  Tab(text: 'Saved'),
+];

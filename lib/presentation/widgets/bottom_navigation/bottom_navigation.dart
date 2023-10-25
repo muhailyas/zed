@@ -20,19 +20,19 @@ class BottomNavigationWidget extends StatelessWidget {
                   .read<BottomNavigationBloc>()
                   .add(IndexChagerEvent(index: value));
             },
-            selectedItemColor: secondaryBlue,
+            selectedItemColor: whiteColor,
             unselectedItemColor: greyColor,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.home), label: 'Home'),
+                  icon: Icon(CupertinoIcons.home), label: ''),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.search), label: 'search'),
+                  icon: Icon(CupertinoIcons.search), label: ''),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.bell), label: 'Notifications'),
+                  icon: Icon(CupertinoIcons.bell), label: ''),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.profile_circled), label: 'Account'),
+                  icon: Icon(CupertinoIcons.profile_circled), label: ''),
             ]);
       },
     );

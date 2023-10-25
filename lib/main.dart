@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
+import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
+import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/business_logic/user/user_bloc.dart';
 import 'package:zed/data/data_resources/authentication_data_source/authentication_data_source.dart';
+import 'package:zed/data/data_resources/post_data_source/post_data_source.dart';
+import 'package:zed/data/data_resources/user_data_source/user_data_source.dart';
 import 'package:zed/firebase_options.dart';
 import 'package:zed/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -29,12 +33,17 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthBloc(AuthenticationDataSource())),
         BlocProvider(create: (context) => BottomNavigationBloc()),
-        BlocProvider(create: (context) => UserBloc()),
-        BlocProvider(create: (context) => PostBloc())
+        BlocProvider(create: (context) => UserBloc(UserDataSource())),
+        BlocProvider(
+            create: (context) => PostBloc(PostDataSource(), UserDataSource())),
+        BlocProvider(create: (context) => HomeBloc(PostDataSource())),
+        BlocProvider(create: (context) => ProfileBloc(UserDataSource())),
       ],
       child: MaterialApp(
         title: 'Zed',
-        theme: ThemeData(fontFamily: GoogleFonts.lato().fontFamily),
+        theme: ThemeData(
+          fontFamily: GoogleFonts.lato().fontFamily,
+        ),
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),
       ),

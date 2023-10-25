@@ -29,7 +29,7 @@ class ChatListScreen extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              height10,
+              height05,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -38,17 +38,17 @@ class ChatListScreen extends StatelessWidget {
                     height: 50,
                     width: screenWidth * 0.15,
                     decoration: BoxDecoration(
-                        color: secondaryDark, borderRadius: radius20),
+                        color: primaryColor, borderRadius: radius10),
                     child: Center(
                       child: Text("filter", style: customFontStyle(size: 15)),
                     ),
                   )
                 ],
               ),
-              height10,
+              height05,
               Container(
                 decoration: const BoxDecoration(
-                    color: secondaryDark,
+                    color: primaryColor,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25))),
@@ -61,24 +61,17 @@ class ChatListScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return SizedBox(
-                          height: 70,
+                          height: 85,
                           width: double.infinity,
                           child: Row(
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: Container(
-                                  height: 65,
-                                  width: 65,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              'https://imgs.search.brave.com/INxZ1HlsxtfR-5xtNfavRgMyJ0wiVETft-WsJxJE2Jo/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTEz/Nzg1MTU3NC9waG90/by9wcm9maWxlLW9m/LXlvdW5nLXdvbWFu/cy1mYWNlLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1GQjIy/UmIwM3NZZkNiTl9M/MmNoQ2psNHVTN2JU/VTdWN1U5WEUySEZx/SFpRPQ'),
-                                          fit: BoxFit.cover)),
-                                ),
-                              ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
+                                  child: CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage: NetworkImage(test2),
+                                  )),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -88,6 +81,7 @@ class ChatListScreen extends StatelessWidget {
                                     style: customFontStyle(size: 18),
                                   ),
                                   SizedBox(
+                                    width: screenWidth * 0.8,
                                     child: Row(
                                       children: [
                                         Text(
@@ -99,6 +93,11 @@ class ChatListScreen extends StatelessWidget {
                                           " 12min ago",
                                           style: customFontStyle(size: 12),
                                         ),
+                                        const Spacer(),
+                                        const CircleAvatar(
+                                            radius: 5,
+                                            backgroundColor: Colors.blue),
+                                        width10
                                       ],
                                     ),
                                   )

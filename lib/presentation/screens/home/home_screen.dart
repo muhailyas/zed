@@ -1,15 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/presentation/screens/chat_list/chat_list.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
+import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/validators/validations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    context.read<HomeBloc>().add(FetchingPostEvent());
     return SafeArea(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -36,6 +43,19 @@ class HomeScreen extends StatelessWidget {
             style: customFontStyle(size: 35, fontWeight: FontWeight.bold),
           ),
           InkWell(
+            onLongPress: () async {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AuthScreen(),
+                  ),
+                  (route) => false);
+              await Future.delayed(const Duration(seconds: 1));
+              if (getProviderForCurrentUser() == 'Google Provider') {
+                GoogleSignIn().signOut();
+              }
+              FirebaseAuth.instance.signOut();
+            },
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ChatListScreen(),
@@ -82,22 +102,37 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildPostList() {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) => const Padding(
-        padding: EdgeInsets.only(top: 0),
-        child: PostWidget(
-            caption: "Embracing the simple joys of life on this beautiful day! 🌞💕 Grateful for moments filled with laughter, sunshine, and good company. Let's spread happiness like confetti! 🎉😄",
-            comments: 10,
-            likes: 10,
-            postImage: testImage,
-            userProfileImage: testImage,
-            username: 'ilyas',
-            views: 10),
-      ),
-      separatorBuilder: (context, index) => const Divider(color: whiteColor),
-      itemCount: 4,
-    );
+    return BlocBuilder<HomeBloc, HomeState>(
+        buildWhen: (previous, current) =>
+            current is HomeLoading || current is PostFetchingSuccess,
+        builder: (context, state) {
+          if (state is HomeLoading) {
+            return const CircularProgressIndicator();
+          } else if (state is PostFetchingSuccess) {
+            return ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final post = state.posts[index];
+                return Padding(
+                  padding: const EdgeInsets.only(top: 0),
+                  child: PostWidget(
+                      caption: post.caption,
+                      comments: post.commentCount,
+                      likes: post.likes,
+                      postImage: post.imageUrl,
+                      userProfileImage: post.profileUrl,
+                      username: post.username,
+                      views: post.views),
+                );
+              },
+              separatorBuilder: (context, index) =>
+                  const Divider(color: whiteColor),
+              itemCount: state.posts.length,
+            );
+          } else {
+            return const SizedBox();
+          }
+        });
   }
 }

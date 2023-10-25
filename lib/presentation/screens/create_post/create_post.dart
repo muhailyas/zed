@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
@@ -164,9 +165,12 @@ class CreatePostScreen extends StatelessWidget {
           BlocConsumer<PostBloc, PostState>(
             listenWhen: (previous, current) => current is PostAddSuccess,
             buildWhen: (previous, current) =>
-                current is PostLoading || current is PostAddSuccess,
+                current is PostLoading ||
+                current is PostAddSuccess ||
+                current is PostImageSelected,
             listener: (context, state) {
               blocProvider.captionController.clear();
+              context.read<HomeBloc>().add(FetchingPostEvent());
               Navigator.pop(context);
             },
             builder: (context, state) {
@@ -183,15 +187,17 @@ class CreatePostScreen extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   onPressed: () async {
-                    state as PostImageSelected;
-                    if (state.image != null) {
+                    if (state is PostImageSelected && state.image != null) {
                       final post = Post(
-                          userId: FirebaseAuth.instance.currentUser!.uid,
-                          caption: blocProvider.captionController.text,
-                          imageUrl: image.value,
-                          likes: 0,
-                          commentCount: 0,
-                          views: 0);
+                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        caption: blocProvider.captionController.text,
+                        imageUrl: state.image!,
+                        likes: 0,
+                        commentCount: 0,
+                        views: 0,
+                        profileUrl: '',
+                        username: '',
+                      );
                       context.read<PostBloc>().add(AddPostEvent(post: post));
                     } else {
                       showErrorSnackBar('please select an image', context, red);

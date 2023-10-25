@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 1), () async {
       if (FirebaseAuth.instance.currentUser != null) {
         Navigator.pushAndRemoveUntil(
           context,

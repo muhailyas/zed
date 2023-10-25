@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
@@ -17,6 +19,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
+    context.read<ProfileBloc>().add(UserPostsFetchEvent());
+    context.read<ProfileBloc>().add(UserInfoFetchEvent());
   }
 
   late TabController _tabController;
@@ -25,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,9 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen>
 
             // user details
             buildInfoSection(),
-            const Divider(
-              color: greyColor,
-            ),
 
             // post and saved head
             buildTabBar(),
@@ -49,25 +51,57 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  SizedBox buildTabBarView() {
+  Widget buildTabBarView() {
     return SizedBox(
-      height: screenHeight,
+      height: screenHeight * 0.52,
       width: double.infinity,
       child: TabBarView(
+        physics: const BouncingScrollPhysics(),
         controller: _tabController,
         children: myTabs.map((Tab tab) {
-          return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 5,
-              itemBuilder: (context, index) => const PostWidget(
-                  userProfileImage: testImage,
-                  username: 'ilyas',
-                  postImage: testImage,
-                  likes: 100,
-                  comments: 100,
-                  views: 100,
-                  caption: 'soethislf lsklf lslfjls fs;l ffnkl fls'));
+          return tab == myTabs[0]
+              ? BlocBuilder<ProfileBloc, ProfileState>(
+                  buildWhen: (previous, current) =>
+                      current is UserPostsFetchSuccess ||
+                      current is ProfileLoading,
+                  builder: (context, state) {
+                    if (state is ProfileLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is UserPostsFetchSuccess) {
+                      return state.posts.isEmpty
+                          ? Center(
+                              child: Text("No Posts", style: customFontStyle()))
+                          : ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: state.posts.length,
+                              itemBuilder: (context, index) {
+                                final data = state.posts[index];
+                                return PostWidget(
+                                  userProfileImage: data.profileUrl,
+                                  username: data.username,
+                                  postImage: data.imageUrl,
+                                  likes: data.likes,
+                                  comments: data.commentCount,
+                                  views: data.views,
+                                  caption: data.caption,
+                                );
+                              });
+                    }
+                    return const SizedBox();
+                  },
+                )
+              : ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: 5,
+                  itemBuilder: (context, index) => const PostWidget(
+                      userProfileImage: test2,
+                      username: 'SaraMerry',
+                      postImage: test2,
+                      likes: 100,
+                      comments: 100,
+                      views: 100,
+                      caption: 'Making memmories every day'));
         }).toList(),
       ),
     );
@@ -84,99 +118,134 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Padding buildInfoSection() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Sara Merry",
-              style: customFontStyle(),
-            ),
-            Text(
-              "@sara merry",
-              style: customFontStyle(size: 15),
-            ),
-            height05,
-            Row(
+  Widget buildInfoSection() {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      buildWhen: (previous, current) => current is UserInfoFetchSuccess,
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SizedBox(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "1.2k follwers",
+                  state is! UserInfoFetchSuccess
+                      ? ''
+                      : state.userProfile!.fullname.isEmpty
+                          ? 'ilyas'
+                          : state.userProfile!.fullname,
+                  style: customFontStyle(size: 24),
+                ),
+                Text(
+                  "@${state is! UserInfoFetchSuccess ? '' : state.userProfile!.userName}",
+                  style: customFontStyle(size: 15),
+                ),
+                height05,
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "1.2k",
+                          style: customFontStyle(
+                              size: 17, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          " follwers",
+                          style: customFontStyle(size: 17),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 10),
+                    Row(
+                      children: [
+                        Text("500 ",
+                            style: customFontStyle(
+                                size: 17, fontWeight: FontWeight.bold)),
+                        Text("following", style: customFontStyle(size: 17)),
+                      ],
+                    )
+                  ],
+                ),
+                height05,
+                Text(
+                  state is! UserInfoFetchSuccess
+                      ? ''
+                      : state.userProfile!.bio.isEmpty
+                          ? ''
+                          : state.userProfile!.bio,
                   style: customFontStyle(size: 17),
                 ),
-                const SizedBox(width: 10),
-                Text("500 following", style: customFontStyle(size: 17))
               ],
             ),
-            height05,
-            Text(
-              "joined 2023 mar 21",
-              style: customFontStyle(size: 17),
-            ),
-            height05,
-            Text(
-              "I'm passionate flutter developer",
-              style: customFontStyle(size: 17),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  SizedBox buildUpperSection() {
-    return SizedBox(
-      height: screenHeight * 0.23,
-      child: Stack(
-        children: [
-          Container(
-            height: screenHeight * 0.16,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(
-                        'https://imgs.search.brave.com/INxZ1HlsxtfR-5xtNfavRgMyJ0wiVETft-WsJxJE2Jo/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTEz/Nzg1MTU3NC9waG90/by9wcm9maWxlLW9m/LXlvdW5nLXdvbWFu/cy1mYWNlLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1GQjIy/UmIwM3NZZkNiTl9M/MmNoQ2psNHVTN2JU/VTdWN1U5WEUySEZx/SFpRPQ'),
-                    fit: BoxFit.cover)),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Icon(Icons.add_box_outlined, color: whiteColor, size: 33),
-                width20,
-                const Icon(Icons.menu, color: whiteColor, size: 35)
-              ],
-            ),
+  Widget buildUpperSection() {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      buildWhen: (previous, current) => current is UserInfoFetchSuccess,
+      builder: (context, state) {
+        return SizedBox(
+          height: screenHeight * 0.19,
+          child: Stack(
+            children: [
+              Container(
+                height: screenHeight * 0.12,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(state is! UserInfoFetchSuccess
+                            ? test2
+                            : state.userProfile!.coverPhoto.isEmpty
+                                ? test2
+                                : state.userProfile!.coverPhoto),
+                        fit: BoxFit.cover)),
+                child: const Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child:
+                          Icon(Icons.menu_rounded, color: whiteColor, size: 35),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Container(
+                    height: screenHeight * 0.15,
+                    width: screenWidth * 0.35,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage(state is! UserInfoFetchSuccess
+                                ? test2
+                                : state.userProfile!.profilePhoto.isEmpty
+                                    ? test2
+                                    : state.userProfile!.profilePhoto),
+                            fit: BoxFit.cover)),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 10,
+                bottom: 15,
+                child: ElevatedButtonWidget(
+                    color: secondaryBlue,
+                    width: 0.4,
+                    height: 0.04,
+                    label: 'Edit profile',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    onPressed: () {}),
+              ),
+            ],
           ),
-          Positioned(
-            top: 80,
-            left: 10,
-            child: Container(
-              height: 150,
-              width: 150,
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          'https://imgs.search.brave.com/INxZ1HlsxtfR-5xtNfavRgMyJ0wiVETft-WsJxJE2Jo/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTEz/Nzg1MTU3NC9waG90/by9wcm9maWxlLW9m/LXlvdW5nLXdvbWFu/cy1mYWNlLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1GQjIy/UmIwM3NZZkNiTl9M/MmNoQ2psNHVTN2JU/VTdWN1U5WEUySEZx/SFpRPQ'),
-                      fit: BoxFit.cover)),
-            ),
-          ),
-          Positioned(
-            right: 10,
-            bottom: 15,
-            child: ElevatedButtonWidget(
-                color: secondaryBlue,
-                width: 0.4,
-                height: 0.04,
-                label: 'Edit profile',
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-                onPressed: () {}),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

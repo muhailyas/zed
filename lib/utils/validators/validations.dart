@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 bool isEmailValid(String email) {
   final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
   return emailRegex.hasMatch(email);
@@ -38,5 +40,20 @@ validationResult(Function function) {
     return 'password should contain atleast 8 characters';
   } else if (function == isUsernameValid) {
     return 'Username can only contain letters, numbers, and underscores';
+  }
+}
+
+String getProviderForCurrentUser() {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (user != null && user.providerData.isNotEmpty) {
+    String primaryProvider = user.providerData[0].providerId;
+    if (primaryProvider == 'google.com') {
+      return 'Google Provider';
+    } else {
+      return 'Email/Password Provider';
+    }
+  } else {
+    return 'No associated providers';
   }
 }
