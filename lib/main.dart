@@ -7,6 +7,7 @@ import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
+import 'package:zed/business_logic/search/search_bloc.dart';
 import 'package:zed/business_logic/user/user_bloc.dart';
 import 'package:zed/data/data_resources/authentication_data_source/authentication_data_source.dart';
 import 'package:zed/data/data_resources/post_data_source/post_data_source.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
             create: (context) => PostBloc(PostDataSource(), UserDataSource())),
         BlocProvider(create: (context) => HomeBloc(PostDataSource())),
         BlocProvider(create: (context) => ProfileBloc(UserDataSource())),
+        BlocProvider(create: (context) => SearchBloc(UserDataSource())),
       ],
       child: MaterialApp(
         title: 'Zed',

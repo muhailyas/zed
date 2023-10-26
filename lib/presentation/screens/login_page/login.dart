@@ -109,7 +109,8 @@ class AuthScreen extends StatelessWidget {
                   },
                   child: ElevatedButtonWidget(
                     color: secondaryDark,
-                    fontSize: 25,
+                    height: 0.06,
+                    fontSize: 20,
                     label: 'Login',
                     onPressed: () async {
                       if (blocProvider.loginFormKey.currentState!.validate()) {
@@ -144,7 +145,9 @@ class AuthScreen extends StatelessWidget {
                   },
                   child: ElevatedButtonWidget(
                     color: secondaryDark,
+                    height: 0.06,
                     label: "Continue with google",
+                    fontSize: 20,
                     prefix: Container(
                       height: 25,
                       width: 25,

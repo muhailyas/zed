@@ -10,32 +10,33 @@ class Post {
   int likes;
   int commentCount;
   int views;
+  DateTime dateTime;
 
-  Post({
-    this.id,
-    required this.userId,
-    required this.caption,
-    required this.imageUrl,
-    required this.likes,
-    required this.commentCount,
-    required this.views,
-    required this.profileUrl,
-    required this.username,
-  });
+  Post(
+      {this.id,
+      required this.userId,
+      required this.caption,
+      required this.imageUrl,
+      required this.likes,
+      required this.commentCount,
+      required this.views,
+      required this.profileUrl,
+      required this.username,
+      required this.dateTime});
 
   factory Post.fromJson(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
     return Post(
-      id: snapshot.id,
-      userId: data['userId'] ?? '',
-      caption: data['caption'] ?? '',
-      imageUrl: data['imageUrl'] ?? '',
-      likes: data['likes'] ?? 0,
-      commentCount: data['commentCount'] ?? 0,
-      views: data['views'] ?? 0,
-      profileUrl: data['profileurl'] ?? '',
-      username: data['username'] ?? '',
-    );
+        id: snapshot.id,
+        userId: data['userId'] ?? '',
+        caption: data['caption'] ?? '',
+        imageUrl: data['imageUrl'] ?? '',
+        likes: data['likes'] ?? 0,
+        commentCount: data['commentCount'] ?? 0,
+        views: data['views'] ?? 0,
+        profileUrl: data['profileurl'] ?? '',
+        username: data['username'] ?? '',
+        dateTime: (data['datepublished'] as Timestamp).toDate());
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +49,7 @@ class Post {
       'views': views,
       'profileurl': profileUrl,
       'username': username,
+      'datepublished': dateTime,
     };
   }
 }

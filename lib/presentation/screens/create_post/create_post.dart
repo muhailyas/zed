@@ -7,7 +7,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
 import 'package:zed/data/models/post/post.dart';
-import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/validators/snackbars.dart';
@@ -17,6 +16,7 @@ class CreatePostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final blocProvider = BlocProvider.of<PostBloc>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: primaryColor,
@@ -28,61 +28,56 @@ class CreatePostScreen extends StatelessWidget {
             _bulidPostContent(context),
             height05,
             _buildPostImage(),
-            height05,
-            _buildPickImageOptions(context),
             height10
           ],
         ),
       ),
-    );
-  }
-
-  Expanded _buildPickImageOptions(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () async {
-                    context.read<PostBloc>().add(OpenCameraEvent());
-                  },
-                  child: Container(
-                    height: screenHeight * 0.06,
-                    width: screenWidth * 0.46,
-                    decoration: BoxDecoration(
-                        color: secondaryBlue, borderRadius: radius10),
-                    child: const Center(
-                      child: Icon(Iconsax.camera, color: whiteColor),
-                    ),
-                  ),
-                ),
-                width10,
-                InkWell(
-                  onTap: () {
-                    context.read<PostBloc>().add(SelectImageFromGalleryEvent());
-                  },
-                  child: Container(
-                    height: screenHeight * 0.06,
-                    width: screenWidth * 0.46,
-                    decoration: BoxDecoration(
-                        color: secondaryBlue, borderRadius: radius10),
-                    child: const Center(
-                      child: Icon(Iconsax.gallery, color: whiteColor),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      floatingActionButton: BlocConsumer<PostBloc, PostState>(
+        listenWhen: (previous, current) => current is PostAddSuccess,
+        buildWhen: (previous, current) =>
+            current is PostLoading ||
+            current is PostAddSuccess ||
+            current is PostImageSelected,
+        listener: (context, state) {
+          blocProvider.captionController.clear();
+          context.read<HomeBloc>().add(FetchingPostEvent());
+          Navigator.pop(context);
+        },
+        builder: (context, state) {
+          if (state is PostLoading) {
+            return Center(
+                child: CupertinoActivityIndicator(
+                    radius: screenHeight * 0.015, color: greyColor));
+          }
+          return FloatingActionButton(
+            child: const Icon(Iconsax.send_14),
+            onPressed: () async {
+              if (state is PostImageSelected && state.image != null) {
+                final post = Post(
+                  userId: FirebaseAuth.instance.currentUser!.uid,
+                  caption: blocProvider.captionController.text,
+                  imageUrl: state.image!,
+                  likes: 0,
+                  commentCount: 0,
+                  views: 0,
+                  profileUrl: '',
+                  username: '',
+                  dateTime: DateTime.now(),
+                );
+                context.read<PostBloc>().add(AddPostEvent(post: post));
+              } else {
+                showErrorSnackBar('please select an image', context, red);
+              }
+            },
+          );
+        },
       ),
     );
   }
 
+/* 
+
+*/
   Padding _buildPostImage() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -127,84 +122,53 @@ class CreatePostScreen extends StatelessWidget {
     );
   }
 
-  Padding _bulidPostContent(BuildContext context) {
+  Widget _bulidPostContent(BuildContext context) {
     final blocProvider = BlocProvider.of<PostBloc>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: screenHeight * 0.018,
-            backgroundImage: const NetworkImage(testImage),
-          ),
-          width10,
-          Expanded(
+      child: Container(
+        decoration: BoxDecoration(color: secondaryDark, borderRadius: radius10),
+        constraints: BoxConstraints(minHeight: screenHeight * 0.2),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextFormField(
-            controller: blocProvider.captionController,
-            style: customFontStyle(),
-            maxLines: null,
-            decoration: InputDecoration(
-                hintText: 'Type anything . . .',
-                hintStyle: customFontStyle(),
-                border: InputBorder.none),
-          )),
-        ],
+                controller: blocProvider.captionController,
+                style: customFontStyle(),
+                maxLines: null,
+                decoration: InputDecoration(
+                    hintText: 'add caption . . .',
+                    hintStyle: customFontStyle(size: 16),
+                    border: InputBorder.none),
+              ),
+            )),
+          ],
+        ),
       ),
     );
   }
 
   Padding _buildHeader(BuildContext context) {
-    final blocProvider = BlocProvider.of<PostBloc>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
         children: [
           _closeButton(),
           const Spacer(),
-          BlocConsumer<PostBloc, PostState>(
-            listenWhen: (previous, current) => current is PostAddSuccess,
-            buildWhen: (previous, current) =>
-                current is PostLoading ||
-                current is PostAddSuccess ||
-                current is PostImageSelected,
-            listener: (context, state) {
-              blocProvider.captionController.clear();
-              context.read<HomeBloc>().add(FetchingPostEvent());
-              Navigator.pop(context);
-            },
-            builder: (context, state) {
-              if (state is PostLoading) {
-                return Center(
-                    child: CupertinoActivityIndicator(
-                        radius: screenHeight * 0.015, color: greyColor));
-              }
-              return ElevatedButtonWidget(
-                  width: 0.21,
-                  height: 0.02,
-                  color: secondaryBlue,
-                  label: 'Post',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  onPressed: () async {
-                    if (state is PostImageSelected && state.image != null) {
-                      final post = Post(
-                        userId: FirebaseAuth.instance.currentUser!.uid,
-                        caption: blocProvider.captionController.text,
-                        imageUrl: state.image!,
-                        likes: 0,
-                        commentCount: 0,
-                        views: 0,
-                        profileUrl: '',
-                        username: '',
-                      );
-                      context.read<PostBloc>().add(AddPostEvent(post: post));
-                    } else {
-                      showErrorSnackBar('please select an image', context, red);
-                    }
-                  });
-            },
-          ),
+          InkWell(
+              onTap: () async {
+                context.read<PostBloc>().add(OpenCameraEvent());
+              },
+              child: const Icon(Iconsax.camera, color: whiteColor)),
+          width20,
+          InkWell(
+              onTap: () {
+                context.read<PostBloc>().add(SelectImageFromGalleryEvent());
+              },
+              child: const Icon(Iconsax.gallery, color: whiteColor)),
         ],
       ),
     );

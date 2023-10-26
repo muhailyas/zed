@@ -36,7 +36,7 @@ class TextFieldWidget extends StatelessWidget {
       controller: controller,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'required field';
+          return fieldIsEmpty(controller, context);
         } else if (!validation(function, value)) {
           return validationResult(function);
         }

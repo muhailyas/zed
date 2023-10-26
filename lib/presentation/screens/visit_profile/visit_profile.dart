@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/presentation/screens/friends_list_view/friends_list_view.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
@@ -8,46 +9,41 @@ import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen>
-    with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: myTabs.length);
-    context.read<ProfileBloc>().add(UserPostsFetchEvent());
-    context.read<ProfileBloc>().add(UserInfoFetchEvent());
-  }
-
-  late TabController _tabController;
+class ScreenVisitProfile extends StatelessWidget {
+  const ScreenVisitProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // edit profile and profile image
-            buildUpperSection(),
+    context.read<ProfileBloc>().add(UserInfoFetchEvent());
+    context.read<ProfileBloc>().add(UserPostsFetchEvent());
+    return Scaffold(
+      backgroundColor: primaryColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // edit profile and profile image
+              buildUpperSection(),
 
-            // user details
-            buildInfoSection(),
+              // user details
+              buildInfoSection(),
 
-            // post and saved head
-            buildTabBar(),
+              // post head
+              SizedBox(
+                  height: 40,
+                  width: double.infinity,
+                  child: Center(
+                      child: Text("Posts",
+                          style:
+                              customFontStyle(fontWeight: FontWeight.w700)))),
 
-            height05,
-            // post and saved view
-            buildTabBarView()
-          ],
+              height05,
+              // post and saved view
+              buildTabBarView()
+            ],
+          ),
         ),
       ),
     );
@@ -55,57 +51,31 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Widget buildTabBarView() {
     return SizedBox(
-      height: screenHeight * 0.52,
-      width: double.infinity,
-      child: TabBarView(
-        physics: const BouncingScrollPhysics(),
-        controller: _tabController,
-        children: myTabs.map((Tab tab) {
-          return tab == myTabs[0]
-              ? BlocBuilder<ProfileBloc, ProfileState>(
-                  buildWhen: (previous, current) =>
-                      current is UserPostsFetchSuccess ||
-                      current is ProfileLoading,
-                  builder: (context, state) {
-                    if (state is ProfileLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (state is UserPostsFetchSuccess) {
-                      return state.posts.isEmpty
-                          ? Center(
-                              child: Text("No Posts", style: customFontStyle()))
-                          : ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: state.posts.length,
-                              itemBuilder: (context, index) {
-                                final data = state.posts[index];
-                                return PostWidget(
-                                  post: data,
-                                );
-                              });
-                    }
-                    return const SizedBox();
-                  },
-                )
-              : ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: 5,
-                  itemBuilder: (context, index) => Container(
-                      height: 300, width: double.infinity, color: greyColor));
-        }).toList(),
-      ),
-    );
-  }
-
-  SizedBox buildTabBar() {
-    return SizedBox(
-      height: screenHeight * 0.05,
-      width: double.infinity,
-      child: TabBar(
-        tabs: myTabs,
-        controller: _tabController,
-      ),
-    );
+        width: double.infinity,
+        child: BlocBuilder<ProfileBloc, ProfileState>(
+          buildWhen: (previous, current) =>
+              current is UserPostsFetchSuccess || current is ProfileLoading,
+          builder: (context, state) {
+            if (state is ProfileLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is UserPostsFetchSuccess) {
+              return state.posts.isEmpty
+                  ? Center(child: Text("No Posts", style: customFontStyle()))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.posts.length,
+                      itemBuilder: (context, index) {
+                        final data = state.posts[index];
+                        return PostWidget(
+                          post: data,
+                        );
+                      });
+            }
+            return const SizedBox();
+          },
+        ));
   }
 
   Widget buildInfoSection() {
@@ -243,14 +213,26 @@ class _ProfileScreenState extends State<ProfileScreen>
               Positioned(
                 right: 10,
                 bottom: 15,
-                child: ElevatedButtonWidget(
-                    color: secondaryBlue,
-                    width: 0.4,
-                    height: 0.04,
-                    label: 'Edit profile',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    onPressed: () {}),
+                child: Row(
+                  children: [
+                    Container(
+                      height: screenHeight * 0.04,
+                      width: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: radius20, color: secondaryDarkgrey),
+                      child: const Icon(Iconsax.message_2, color: whiteColor),
+                    ),
+                    width05,
+                    ElevatedButtonWidget(
+                        color: secondaryBlue,
+                        width: 0.35,
+                        height: 0.04,
+                        label: 'Follow',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        onPressed: () {}),
+                  ],
+                ),
               ),
             ],
           ),

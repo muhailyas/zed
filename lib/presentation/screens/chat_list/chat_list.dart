@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:zed/presentation/widgets/search_field/search_field.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/enums/enums.dart';
 
 class ChatListScreen extends StatelessWidget {
   const ChatListScreen({super.key});
@@ -33,7 +34,8 @@ class ChatListScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SearchFieldWidget(width: screenWidth * 0.8),
+                  SearchFieldWidget(
+                      width: screenWidth * 0.8, type: SearchType.chatSearch),
                   Container(
                     height: 50,
                     width: screenWidth * 0.15,
@@ -55,62 +57,63 @@ class ChatListScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 20,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: 85,
-                          width: double.infinity,
-                          child: Row(
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: NetworkImage(test2),
-                                  )),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Sara Merry",
-                                    style: customFontStyle(size: 18),
-                                  ),
-                                  SizedBox(
-                                    width: screenWidth * 0.8,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Hello",
-                                          style: customFontStyle(size: 16),
-                                        ),
-                                        width10,
-                                        Text(
-                                          " 12min ago",
-                                          style: customFontStyle(size: 12),
-                                        ),
-                                        const Spacer(),
-                                        const CircleAvatar(
-                                            radius: 5,
-                                            backgroundColor: Colors.blue),
-                                        width10
-                                      ],
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 20,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        height: 85,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: NetworkImage(test2),
+                                )),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Sara Merry",
+                                  style: customFontStyle(size: 18),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Hello",
+                                      style: customFontStyle(size: 16),
                                     ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => Container(
-                          height: 0.1,
-                          color: whiteColor,
-                          width: double.infinity)),
+                                    width10,
+                                    SizedBox(
+                                      width: screenWidth * 0.59,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            " 12min ago",
+                                            style: customFontStyle(size: 12),
+                                          ),
+                                          const CircleAvatar(
+                                              radius: 5,
+                                              backgroundColor: Colors.blue),
+                                        ],
+                                      ),
+                                    ),
+                                    width10
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               )
             ],

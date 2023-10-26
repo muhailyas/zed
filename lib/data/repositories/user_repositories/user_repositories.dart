@@ -6,4 +6,5 @@ abstract class UserRepository {
   updateUser(UserProfile profile);
   Future<UserProfile?> getUserByUid(String uid);
   Future<List<Post>> getUserPosts(String uid);
+  Future<List<UserProfile>> searchUsersByUsername(String query);
 }

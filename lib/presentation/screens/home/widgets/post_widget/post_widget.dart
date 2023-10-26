@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/data/models/post/post.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/format_time_difference/format_time_defference.dart';
 
 class PostWidget extends StatelessWidget {
-  final String userProfileImage;
-  final String username;
-  final String postImage;
-  final int likes;
-  final int comments;
-  final int views;
-  final String caption;
+  final Post post;
 
-  const PostWidget({
-    Key? key,
-    required this.userProfileImage,
-    required this.username,
-    required this.postImage,
-    required this.likes,
-    required this.comments,
-    required this.views,
-    required this.caption,
-  }) : super(key: key);
+  const PostWidget({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +24,34 @@ class PostWidget extends StatelessWidget {
             _buildPostStats(),
             height05,
             _buildPostCaption(),
-            height05,
+            height005,
+            _buildCommentView(),
+            height005,
+            _buildPublishedDate(),
+            height005,
           ],
         ),
       ),
+    );
+  }
+
+  Row _buildPublishedDate() {
+    String formattedDate = formatTimeDifference(post.dateTime);
+    return Row(
+      children: [
+        SizedBox(width: screenWidth * 0.11),
+        Text(formattedDate, style: customFontStyle(size: 14, color: greyColor)),
+      ],
+    );
+  }
+
+  Widget _buildCommentView() {
+    return Row(
+      children: [
+        SizedBox(width: screenWidth * 0.11),
+        Text(post.commentCount == 0 ? "View comments" : "View all 200 comments",
+            style: customFontStyle(size: 15, color: greyColor)),
+      ],
     );
   }
 
@@ -50,7 +61,7 @@ class PostWidget extends StatelessWidget {
         CircleAvatar(
           radius: screenHeight * 0.018,
           backgroundImage:
-              NetworkImage(userProfileImage.isEmpty ? test2 : userProfileImage),
+              NetworkImage(post.profileUrl.isEmpty ? test2 : post.profileUrl),
         ),
         SizedBox(width: screenWidth * 0.03),
         Expanded(
@@ -59,7 +70,7 @@ class PostWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                username,
+                post.username,
                 style: customFontStyle(size: 20, fontWeight: FontWeight.w700),
               ),
               const Icon(Icons.more_vert_rounded, color: whiteColor),
@@ -80,12 +91,12 @@ class PostWidget extends StatelessWidget {
               borderRadius: radius10,
               child: Container(
                 constraints: BoxConstraints(maxHeight: screenHeight * 0.4),
-                width: screenWidth * 0.84,
+                width: screenWidth * 0.83,
                 decoration: BoxDecoration(
                   borderRadius: radius10,
                 ),
                 child: Image.network(
-                  postImage,
+                  post.imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -106,7 +117,7 @@ class PostWidget extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         Text(
-          likes.toString(),
+          post.likes.toString(),
           style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
         ),
         SizedBox(width: screenWidth * 0.03),
@@ -116,7 +127,7 @@ class PostWidget extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         Text(
-          comments.toString(),
+          post.commentCount.toString(),
           style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
         ),
         width10,
@@ -126,7 +137,7 @@ class PostWidget extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         Text(
-          views.toString(),
+          post.views.toString(),
           style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
         ),
         const Spacer(),
@@ -140,13 +151,20 @@ class PostWidget extends StatelessWidget {
       children: [
         SizedBox(width: screenWidth * 0.11),
         SizedBox(
-          width: screenWidth * 0.84,
-          child: Text(
-            caption,
+          width: screenWidth * 0.83,
+          child: RichText(
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            maxLines: 5,
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: "${post.username}  ",
+                  style: customFontStyle(size: 16, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: post.caption, style: customFontStyle(size: 14)),
+              ],
+            ),
             textAlign: TextAlign.justify,
-            style: customFontStyle(size: 16),
           ),
         ),
       ],

@@ -24,7 +24,7 @@ class NotificationTileWidget extends StatelessWidget {
             ),
             width10,
             SizedBox(
-              width: screenWidth * 0.65,
+              width: screenWidth * 0.64,
               child: Text(
                 "Luca liked your photo ",
                 overflow: TextOverflow.ellipsis,

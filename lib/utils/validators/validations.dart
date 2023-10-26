@@ -1,4 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zed/business_logic/auth/auth_bloc.dart';
 
 bool isEmailValid(String email) {
   final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
@@ -55,5 +58,22 @@ String getProviderForCurrentUser() {
     }
   } else {
     return 'No associated providers';
+  }
+}
+
+String fieldIsEmpty(TextEditingController controller, context) {
+  final provider = BlocProvider.of<AuthBloc>(context);
+  if (provider.emailController == controller) {
+    return 'email is required';
+  } else if (provider.confirmPasswordController == controller) {
+    return 'confirm password is required';
+  } else if (provider.fullNameController == controller) {
+    return 'fullname is required';
+  } else if (provider.passwordController == controller) {
+    return 'password is required';
+  } else if (provider.userNameController == controller) {
+    return 'user is required';
+  } else {
+    return 'field is empty';
   }
 }

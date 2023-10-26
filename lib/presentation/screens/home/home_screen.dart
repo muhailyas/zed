@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildStoryList() {
     return SizedBox(
-      height: 90,
+      height: screenHeight * 0.122,
       width: double.infinity,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
@@ -85,8 +85,8 @@ class HomeScreen extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: screenHeight * 0.07,
-          width: screenWidth * 0.16,
+          height: screenHeight * 0.1,
+          width: screenWidth * 0.2,
           decoration: const BoxDecoration(
             color: secondaryDark,
             shape: BoxShape.circle,
@@ -116,14 +116,7 @@ class HomeScreen extends StatelessWidget {
                 final post = state.posts[index];
                 return Padding(
                   padding: const EdgeInsets.only(top: 0),
-                  child: PostWidget(
-                      caption: post.caption,
-                      comments: post.commentCount,
-                      likes: post.likes,
-                      postImage: post.imageUrl,
-                      userProfileImage: post.profileUrl,
-                      username: post.username,
-                      views: post.views),
+                  child: PostWidget(post: post),
                 );
               },
               separatorBuilder: (context, index) =>

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zed/data/models/post/post.dart';
@@ -55,5 +56,28 @@ class UserDataSource implements UserRepository {
     } catch (e) {
       return [];
     }
+  }
+
+  @override
+  Future<List<UserProfile>> searchUsersByUsername(String username) async {
+    final CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('users');
+    final userProfiles = <UserProfile>[];
+    try {
+      final querySnapshot = await usersCollection
+          .where('username', isGreaterThanOrEqualTo: username)
+          .where('username', isLessThan: '${username}z')
+          .get();
+
+      for (final doc in querySnapshot.docs) {
+        final userData = doc.data() as Map<String, dynamic>;
+        final userProfile = UserProfile.fromJson(userData);
+        userProfiles.add(userProfile);
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    print(userProfiles.map((e) => e.userName).toList());
+    return userProfiles;
   }
 }
