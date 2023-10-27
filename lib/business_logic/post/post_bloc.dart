@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zed/data/repositories/user_repositories/user_repositories.dart';
 import 'package:zed/utils/image_picker/image_picker.dart';
-import 'package:zed/data/data_resources/image_upload_to_storage/image_upload_to_storage.dart';
+import 'package:zed/data/data_sources/image_upload_to_storage/image_upload_to_storage.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/data/repositories/post_repositories/post_repositories.dart';
 part 'post_event.dart';

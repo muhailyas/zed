@@ -84,6 +84,10 @@ class AuthScreen extends StatelessWidget {
                     )),
                 height10,
                 BlocListener<AuthBloc, AuthState>(
+                  listenWhen: (previous, current) =>
+                      current is AuthSuccess ||
+                      current is AuthError &&
+                          current.authResults != AuthResults.error,
                   listener: (context, state) {
                     if (state is AuthError) {
                       userValidationResult(
@@ -91,8 +95,9 @@ class AuthScreen extends StatelessWidget {
                           context: context,
                           isLogin: AuthProvider.login);
                     }
-                    state as AuthSuccess;
-                    if (state.authResults == AuthResults.loginSuccess) {
+
+                    if (state is AuthSuccess &&
+                        state.authResults == AuthResults.loginSuccess) {
                       userValidationResult(
                           authResults: state.authResults,
                           context: context,

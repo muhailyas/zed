@@ -7,7 +7,7 @@ class Post {
   String profileUrl;
   String caption;
   String imageUrl;
-  int likes;
+  List likes;
   int commentCount;
   int views;
   DateTime dateTime;
@@ -31,7 +31,7 @@ class Post {
         userId: data['userId'] ?? '',
         caption: data['caption'] ?? '',
         imageUrl: data['imageUrl'] ?? '',
-        likes: data['likes'] ?? 0,
+        likes: data['likes'] ?? [],
         commentCount: data['commentCount'] ?? 0,
         views: data['views'] ?? 0,
         profileUrl: data['profileurl'] ?? '',
@@ -44,7 +44,7 @@ class Post {
       'userId': userId,
       'caption': caption,
       'imageUrl': imageUrl,
-      'likes': likes,
+      'likes': [],
       'commentCount': commentCount,
       'views': views,
       'profileurl': profileUrl,

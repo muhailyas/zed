@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/business_logic/user/user_bloc.dart';
-import 'package:zed/data/data_resources/authentication_data_source/authentication_data_source.dart';
+import 'package:zed/data/data_sources/authentication_data_source/authentication_data_source.dart';
 import 'package:zed/data/models/user/user.dart';
 import 'package:zed/presentation/screens/login_page/widgets/text_field/text_field.dart';
 import 'package:zed/presentation/screens/root_page/root_page.dart';
@@ -100,13 +101,22 @@ class UserNameSetup extends StatelessWidget {
                       color: secondaryBlue,
                       label: 'Finish Setup',
                       onPressed: () async {
+                        final email = blocProvider.emailController.text.isEmpty
+                            ? FirebaseAuth.instance.currentUser!.email
+                            : blocProvider.emailController.text.trim();
+                        final fullname =
+                            blocProvider.fullNameController.text.isEmpty
+                                ? FirebaseAuth.instance.currentUser!.displayName
+                                : blocProvider.fullNameController.text.trim();
+
                         if (blocProvider.userNameController.text.isNotEmpty) {
                           final newUser = UserProfile(
-                              fullname:
-                                  blocProvider.fullNameController.text.trim(),
+                              followers: [],
+                              following: [],
+                              fullname: fullname!,
                               userName:
                                   blocProvider.userNameController.text.trim(),
-                              email: blocProvider.emailController.text.trim());
+                              email: email!);
                           context
                               .read<UserBloc>()
                               .add(CreateUserEvent(userProfile: newUser));

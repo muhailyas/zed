@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/business_logic/like/like_bloc.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -111,14 +113,22 @@ class PostWidget extends StatelessWidget {
     return Row(
       children: [
         SizedBox(width: screenWidth * 0.11),
-        const Icon(
-          Iconsax.like_14,
-          color: whiteColor,
-        ),
-        const SizedBox(width: 5),
-        Text(
-          post.likes.toString(),
-          style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
+        BlocBuilder<LikeBloc, LikeState>(
+          builder: (context, state) {
+            return Row(
+              children: [
+                const Icon(
+                  Iconsax.like_14,
+                  color: whiteColor,
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  post.likes.length.toString(),
+                  style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
+                ),
+              ],
+            );
+          },
         ),
         SizedBox(width: screenWidth * 0.03),
         const Icon(

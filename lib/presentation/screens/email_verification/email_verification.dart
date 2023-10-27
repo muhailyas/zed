@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/auth/auth_bloc.dart';
-import 'package:zed/data/data_resources/authentication_data_source/authentication_data_source.dart';
+import 'package:zed/data/data_sources/authentication_data_source/authentication_data_source.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/presentation/screens/user_name_setup/user_name_setup.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';

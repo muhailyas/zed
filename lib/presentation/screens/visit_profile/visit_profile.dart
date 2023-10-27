@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
+import 'package:zed/data/models/user/user.dart';
 import 'package:zed/presentation/screens/friends_list_view/friends_list_view.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
@@ -10,11 +11,11 @@ import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
 
 class ScreenVisitProfile extends StatelessWidget {
-  const ScreenVisitProfile({super.key});
+  const ScreenVisitProfile({super.key, required this.userProfile});
+  final UserProfile userProfile;
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(UserInfoFetchEvent());
     context.read<ProfileBloc>().add(UserPostsFetchEvent());
     return Scaffold(
       backgroundColor: primaryColor,
@@ -89,15 +90,11 @@ class ScreenVisitProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  state is! UserInfoFetchSuccess
-                      ? ''
-                      : state.userProfile!.fullname.isEmpty
-                          ? 'ilyas'
-                          : state.userProfile!.fullname,
+                  userProfile.fullname,
                   style: customFontStyle(size: 24),
                 ),
                 Text(
-                  "@${state is! UserInfoFetchSuccess ? '' : state.userProfile!.userName}",
+                  "@${userProfile.userName}",
                   style: customFontStyle(size: 15),
                 ),
                 height05,
@@ -115,7 +112,7 @@ class ScreenVisitProfile extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "1.2k",
+                            "${userProfile.followers.length}",
                             style: customFontStyle(
                                 size: 17, fontWeight: FontWeight.bold),
                           ),
@@ -138,7 +135,7 @@ class ScreenVisitProfile extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Text("500 ",
+                          Text("${userProfile.followers.length} ",
                               style: customFontStyle(
                                   size: 17, fontWeight: FontWeight.bold)),
                           Text("following", style: customFontStyle(size: 17)),
@@ -148,14 +145,12 @@ class ScreenVisitProfile extends StatelessWidget {
                   ],
                 ),
                 height05,
-                state is! UserInfoFetchSuccess
+                userProfile.bio.isEmpty
                     ? const SizedBox()
-                    : state.userProfile!.bio.isEmpty
-                        ? const SizedBox()
-                        : Text(
-                            state.userProfile!.bio,
-                            style: customFontStyle(size: 17),
-                          ),
+                    : Text(
+                        userProfile.bio,
+                        style: customFontStyle(size: 17),
+                      ),
               ],
             ),
           ),
@@ -176,13 +171,16 @@ class ScreenVisitProfile extends StatelessWidget {
                 height: screenHeight * 0.12,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(state is! UserInfoFetchSuccess
-                            ? test2
-                            : state.userProfile!.coverPhoto.isEmpty
+                    image: userProfile.coverPhoto.isEmpty
+                        ? const DecorationImage(
+                            image: NetworkImage(test2), fit: BoxFit.cover)
+                        : DecorationImage(
+                            image: NetworkImage(state is! UserInfoFetchSuccess
                                 ? test2
-                                : state.userProfile!.coverPhoto),
-                        fit: BoxFit.cover)),
+                                : state.userProfile!.coverPhoto.isEmpty
+                                    ? test2
+                                    : state.userProfile!.coverPhoto),
+                            fit: BoxFit.cover)),
                 child: const Align(
                     alignment: Alignment.topRight,
                     child: Padding(
@@ -199,14 +197,20 @@ class ScreenVisitProfile extends StatelessWidget {
                     height: screenHeight * 0.15,
                     width: screenWidth * 0.35,
                     decoration: BoxDecoration(
+                        color: secondaryDark,
                         shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: NetworkImage(state is! UserInfoFetchSuccess
-                                ? test2
-                                : state.userProfile!.profilePhoto.isEmpty
+                        image: userProfile.coverPhoto.isEmpty
+                            ? const DecorationImage(
+                                image: NetworkImage(testImage),
+                                fit: BoxFit.cover)
+                            : DecorationImage(
+                                image: NetworkImage(state
+                                        is! UserInfoFetchSuccess
                                     ? test2
-                                    : state.userProfile!.profilePhoto),
-                            fit: BoxFit.cover)),
+                                    : state.userProfile!.profilePhoto.isEmpty
+                                        ? test2
+                                        : state.userProfile!.profilePhoto),
+                                fit: BoxFit.cover)),
                   ),
                 ),
               ),

@@ -54,7 +54,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> googleSignUpEvent(
       GoogleSignUpEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
     AuthResults authResults = await authRepository.signInWithGoogle();
     authResults == AuthResults.googleSignInVerified ||
             authResults == AuthResults.googleSignInVerifiedNewUser

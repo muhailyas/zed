@@ -10,6 +10,8 @@ class UserProfile {
   DateTime? birthday;
   String mobile;
   bool isPrivate;
+  List followers;
+  List following;
   UserProfile(
       {this.uid,
       required this.fullname,
@@ -21,7 +23,9 @@ class UserProfile {
       this.coverPhoto = '',
       this.birthday,
       this.mobile = '',
-      this.isPrivate = false});
+      this.isPrivate = false,
+      required this.followers,
+      required this.following});
 
   // Convert JSON to UserProfile
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -38,6 +42,8 @@ class UserProfile {
           json['birthday'] != null ? DateTime.parse(json['birthday']) : null,
       mobile: json['mobile'] ?? '',
       isPrivate: json['isPrivate'] ?? false,
+      followers: json['followers'],
+      following: json['following'],
     );
   }
 
@@ -55,6 +61,8 @@ class UserProfile {
       'birthday': birthday?.toIso8601String(),
       'mobile': mobile,
       'isPrivate': isPrivate,
+      'followers': [],
+      'following': []
     };
   }
 }

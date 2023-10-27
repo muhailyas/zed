@@ -23,6 +23,7 @@ class SearchScreen extends StatelessWidget {
             height05,
             BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
+                print(state);
                 if (state is SearchLoading) {
                   return const RiveAnimation.asset('assets/loading.riv');
                 } else if (state is SearchResultFound) {
@@ -37,7 +38,7 @@ class SearchScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const ScreenVisitProfile(),
+                                      ScreenVisitProfile(userProfile: user),
                                 ));
                           },
                           child: Container(
@@ -99,7 +100,8 @@ class SearchScreen extends StatelessWidget {
                       style: customFontStyle(),
                     ),
                   );
-                } else {
+                } else if (state is EmptySearchFeildState ||
+                    state is SearchInitial) {
                   return GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 10,
@@ -115,6 +117,7 @@ class SearchScreen extends StatelessWidget {
                     ),
                   );
                 }
+                return const SizedBox();
               },
             )
           ],

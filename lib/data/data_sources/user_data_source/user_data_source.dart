@@ -60,16 +60,26 @@ class UserDataSource implements UserRepository {
 
   @override
   Future<List<UserProfile>> searchUsersByUsername(String username) async {
+    if (username.isEmpty) return [];
     final CollectionReference usersCollection =
         FirebaseFirestore.instance.collection('users');
     final userProfiles = <UserProfile>[];
     try {
-      final querySnapshot = await usersCollection
+      final querySnapshotUsername = await usersCollection
           .where('username', isGreaterThanOrEqualTo: username)
           .where('username', isLessThan: '${username}z')
           .get();
+      final querySnapshotFullname = await usersCollection
+          .where('fullname', isGreaterThanOrEqualTo: username)
+          .where('fullname', isLessThan: '${username}z')
+          .get();
 
-      for (final doc in querySnapshot.docs) {
+      for (final doc in querySnapshotUsername.docs) {
+        final userData = doc.data() as Map<String, dynamic>;
+        final userProfile = UserProfile.fromJson(userData);
+        userProfiles.add(userProfile);
+      }
+      for (final doc in querySnapshotFullname.docs) {
         final userData = doc.data() as Map<String, dynamic>;
         final userProfile = UserProfile.fromJson(userData);
         userProfiles.add(userProfile);

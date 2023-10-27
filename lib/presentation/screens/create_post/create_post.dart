@@ -45,9 +45,13 @@ class CreatePostScreen extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is PostLoading) {
-            return Center(
-                child: CupertinoActivityIndicator(
-                    radius: screenHeight * 0.015, color: greyColor));
+            return Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: CupertinoActivityIndicator(
+                      radius: screenHeight * 0.015, color: greyColor),
+                ));
           }
           return FloatingActionButton(
             child: const Icon(Iconsax.send_14),
@@ -57,7 +61,7 @@ class CreatePostScreen extends StatelessWidget {
                   userId: FirebaseAuth.instance.currentUser!.uid,
                   caption: blocProvider.captionController.text,
                   imageUrl: state.image!,
-                  likes: 0,
+                  likes: [],
                   commentCount: 0,
                   views: 0,
                   profileUrl: '',
@@ -75,9 +79,6 @@ class CreatePostScreen extends StatelessWidget {
     );
   }
 
-/* 
-
-*/
   Padding _buildPostImage() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
