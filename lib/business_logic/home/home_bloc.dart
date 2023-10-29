@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:zed/data/models/post/post.dart';
-import 'package:zed/data/repositories/post_repositories/post_repositories.dart';
+import 'package:zed/data/repositories/post_repository/post_repositories.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

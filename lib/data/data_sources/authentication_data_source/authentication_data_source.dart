@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zed/data/data_sources/firestore_service/username_exist.dart';
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
-import 'package:zed/data/repositories/auth_repositories/auth_repositories.dart';
+import 'package:zed/data/repositories/auth_repository/auth_repositories.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 class AuthenticationDataSource implements AuthRepository {

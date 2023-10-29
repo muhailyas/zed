@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
@@ -22,7 +23,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
     context.read<ProfileBloc>().add(UserPostsFetchEvent());
-    context.read<ProfileBloc>().add(UserInfoFetchEvent());
+    context.read<ProfileBloc>().add(
+        UserInfoFetchEvent(userId: FirebaseAuth.instance.currentUser!.uid));
   }
 
   late TabController _tabController;

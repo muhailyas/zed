@@ -1,17 +1,22 @@
 part of 'like_bloc.dart';
 
-class LikeState {}
-
-final class LikeInitial extends LikeState {
+class LikeState {
   List likes;
-  LikeInitial({required this.likes});
+  LikeState({required this.likes});
 }
 
-final class LikeErrorState extends LikeState {}
+final class LikeInitial extends LikeState {
+  LikeInitial({required super.likes});
+}
 
-final class LikedState extends LikeState {}
+final class LikeErrorState extends LikeState {
+  LikeErrorState({required super.likes});
+}
+
+final class LikedState extends LikeState {
+  LikedState({required super.likes});
+}
 
 final class UnlikedState extends LikeState {
-  List? likes;
-  UnlikedState({this.likes});
+  UnlikedState({required super.likes});
 }

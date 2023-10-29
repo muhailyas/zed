@@ -127,27 +127,41 @@ class CreatePostScreen extends StatelessWidget {
     final blocProvider = BlocProvider.of<PostBloc>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Container(
-        decoration: BoxDecoration(color: secondaryDark, borderRadius: radius10),
-        constraints: BoxConstraints(minHeight: screenHeight * 0.2),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: TextFormField(
-                controller: blocProvider.captionController,
-                style: customFontStyle(),
-                maxLines: null,
-                decoration: InputDecoration(
-                    hintText: 'add caption . . .',
-                    hintStyle: customFontStyle(size: 16),
-                    border: InputBorder.none),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 6),
+            child: CircleAvatar(
+                backgroundImage: const NetworkImage(test2),
+                radius: screenWidth * 0.05),
+          ),
+          Expanded(
+            child: Container(
+              decoration:
+                  BoxDecoration(color: secondaryDark, borderRadius: radius10),
+              constraints: BoxConstraints(minHeight: screenHeight * 0.1),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: TextFormField(
+                      controller: blocProvider.captionController,
+                      style: customFontStyle(),
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          hintText: 'add caption . . .',
+                          hintStyle: customFontStyle(size: 16),
+                          border: InputBorder.none),
+                    ),
+                  )),
+                ],
               ),
-            )),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -163,13 +177,16 @@ class CreatePostScreen extends StatelessWidget {
               onTap: () async {
                 context.read<PostBloc>().add(OpenCameraEvent());
               },
-              child: const Icon(Iconsax.camera, color: whiteColor)),
+              child: const Icon(Icons.camera_alt_outlined, color: whiteColor)),
           width20,
           InkWell(
               onTap: () {
                 context.read<PostBloc>().add(SelectImageFromGalleryEvent());
               },
-              child: const Icon(Iconsax.gallery, color: whiteColor)),
+              child: const Icon(
+                Icons.photo_library_outlined,
+                color: whiteColor,
+              )),
         ],
       ),
     );

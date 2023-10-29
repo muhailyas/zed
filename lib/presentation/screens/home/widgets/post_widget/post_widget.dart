@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/like/like_bloc.dart';
 import 'package:zed/data/models/post/post.dart';
+import 'package:zed/presentation/screens/comment_view/comment_screen.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/format_time_difference/format_time_defference.dart';
@@ -23,7 +26,7 @@ class PostWidget extends StatelessWidget {
             _buildUserInfo(),
             _buildPostImage(),
             height05,
-            _buildPostStats(),
+            _buildPostStats(context),
             height05,
             _buildPostCaption(),
             height005,
@@ -109,36 +112,54 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPostStats() {
+  Widget _buildPostStats(BuildContext context) {
+    context.read<LikeBloc>().add(LikeFetchEvent(postId: post.id!));
     return Row(
       children: [
         SizedBox(width: screenWidth * 0.11),
         BlocBuilder<LikeBloc, LikeState>(
           builder: (context, state) {
+            final liked =
+                state.likes.contains(FirebaseAuth.instance.currentUser!.uid);
             return Row(
               children: [
-                const Icon(
-                  Iconsax.like_14,
-                  color: whiteColor,
+                InkWell(
+                  onTap: () {
+                    context.read<LikeBloc>().add(LikeButtonEvent(
+                        postId: post.id!,
+                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        likes: state.likes));
+                  },
+                  child: Icon(liked ? Iconsax.like_15 : Iconsax.like_14,
+                      color: liked ? secondaryBlue : whiteColor),
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  post.likes.length.toString(),
-                  style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
+                  state.likes.length.toString(),
+                  style: customFontStyle(size: 13, fontWeight: FontWeight.w300),
                 ),
               ],
             );
           },
         ),
         SizedBox(width: screenWidth * 0.03),
-        const Icon(
-          Iconsax.message_2,
-          color: whiteColor,
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => ScreenComment(postId: post.id!),
+                ));
+          },
+          child: const Icon(
+            Iconsax.messages_34,
+            color: whiteColor,
+          ),
         ),
         const SizedBox(width: 5),
         Text(
           post.commentCount.toString(),
-          style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
+          style: customFontStyle(size: 13, fontWeight: FontWeight.w300),
         ),
         width10,
         const Icon(
@@ -148,7 +169,7 @@ class PostWidget extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           post.views.toString(),
-          style: customFontStyle(size: 15, fontWeight: FontWeight.w300),
+          style: customFontStyle(size: 13, fontWeight: FontWeight.w300),
         ),
         const Spacer(),
         const Icon(Icons.share, color: whiteColor, size: 25),

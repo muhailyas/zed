@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                 builder: (context) => const ChatListScreen(),
               ));
             },
-            child: const Icon(Iconsax.message, color: whiteColor, size: 30),
+            child: const Icon(Iconsax.messages_1, color: whiteColor, size: 30),
           ),
         ],
       ),
@@ -95,7 +95,7 @@ class HomeScreen extends StatelessWidget {
               ? const Icon(Icons.add, size: 30, color: whiteColor)
               : null,
         ),
-        Text(index == 0 ? "My story" : "username",
+        Text(index == 0 ? "Your story" : "username",
             style: customFontStyle(size: 14)),
       ],
     );

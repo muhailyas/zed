@@ -1,8 +1,7 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zed/data/models/post/post.dart';
-import 'package:zed/data/repositories/post_repositories/post_repositories.dart';
+import 'package:zed/data/repositories/post_repository/post_repositories.dart';
 
 class PostDataSource extends PostRepository {
   final CollectionReference _postCollection =

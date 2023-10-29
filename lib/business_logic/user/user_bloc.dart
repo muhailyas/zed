@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:zed/data/models/user/user.dart';
-import 'package:zed/data/repositories/user_repositories/user_repositories.dart';
+import 'package:zed/data/repositories/user_repository/user_repositories.dart';
 part 'user_event.dart';
 part 'user_state.dart';
 

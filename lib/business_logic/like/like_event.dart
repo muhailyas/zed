@@ -9,3 +9,8 @@ class LikeButtonEvent extends LikeEvent {
   LikeButtonEvent(
       {required this.postId, required this.userId, required this.likes});
 }
+
+class LikeFetchEvent extends LikeEvent {
+  final String postId;
+  LikeFetchEvent({required this.postId});
+}

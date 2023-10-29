@@ -23,7 +23,6 @@ class SearchScreen extends StatelessWidget {
             height05,
             BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
-                print(state);
                 if (state is SearchLoading) {
                   return const RiveAnimation.asset('assets/loading.riv');
                 } else if (state is SearchResultFound) {

@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
-import 'package:zed/data/repositories/auth_repositories/auth_repositories.dart';
+import 'package:zed/data/repositories/auth_repository/auth_repositories.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 part 'auth_event.dart';

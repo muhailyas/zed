@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/data/models/user/user.dart';
-import 'package:zed/data/repositories/user_repositories/user_repositories.dart';
+import 'package:zed/data/repositories/user_repository/user_repositories.dart';
 
 class UserDataSource implements UserRepository {
   @override
@@ -87,7 +87,6 @@ class UserDataSource implements UserRepository {
     } catch (e) {
       log(e.toString());
     }
-    print(userProfiles.map((e) => e.userName).toList());
     return userProfiles;
   }
 }

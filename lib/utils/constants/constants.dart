@@ -6,6 +6,8 @@ import 'package:zed/presentation/screens/profile/profile_screen.dart';
 import 'package:zed/presentation/screens/search/search_screen.dart';
 import 'package:zed/utils/colors/colors.dart';
 
+const defaultProfileImage =
+    "https://imgs.search.brave.com/fIiS4YDOziOysTVdGkHxxtiu9UZLnmB0a8NcS4dPjeA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzMzLzU0Lzc4/LzM2MF9GXzYzMzU0/Nzg0Ml9BdWdZemV4/VHBNSjl6MVljcFRL/VUJvcUJGMENVQ2sx/MC5qcGc";
 const test2 =
     "https://imgs.search.brave.com/lhaUuKqVZHWV-FM3aV4SsEXvzByBnS00INwYkxAPwME/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzM3LzQ0LzIy/LzM2MF9GXzYzNzQ0/MjIxN18zc0pMUkVO/dlZlajZyTFl1VW5D/SjN2VEkzVnluS3J4/VC5qcGc";
 const testImage =

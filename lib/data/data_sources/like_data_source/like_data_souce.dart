@@ -1,8 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:zed/data/repositories/like_repositories/like_repositories.dart';
+import 'package:zed/data/repositories/like_repository/like_repositories.dart';
 
 class LikeDataSource implements LikeRepository {
+  @override
+  Future<List> fetchLikes(String postId) async {
+    final document =
+        await FirebaseFirestore.instance.collection('posts').doc(postId).get();
+    if (document.exists && document.data() != null) {
+      final List<dynamic> likes = document.data()!['likes'] ?? [];
+      return likes.cast<String>().toList();
+    }
+    return [];
+  }
+
   @override
   Future<void> addLike(String postId, String userId) async {
     await FirebaseFirestore.instance.collection('posts').doc(postId).update({
