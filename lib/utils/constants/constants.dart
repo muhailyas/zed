@@ -45,9 +45,12 @@ SizedBox height05 = SizedBox(height: screenHeight * 0.01);
 SizedBox height10 = SizedBox(height: screenHeight * 0.02);
 SizedBox height20 = SizedBox(height: screenHeight * 0.04);
 SizedBox height160 = SizedBox(height: screenHeight * 0.3);
+
+//constant widths
 SizedBox width10 = SizedBox(width: screenWidth * 0.03);
 SizedBox width05 = SizedBox(width: screenWidth * 0.015);
 SizedBox width20 = SizedBox(width: screenWidth * 0.06);
+const fullWidth = SizedBox(width: double.infinity);
 
 // constant divider
 const divider = Divider(color: whiteColor);

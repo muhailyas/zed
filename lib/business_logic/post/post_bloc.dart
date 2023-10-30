@@ -30,7 +30,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   FutureOr<void> addPostEvent(
       AddPostEvent event, Emitter<PostState> emit) async {
     emit(PostLoading());
-
     final imageUrl = await FireStoreStorage()
         .uploadImageAndGetUrl(event.post.imageUrl, 'posts');
     final user = await userRepository

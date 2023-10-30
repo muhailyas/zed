@@ -46,8 +46,8 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 ProfileBloc(UserDataSource(), PostDataSource())),
         BlocProvider(create: (context) => SearchBloc(UserDataSource())),
-        BlocProvider(create: (context) => LikeBloc(LikeDataSource())),
         BlocProvider(create: (context) => CommentBloc(CommentDataSource())),
+        BlocProvider(create: (context) => LikeBloc(LikeDataSource()))
       ],
       child: MaterialApp(
         title: 'Zed',

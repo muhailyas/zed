@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
+import 'package:zed/presentation/screens/edit_profile/edit_profile.dart';
 import 'package:zed/presentation/screens/friends_list_view/friends_list_view.dart';
 import 'package:zed/presentation/screens/profile/widgets/tab_view/tab_view_widget.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
@@ -217,7 +218,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                     label: 'Edit profile',
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ScreenEditProfile()));
+                    }),
               ),
             ],
           ),

@@ -25,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<GoogleSignUpEvent>(googleSignUpEvent);
     on<PasswordResetEvent>(passwordResetEvent);
   }
-
+  
   FutureOr<void> signUpEvent(SignUpEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     AuthResults authResults =
