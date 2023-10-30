@@ -32,7 +32,7 @@ class UserProfile {
     return UserProfile(
       uid: json['uid'],
       fullname: json['fullname'],
-      userName: json['username'],
+      userName: json['userName'],
       email: json['email'],
       bio: json['bio'] ?? '',
       gender: json['gender'] ?? '',

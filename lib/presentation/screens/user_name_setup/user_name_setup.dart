@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/business_logic/user/user_bloc.dart';
 import 'package:zed/data/data_sources/authentication_data_source/authentication_data_source.dart';
+import 'package:zed/data/data_sources/firestore_service/username_exist.dart';
 import 'package:zed/data/models/user/user.dart';
 import 'package:zed/presentation/screens/login_page/widgets/text_field/text_field.dart';
 import 'package:zed/presentation/screens/root_page/root_page.dart';
@@ -38,9 +41,10 @@ class UserNameSetup extends StatelessWidget {
               BlocBuilder<AuthBloc, AuthState>(
                 buildWhen: (previous, current) => current is AuthSuccess,
                 builder: (context, state) {
-                  state as AuthSuccess;
                   return Text(
-                    state.authResults == AuthResults.googleSignInVerifiedNewUser
+                    state is AuthSuccess &&
+                            state.authResults ==
+                                AuthResults.googleSignInVerifiedNewUser
                         ? "Step 1 of 1"
                         : "Step 3 of 3",
                     style:
@@ -108,9 +112,13 @@ class UserNameSetup extends StatelessWidget {
                             blocProvider.fullNameController.text.isEmpty
                                 ? FirebaseAuth.instance.currentUser!.displayName
                                 : blocProvider.fullNameController.text.trim();
-
-                        if (blocProvider.userNameController.text.isNotEmpty) {
+                        final isAvailable =
+                            await FireStoreService.userNameExist(
+                                blocProvider.userNameController.text.trim());
+                        if (blocProvider.userNameController.text.isNotEmpty &&
+                            !isAvailable) {
                           final newUser = UserProfile(
+                              uid: FirebaseAuth.instance.currentUser!.uid,
                               followers: [],
                               following: [],
                               fullname: fullname!,

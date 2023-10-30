@@ -51,7 +51,9 @@ class _ScreenCommentState extends State<ScreenComment>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: const Icon(Icons.arrow_back, color: whiteColor)),
         Text("Comments", style: customFontStyle()),
         const Padding(

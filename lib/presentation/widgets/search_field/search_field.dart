@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/search/search_bloc.dart';
-import 'package:zed/data/models/user/user.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
@@ -23,6 +22,10 @@ class SearchFieldWidget extends StatelessWidget {
           style: customFontStyle(),
           onChanged: (value) async {
             if (SearchType.gloabal == type) {
+              if (value.isEmpty) {
+                context.read<SearchBloc>().add(InitialSearch());
+                return;
+              }
               context.read<SearchBloc>().add(UserSearchEvent(query: value));
             }
           },
@@ -37,5 +40,3 @@ class SearchFieldWidget extends StatelessWidget {
     );
   }
 }
-
-ValueNotifier<List<UserProfile>> listN = ValueNotifier([]);

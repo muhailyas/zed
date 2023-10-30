@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
@@ -6,7 +8,7 @@ import 'package:zed/data/repositories/comment_repository/comment_repository.dart
 
 class CommentDataSource extends CommentRepository {
   @override
-  Future<Either<String, bool>> addComment(
+  Future<void> addComment(
       {required String postId, required Comment comment}) async {
     try {
       final collection = FirebaseFirestore.instance
@@ -15,9 +17,8 @@ class CommentDataSource extends CommentRepository {
           .collection('comments')
           .doc();
       collection.set({...comment.toJson(), 'commentid': collection.id});
-      return const Right(true);
     } catch (e) {
-      return Left('error$e');
+      log(e.toString());
     }
   }
 
@@ -44,7 +45,7 @@ class CommentDataSource extends CommentRepository {
           .collection('posts')
           .doc(postId)
           .collection('comments')
-          .orderBy('commentpublished', descending: false)
+          .orderBy('commentpublished', descending: true)
           .get();
       final response = comments.docs
           .map((comment) => Comment.fromSnapshot(comment))
@@ -70,5 +71,17 @@ class CommentDataSource extends CommentRepository {
     }
 
     return commentsWithUserProfiles;
+  }
+
+  @override
+  Future<void> incrementCommentCount({required String postId}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postId)
+          .update({'commentCount': FieldValue.increment(1)});
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

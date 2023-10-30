@@ -16,7 +16,9 @@ class ScreenVisitProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(UserPostsFetchEvent());
+    context
+        .read<ProfileBloc>()
+        .add(ProfileFetchEvent(userId: userProfile.uid!));
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -55,12 +57,12 @@ class ScreenVisitProfile extends StatelessWidget {
         width: double.infinity,
         child: BlocBuilder<ProfileBloc, ProfileState>(
           buildWhen: (previous, current) =>
-              current is UserPostsFetchSuccess || current is ProfileLoading,
+              current is ProfileFetchSuccess && previous is ProfileLoading,
           builder: (context, state) {
             if (state is ProfileLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (state is UserPostsFetchSuccess) {
+            if (state is ProfileFetchSuccess) {
               return state.posts.isEmpty
                   ? Center(child: Text("No Posts", style: customFontStyle()))
                   : ListView.builder(
@@ -81,7 +83,7 @@ class ScreenVisitProfile extends StatelessWidget {
 
   Widget buildInfoSection() {
     return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (previous, current) => current is UserInfoFetchSuccess,
+      buildWhen: (previous, current) => current is ProfileFetchSuccess,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
@@ -161,7 +163,7 @@ class ScreenVisitProfile extends StatelessWidget {
 
   Widget buildUpperSection() {
     return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (previous, current) => current is UserInfoFetchSuccess,
+      buildWhen: (previous, current) => current is ProfileFetchSuccess,
       builder: (context, state) {
         return SizedBox(
           height: screenHeight * 0.2,
@@ -175,7 +177,7 @@ class ScreenVisitProfile extends StatelessWidget {
                         ? const DecorationImage(
                             image: NetworkImage(test2), fit: BoxFit.cover)
                         : DecorationImage(
-                            image: NetworkImage(state is! UserInfoFetchSuccess
+                            image: NetworkImage(state is! ProfileFetchSuccess
                                 ? test2
                                 : state.userProfile!.coverPhoto.isEmpty
                                     ? test2
@@ -205,7 +207,7 @@ class ScreenVisitProfile extends StatelessWidget {
                                 fit: BoxFit.cover)
                             : DecorationImage(
                                 image: NetworkImage(state
-                                        is! UserInfoFetchSuccess
+                                        is! ProfileFetchSuccess
                                     ? test2
                                     : state.userProfile!.profilePhoto.isEmpty
                                         ? test2

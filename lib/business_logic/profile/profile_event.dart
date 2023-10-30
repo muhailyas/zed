@@ -2,9 +2,7 @@ part of 'profile_bloc.dart';
 
 class ProfileEvent {}
 
-class UserInfoFetchEvent extends ProfileEvent {
+class ProfileFetchEvent extends ProfileEvent {
   final String userId;
-  UserInfoFetchEvent({required this.userId});
+  ProfileFetchEvent({required this.userId});
 }
-
-class UserPostsFetchEvent extends ProfileEvent {}

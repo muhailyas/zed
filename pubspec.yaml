@@ -51,6 +51,7 @@ dependencies:
   intl: ^0.18.1
   dartz: ^0.10.1
   shimmer: ^3.0.0
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:

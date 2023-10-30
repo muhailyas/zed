@@ -26,12 +26,13 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
 
   FutureOr<void> commentAddEvent(
       CommentAddEvent event, Emitter<CommentState> emit) async {
-    emit(CommentLoading());
-    final response = await commentRepository.addComment(
+    await commentRepository.addComment(
         postId: event.comment.postId, comment: event.comment);
-
-    response.fold((error) => emit(CommentPostedFailure()), (success) async {
-      emit(CommentPostedSuccess());
-    });
+    commentRepository.incrementCommentCount(postId: event.comment.postId);
+    final comments =
+        await commentRepository.fetchComments(postId: event.comment.postId);
+    await commentRepository.fetchUserProfilesForComments(comments).then(
+        (commentsWithUserProfiles) =>
+            emit(CommentFetchSuccess(comments: commentsWithUserProfiles)));
   }
 }

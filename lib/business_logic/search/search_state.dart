@@ -4,8 +4,6 @@ class SearchState {}
 
 class SearchInitial extends SearchState {}
 
-class EmptySearchFeildState extends SearchState {}
-
 class SearchLoading extends SearchState {}
 
 class SearchResultEmpty extends SearchState {}

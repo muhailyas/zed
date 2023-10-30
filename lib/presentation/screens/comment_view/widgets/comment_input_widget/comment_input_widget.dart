@@ -33,31 +33,24 @@ class CommentInputWidget extends StatelessWidget {
               ),
             ),
           ),
-          BlocListener<CommentBloc, CommentState>(
-            listenWhen: (previous, current) => current is CommentPostedSuccess,
-            listener: (context, state) {
-              blocProvider.add(CommentFetchEvent(postId: postId));
-            },
-            child: TextButton(
-                onPressed: () async {
-                  if (blocProvider.commentController.text.isEmpty) {
-                    return;
-                  }
-                  final userId = FirebaseAuth.instance.currentUser!.uid;
-                  final commentText =
-                      blocProvider.commentController.text.trim();
-                  final comment = Comment(
-                      postId: postId,
-                      userId: userId,
-                      text: commentText,
-                      dateTime: DateTime.now(),
-                      likedBy: []);
-                  await Future.delayed(const Duration(seconds: 1));
-                  blocProvider.add(CommentAddEvent(comment: comment));
-                },
-                child: Text("Post",
-                    style: customFontStyle(color: secondaryBlue, size: 15))),
-          )
+          TextButton(
+              onPressed: () async {
+                if (blocProvider.commentController.text.isEmpty) {
+                  return;
+                }
+                final userId = FirebaseAuth.instance.currentUser!.uid;
+                final commentText = blocProvider.commentController.text.trim();
+                final comment = Comment(
+                    postId: postId,
+                    userId: userId,
+                    text: commentText,
+                    dateTime: DateTime.now(),
+                    likedBy: []);
+                blocProvider.add(CommentAddEvent(comment: comment));
+                blocProvider.commentController.clear();
+              },
+              child: Text("Post",
+                  style: customFontStyle(color: secondaryBlue, size: 15)))
         ],
       ),
     );

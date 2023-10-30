@@ -10,22 +10,9 @@ class UserDataSource implements UserRepository {
   Future<void> addUser(UserProfile profile) async {
     final CollectionReference collection =
         FirebaseFirestore.instance.collection('users');
-    final DocumentReference userProfile = collection.doc();
-    final Map<String, dynamic> userData = {
-      'uid': FirebaseAuth.instance.currentUser!.uid,
-      'id': userProfile.id,
-      'username': profile.userName,
-      'fullname': profile.fullname,
-      'email': profile.email,
-      'mobile': profile.mobile,
-      'bio': profile.bio,
-      'gender': profile.gender,
-      'profilephoto': profile.profilePhoto,
-      'coverphoto': profile.coverPhoto,
-      'birthday': profile.birthday,
-      'isprivate': profile.isPrivate
-    };
-    await userProfile.set(userData);
+    final DocumentReference userProfile =
+        collection.doc(FirebaseAuth.instance.currentUser!.uid);
+    await userProfile.set(profile.toJson());
   }
 
   @override
@@ -61,28 +48,23 @@ class UserDataSource implements UserRepository {
   @override
   Future<List<UserProfile>> searchUsersByUsername(String username) async {
     if (username.isEmpty) return [];
-    final CollectionReference usersCollection =
-        FirebaseFirestore.instance.collection('users');
-    final userProfiles = <UserProfile>[];
-    try {
-      final querySnapshotUsername = await usersCollection
-          .where('username', isGreaterThanOrEqualTo: username)
-          .where('username', isLessThan: '${username}z')
-          .get();
-      final querySnapshotFullname = await usersCollection
-          .where('fullname', isGreaterThanOrEqualTo: username)
-          .where('fullname', isLessThan: '${username}z')
-          .get();
 
-      for (final doc in querySnapshotUsername.docs) {
-        final userData = doc.data() as Map<String, dynamic>;
-        final userProfile = UserProfile.fromJson(userData);
-        userProfiles.add(userProfile);
-      }
-      for (final doc in querySnapshotFullname.docs) {
-        final userData = doc.data() as Map<String, dynamic>;
-        final userProfile = UserProfile.fromJson(userData);
-        userProfiles.add(userProfile);
+    final usersCollection = FirebaseFirestore.instance.collection('users');
+    final userProfiles = <UserProfile>[];
+    final queryFields = ['userName', 'fullname'];
+
+    try {
+      for (final field in queryFields) {
+        final querySnapshot = await usersCollection
+            .where(field, isGreaterThanOrEqualTo: username)
+            .where(field, isLessThan: '${username}z')
+            .get();
+
+        for (final doc in querySnapshot.docs) {
+          final userData = doc.data();
+          final userProfile = UserProfile.fromJson(userData);
+          userProfiles.add(userProfile);
+        }
       }
     } catch (e) {
       log(e.toString());

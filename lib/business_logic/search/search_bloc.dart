@@ -11,6 +11,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   UserRepository userRepository;
   SearchBloc(this.userRepository) : super(SearchInitial()) {
     on<UserSearchEvent>(userSearchEvent);
+    on<InitialSearch>(initialSearch);
   }
 
   FutureOr<void> userSearchEvent(
@@ -18,9 +19,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     SearchLoading();
     final users = await userRepository.searchUsersByUsername(event.query);
     users.isEmpty
-        ? event.query.isEmpty
-            ? emit(EmptySearchFeildState())
-            : emit(SearchResultEmpty())
+        ? emit(SearchResultEmpty())
         : emit(SearchResultFound(users: users));
+  }
+
+  FutureOr<void> initialSearch(InitialSearch event, Emitter<SearchState> emit) {
+    emit(SearchInitial());
   }
 }

@@ -32,4 +32,55 @@ class PostDataSource extends PostRepository {
       return [];
     }
   }
+
+  @override
+  Future<void> deletePost(String postId) async {
+    try {
+      await _postCollection.doc(postId).delete();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addintoSavedPost({
+    required String postId,
+    required String userId,
+  }) async {
+    try {
+      final path = FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('saved posts')
+          .doc(postId);
+      await path.set({
+        'postId': postId,
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  Future<List<Post>> fetchSavedPosts({required String userId}) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('saved posts')
+          .get();
+      if (querySnapshot.docs.isEmpty) {
+        return [];
+      }
+      final postIds = querySnapshot.docs.map((e) => e['postId']).toList();
+      final posts = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('id', whereIn: postIds)
+          .get();
+      return posts.docs.map((e) => Post.fromJson(e)).toList();
+    } catch (e) {
+      log(e.toString());
+      return [];
+    }
+  }
 }

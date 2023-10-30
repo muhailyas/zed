@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/presentation/screens/friends_list_view/friends_list_view.dart';
-import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
+import 'package:zed/presentation/screens/profile/widgets/tab_view/tab_view_widget.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -22,9 +22,9 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
-    context.read<ProfileBloc>().add(UserPostsFetchEvent());
-    context.read<ProfileBloc>().add(
-        UserInfoFetchEvent(userId: FirebaseAuth.instance.currentUser!.uid));
+    context
+        .read<ProfileBloc>()
+        .add(ProfileFetchEvent(userId: FirebaseAuth.instance.currentUser!.uid));
   }
 
   late TabController _tabController;
@@ -56,63 +56,28 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   Widget buildTabBarView() {
-    return SizedBox(
-      height: screenHeight * 0.52,
-      width: double.infinity,
-      child: TabBarView(
-        physics: const BouncingScrollPhysics(),
-        controller: _tabController,
-        children: myTabs.map((Tab tab) {
-          return tab == myTabs[0]
-              ? BlocBuilder<ProfileBloc, ProfileState>(
-                  buildWhen: (previous, current) =>
-                      current is UserPostsFetchSuccess ||
-                      current is ProfileLoading,
-                  builder: (context, state) {
-                    if (state is ProfileLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (state is UserPostsFetchSuccess) {
-                      return state.posts.isEmpty
-                          ? Center(
-                              child: Text("No Posts", style: customFontStyle()))
-                          : ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: state.posts.length,
-                              itemBuilder: (context, index) {
-                                final data = state.posts[index];
-                                return PostWidget(
-                                  post: data,
-                                );
-                              });
-                    }
-                    return const SizedBox();
-                  },
-                )
-              : ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: 5,
-                  itemBuilder: (context, index) => Container(
-                      height: 300, width: double.infinity, color: greyColor));
-        }).toList(),
-      ),
-    );
+    return TabViewWidget(tabController: _tabController);
   }
 
   SizedBox buildTabBar() {
     return SizedBox(
       height: screenHeight * 0.05,
       width: double.infinity,
-      child: TabBar(
-        tabs: myTabs,
-        controller: _tabController,
+      child: DefaultTabController(
+        length: 2,
+        initialIndex: 0,
+        child: TabBar(
+          tabs: myTabs,
+          controller: _tabController,
+        ),
       ),
     );
   }
 
   Widget buildInfoSection() {
     return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (previous, current) => current is UserInfoFetchSuccess,
+      buildWhen: (previous, current) =>
+          current is ProfileFetchSuccess && previous is ProfileLoading,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
@@ -121,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  state is! UserInfoFetchSuccess
+                  state is! ProfileFetchSuccess
                       ? ''
                       : state.userProfile!.fullname.isEmpty
                           ? 'ilyas'
@@ -129,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   style: customFontStyle(size: 24),
                 ),
                 Text(
-                  "@${state is! UserInfoFetchSuccess ? '' : state.userProfile!.userName}",
+                  "@${state is! ProfileFetchSuccess ? '' : state.userProfile!.userName}",
                   style: customFontStyle(size: 15),
                 ),
                 height05,
@@ -147,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       child: Row(
                         children: [
                           Text(
-                            "1.2k",
+                            "${state is! ProfileFetchSuccess ? '' : state.userProfile!.followers.length}",
                             style: customFontStyle(
                                 size: 17, fontWeight: FontWeight.bold),
                           ),
@@ -170,7 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                       },
                       child: Row(
                         children: [
-                          Text("500 ",
+                          Text(
+                              "${state is! ProfileFetchSuccess ? '' : state.userProfile!.following.length} ",
                               style: customFontStyle(
                                   size: 17, fontWeight: FontWeight.bold)),
                           Text("following", style: customFontStyle(size: 17)),
@@ -180,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ],
                 ),
                 height05,
-                state is! UserInfoFetchSuccess
+                state is! ProfileFetchSuccess
                     ? const SizedBox()
                     : state.userProfile!.bio.isEmpty
                         ? const SizedBox()
@@ -198,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Widget buildUpperSection() {
     return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (previous, current) => current is UserInfoFetchSuccess,
+      buildWhen: (previous, current) => current is ProfileFetchSuccess,
       builder: (context, state) {
         return SizedBox(
           height: screenHeight * 0.2,
@@ -208,13 +174,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                 height: screenHeight * 0.12,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(state is! UserInfoFetchSuccess
-                            ? test2
-                            : state.userProfile!.coverPhoto.isEmpty
-                                ? test2
-                                : state.userProfile!.coverPhoto),
-                        fit: BoxFit.cover)),
+                    color: secondaryBlue,
+                    image: state is ProfileFetchSuccess &&
+                            state.userProfile!.coverPhoto.isNotEmpty
+                        ? DecorationImage(
+                            image: NetworkImage(state.userProfile!.coverPhoto),
+                            fit: BoxFit.cover)
+                        : null),
                 child: const Align(
                     alignment: Alignment.topRight,
                     child: Padding(
@@ -233,11 +199,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: NetworkImage(state is! UserInfoFetchSuccess
-                                ? test2
-                                : state.userProfile!.profilePhoto.isEmpty
-                                    ? test2
-                                    : state.userProfile!.profilePhoto),
+                            image: state is ProfileFetchSuccess &&
+                                    state.userProfile!.profilePhoto.isNotEmpty
+                                ? NetworkImage(state.userProfile!.profilePhoto)
+                                : const NetworkImage(defaultProfileImage),
                             fit: BoxFit.cover)),
                   ),
                 ),

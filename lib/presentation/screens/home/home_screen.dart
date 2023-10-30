@@ -87,12 +87,18 @@ class HomeScreen extends StatelessWidget {
         Container(
           height: screenHeight * 0.1,
           width: screenWidth * 0.2,
-          decoration: const BoxDecoration(
-            color: secondaryDark,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(
+              color: secondaryDark,
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  image: index == 0
+                      ? const NetworkImage(defaultProfileImage)
+                      : const NetworkImage(test2),
+                  fit: BoxFit.cover)),
           child: index == 0
-              ? const Icon(Icons.add, size: 30, color: whiteColor)
+              ? const Align(
+                  alignment: Alignment.bottomRight,
+                  child: Icon(Iconsax.add_circle5, size: 25, color: whiteColor))
               : null,
         ),
         Text(index == 0 ? "Your story" : "username",

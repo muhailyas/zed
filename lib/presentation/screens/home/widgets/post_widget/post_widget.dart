@@ -3,7 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/business_logic/comment/comment_bloc.dart';
+import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/business_logic/like/like_bloc.dart';
+import 'package:zed/business_logic/profile/profile_bloc.dart';
+import 'package:zed/data/data_sources/post_data_source/post_data_source.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/presentation/screens/comment_view/comment_screen.dart';
 import 'package:zed/utils/colors/colors.dart';
@@ -23,14 +27,14 @@ class PostWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           children: [
-            _buildUserInfo(),
+            _buildUserInfo(context),
             _buildPostImage(),
             height05,
             _buildPostStats(context),
             height05,
             _buildPostCaption(),
             height005,
-            _buildCommentView(),
+            _buildCommentView(context),
             height005,
             _buildPublishedDate(),
             height005,
@@ -50,17 +54,31 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildCommentView() {
+  Widget _buildCommentView(BuildContext context) {
     return Row(
       children: [
         SizedBox(width: screenWidth * 0.11),
-        Text(post.commentCount == 0 ? "View comments" : "View all 200 comments",
-            style: customFontStyle(size: 15, color: greyColor)),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => ScreenComment(postId: post.id!)));
+          },
+          child: Text(
+              post.commentCount == 0
+                  ? "View comments"
+                  : "View all ${post.commentCount} comments",
+              style: customFontStyle(size: 15, color: greyColor)),
+        ),
       ],
     );
   }
 
-  Widget _buildUserInfo() {
+  Widget _buildUserInfo(BuildContext context) {
+    context
+        .read<ProfileBloc>()
+        .add(ProfileFetchEvent(userId: FirebaseAuth.instance.currentUser!.uid));
     return Row(
       children: [
         CircleAvatar(
@@ -78,12 +96,88 @@ class PostWidget extends StatelessWidget {
                 post.username,
                 style: customFontStyle(size: 20, fontWeight: FontWeight.w700),
               ),
-              const Icon(Icons.more_vert_rounded, color: whiteColor),
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  return PopupMenuButton(
+                      color: const Color.fromARGB(255, 4, 23, 32),
+                      onSelected: (value) {
+                        if (value == 1) {
+                          context
+                              .read<HomeBloc>()
+                              .add(DeletePostEvent(postId: post.id!));
+                        } else if (value == 2 && state is ProfileFetchSuccess) {
+                          PostDataSource().addintoSavedPost(
+                              postId: post.id!,
+                              userId: state.userProfile!.uid!);
+                        }
+                      },
+                      itemBuilder: (context) => getPopupMenuItemList(
+                          post.userId !=
+                              FirebaseAuth.instance.currentUser!.uid),
+                      child: const Icon(Icons.more_vert_rounded,
+                          color: whiteColor));
+                },
+              ),
             ],
           ),
         ),
       ],
     );
+  }
+
+  List<PopupMenuItem> getPopupMenuItemList(bool condition) {
+    final popupMenuItems = [
+      PopupMenuItem(
+        value: 1,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.delete,
+              color: red,
+              size: 17,
+            ),
+            width05,
+            Text('Delete post', style: customFontStyle(size: 15, color: red)),
+          ],
+        ),
+      ),
+      PopupMenuItem(
+        value: 2,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.bookmark,
+              color: whiteColor,
+              size: 17,
+            ),
+            width05,
+            Text('Save post', style: customFontStyle(size: 15)),
+          ],
+        ),
+      ),
+      PopupMenuItem(
+        value: 3,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.report,
+              color: red,
+              size: 17,
+            ),
+            width05,
+            Text('Report', style: customFontStyle(size: 15, color: red)),
+          ],
+        ),
+      ),
+    ];
+    if (condition) {
+      popupMenuItems.removeWhere((popupMenuItem) => popupMenuItem.value == 1);
+    }
+    if (FirebaseAuth.instance.currentUser!.uid == post.userId) {
+      popupMenuItems.removeWhere((popupMenuItem) => popupMenuItem.value == 3);
+    }
+
+    return popupMenuItems;
   }
 
   Widget _buildPostImage() {
@@ -157,9 +251,13 @@ class PostWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 5),
-        Text(
-          post.commentCount.toString(),
-          style: customFontStyle(size: 13, fontWeight: FontWeight.w300),
+        BlocBuilder<CommentBloc, CommentState>(
+          builder: (context, state) {
+            return Text(
+              post.commentCount.toString(),
+              style: customFontStyle(size: 13, fontWeight: FontWeight.w300),
+            );
+          },
         ),
         width10,
         const Icon(
