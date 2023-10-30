@@ -13,6 +13,7 @@ import 'package:zed/presentation/screens/comment_view/comment_screen.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/format_time_difference/format_time_defference.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -83,8 +84,8 @@ class PostWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: screenHeight * 0.018,
-          backgroundImage:
-              NetworkImage(post.profileUrl.isEmpty ? test2 : post.profileUrl),
+          backgroundImage: NetworkImage(
+              post.profileUrl.isEmpty ? defaultProfileImage : post.profileUrl),
         ),
         SizedBox(width: screenWidth * 0.03),
         Expanded(
@@ -111,9 +112,7 @@ class PostWidget extends StatelessWidget {
                               userId: state.userProfile!.uid!);
                         }
                       },
-                      itemBuilder: (context) => getPopupMenuItemList(
-                          post.userId !=
-                              FirebaseAuth.instance.currentUser!.uid),
+                      itemBuilder: (context) => getPopupMenuItemList(),
                       child: const Icon(Icons.more_vert_rounded,
                           color: whiteColor));
                 },
@@ -125,7 +124,7 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  List<PopupMenuItem> getPopupMenuItemList(bool condition) {
+  List<PopupMenuItem> getPopupMenuItemList() {
     final popupMenuItems = [
       PopupMenuItem(
         value: 1,
@@ -170,7 +169,7 @@ class PostWidget extends StatelessWidget {
         ),
       ),
     ];
-    if (condition) {
+    if (FirebaseAuth.instance.currentUser!.uid != post.userId) {
       popupMenuItems.removeWhere((popupMenuItem) => popupMenuItem.value == 1);
     }
     if (FirebaseAuth.instance.currentUser!.uid == post.userId) {
@@ -194,10 +193,8 @@ class PostWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: radius10,
                 ),
-                child: Image.network(
-                  post.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                child: CachedNetworkImage(
+                    imageUrl: post.imageUrl, fit: BoxFit.cover),
               ),
             )
           ],

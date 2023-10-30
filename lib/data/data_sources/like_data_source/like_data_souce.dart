@@ -4,7 +4,7 @@ import 'package:zed/data/repositories/like_repository/like_repositories.dart';
 
 class LikeDataSource implements LikeRepository {
   @override
-  Future<List> fetchLikes(String postId) async {
+  Future<List<String>> fetchLikes(String postId) async {
     final document =
         await FirebaseFirestore.instance.collection('posts').doc(postId).get();
     if (document.exists && document.data() != null) {

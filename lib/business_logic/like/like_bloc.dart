@@ -16,7 +16,7 @@ class LikeBloc extends Bloc<LikeEvent, LikeState> {
     List likes = await likeRepository.fetchLikes(event.postId);
     final result =
         await likeRepository.toggleLike(event.postId, event.userId, likes);
-    likes = await likeRepository.fetchLikes(event.postId);
+    likes.add(event.userId);
     emit(result.fold(
         (error) => LikeErrorState(likes: likes),
         (liked) =>

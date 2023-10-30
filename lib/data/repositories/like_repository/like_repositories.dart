@@ -5,5 +5,5 @@ abstract class LikeRepository {
       String postId, String userId, List likes);
   Future<void> addLike(String postId, String userId);
   Future<void> disLike(String postId, String userId);
-  Future<List> fetchLikes(String postId);
+  Future<List<String>> fetchLikes(String postId);
 }
