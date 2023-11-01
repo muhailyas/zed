@@ -1,6 +1,6 @@
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
-import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/enums/enums.dart';
 
 abstract class AuthRepository {
   Future<AuthResults> verifyEmail();

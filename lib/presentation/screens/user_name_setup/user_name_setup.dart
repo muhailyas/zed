@@ -13,6 +13,7 @@ import 'package:zed/presentation/screens/root_page/root_page.dart';
 import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/enums/enums.dart';
 import 'package:zed/utils/validators/validations.dart';
 
 class UserNameSetup extends StatelessWidget {

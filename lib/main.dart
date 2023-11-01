@@ -6,14 +6,12 @@ import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/business_logic/comment/comment_bloc.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
-import 'package:zed/business_logic/like/like_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/business_logic/search/search_bloc.dart';
 import 'package:zed/business_logic/user/user_bloc.dart';
 import 'package:zed/data/data_sources/authentication_data_source/authentication_data_source.dart';
 import 'package:zed/data/data_sources/comment_data_source/comment_data_source.dart';
-import 'package:zed/data/data_sources/like_data_source/like_data_souce.dart';
 import 'package:zed/data/data_sources/post_data_source/post_data_source.dart';
 import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
 import 'package:zed/firebase_options.dart';
@@ -46,7 +44,6 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 ProfileBloc(UserDataSource(), PostDataSource())),
         BlocProvider(create: (context) => SearchBloc(UserDataSource())),
-        BlocProvider(create: (context) => LikeBloc(LikeDataSource())),
         BlocProvider(create: (context) => CommentBloc(CommentDataSource())),
       ],
       child: MaterialApp(

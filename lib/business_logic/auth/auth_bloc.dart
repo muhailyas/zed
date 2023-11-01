@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/data/repositories/auth_repository/auth_repositories.dart';
-import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/enums/enums.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
