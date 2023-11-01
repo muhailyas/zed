@@ -60,21 +60,29 @@ const divider = Divider(color: whiteColor);
 final radius10 = BorderRadius.circular(10);
 final radius20 = BorderRadius.circular(20);
 
-
 ValueNotifier<bool> isValid = ValueNotifier(false);
 ValueNotifier<bool> isObscure = ValueNotifier(true);
 ValueNotifier<bool> isAvailable = ValueNotifier(false);
 
-ValueNotifier<String> image = ValueNotifier('');
-
 // screens
-List screens = const [
-  HomeScreen(),
-  SearchScreen(),
-  NotificationScreen(),
-  ProfileScreen()
+List<Widget> screens = const [
+  KeepAlive(
+    keepAlive: true,
+    child: HomeScreen(),
+  ),
+  KeepAlive(
+    keepAlive: true,
+    child: SearchScreen(),
+  ),
+  KeepAlive(
+    keepAlive: true,
+    child: NotificationScreen(),
+  ),
+  KeepAlive(
+    keepAlive: true,
+    child: ProfileScreen(),
+  ),
 ];
-
 // Tab bar name
 const List<Tab> myTabs = <Tab>[
   Tab(text: 'Posts'),

@@ -24,7 +24,7 @@ class PostWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
         child: Column(
           children: [
             _buildUserInfo(context),
@@ -167,7 +167,10 @@ class PostWidget extends StatelessWidget {
           style: customFontStyle(size: 13, fontWeight: FontWeight.w300),
         ),
         const Spacer(),
-        const Icon(Icons.share, color: whiteColor, size: 25),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+          child: const Icon(Icons.share, color: whiteColor, size: 25),
+        ),
       ],
     );
   }
