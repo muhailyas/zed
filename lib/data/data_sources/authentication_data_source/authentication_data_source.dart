@@ -6,7 +6,7 @@ import 'package:zed/data/data_sources/firestore_service/username_exist.dart';
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/data/repositories/auth_repository/auth_repositories.dart';
-import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/enums/enums.dart';
 
 class AuthenticationDataSource implements AuthRepository {
   @override

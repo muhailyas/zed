@@ -60,35 +60,6 @@ const divider = Divider(color: whiteColor);
 final radius10 = BorderRadius.circular(10);
 final radius20 = BorderRadius.circular(20);
 
-// constant values
-
-enum UserValidation {
-  newUser,
-  currentUser,
-  oldUser,
-  userNotFound,
-  wrongPassword,
-  signUpSuccess,
-  loginSuccess,
-  error,
-  verified,
-}
-
-enum AuthResults {
-  initial,
-  loginSuccess,
-  signUpSuccess,
-  emailAlreadyExists,
-  invalidEmail,
-  weakPassword,
-  userNotFound,
-  wrongPassword,
-  error,
-  verified,
-  googleSignInVerified,
-  googleSignInVerifiedNewUser,
-  passwordReset
-}
 
 ValueNotifier<bool> isValid = ValueNotifier(false);
 ValueNotifier<bool> isObscure = ValueNotifier(true);
