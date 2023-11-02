@@ -10,4 +10,8 @@ abstract class CommentRepository {
     List<Comment> comments,
   );
   Future<void> incrementCommentCount({required String postId});
+  Future<void> toggleLikecomment(
+      {required String postId,
+      required String userId,
+      required Comment comment});
 }

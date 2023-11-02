@@ -29,6 +29,7 @@ class AuthenticationDataSource implements AuthRepository {
           completer.complete(AuthResults.verified);
         }
       });
+      
       return completer.future;
     }
   }

@@ -16,7 +16,7 @@ class FireStoreService {
     final collection =
         await FirebaseFirestore.instance.collection('users').get();
     final userNames = collection.docs.map((user) {
-      return user['username'];
+      return user['userName'];
     }).toList();
     return userNames.contains(username);
   }

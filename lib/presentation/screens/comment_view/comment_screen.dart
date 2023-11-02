@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/comment/comment_bloc.dart';
+import 'package:zed/data/models/post/post.dart';
 import 'package:zed/presentation/screens/comment_view/widgets/comment_input_widget/comment_input_widget.dart';
 import 'package:zed/presentation/screens/comment_view/widgets/comment_tile_shimmer_widget/comment_tile_shimmer_widget.dart';
 import 'package:zed/presentation/screens/comment_view/widgets/comment_tile_widget/comment_tile_widget.dart';
@@ -8,8 +9,8 @@ import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 class ScreenComment extends StatefulWidget {
-  const ScreenComment({Key? key, required this.postId}) : super(key: key);
-  final String postId;
+  const ScreenComment({Key? key, required this.post}) : super(key: key);
+  final Post post;
 
   @override
   State<ScreenComment> createState() => _ScreenCommentState();
@@ -22,7 +23,7 @@ class _ScreenCommentState extends State<ScreenComment>
   @override
   void initState() {
     super.initState();
-    context.read<CommentBloc>().add(CommentFetchEvent(postId: widget.postId));
+    context.read<CommentBloc>().add(CommentFetchEvent(postId: widget.post.id!));
   }
 
   @override
@@ -38,7 +39,7 @@ class _ScreenCommentState extends State<ScreenComment>
             _buildHeader(),
             width10,
             _buildCommentList(),
-            _buildCommentInputField(widget.postId),
+            _buildCommentInputField(widget.post.id!),
             height05,
           ],
         ),
@@ -89,6 +90,7 @@ class _ScreenCommentState extends State<ScreenComment>
               itemCount: state.comments.length,
               itemBuilder: (context, index) {
                 return CommentTileWidget(
+                  post: widget.post,
                   comment: state.comments[index],
                 );
               },

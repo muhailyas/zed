@@ -63,7 +63,7 @@ class PostWidget extends StatelessWidget {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
-                    builder: (context) => ScreenComment(postId: post.id!)));
+                    builder: (context) => ScreenComment(post: post)));
           },
           child: Text(
               post.commentCount == 0
@@ -139,7 +139,7 @@ class PostWidget extends StatelessWidget {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => ScreenComment(postId: post.id!),
+                  builder: (context) => ScreenComment(post: post),
                 ));
           },
           child: const Icon(

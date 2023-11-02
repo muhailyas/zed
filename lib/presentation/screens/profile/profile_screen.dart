@@ -106,8 +106,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const FreindsListView(type: Friend.followers),
+                              builder: (context) => FreindsListView(
+                                  type: Friend.followers,
+                                  userId:
+                                      FirebaseAuth.instance.currentUser!.uid),
                             ));
                       },
                       child: Row(
@@ -118,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 size: 17, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            " follwers",
+                            " followers",
                             style: customFontStyle(size: 17),
                           ),
                         ],
@@ -130,8 +132,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const FreindsListView(type: Friend.following),
+                              builder: (context) => FreindsListView(
+                                  type: Friend.following,
+                                  userId:
+                                      FirebaseAuth.instance.currentUser!.uid),
                             ));
                       },
                       child: Row(

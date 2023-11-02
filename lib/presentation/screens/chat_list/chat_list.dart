@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:zed/data/data_sources/post_data_source/post_data_source.dart';
+import 'package:zed/data/data_sources/follow_data_sources/follow_data_sources.dart';
 import 'package:zed/presentation/widgets/search_field/search_field.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -26,8 +27,8 @@ class ChatListScreen extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await PostDataSource()
-              .fetchSavedPosts(userId: 'wQk4kUkZTPZupSaaBkq3');
+          FollowDataSources()
+              .getFollowingList(uid: FirebaseAuth.instance.currentUser!.uid);
         },
         child: SafeArea(
             child: SingleChildScrollView(

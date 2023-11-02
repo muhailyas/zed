@@ -84,4 +84,22 @@ class CommentDataSource extends CommentRepository {
       log(e.toString());
     }
   }
+
+  @override
+  Future<void> toggleLikecomment(
+      {required String postId,
+      required String userId,
+      required Comment comment}) async {
+    if (comment.likedBy.contains(userId)) {
+      comment.likedBy.remove(userId);
+    } else {
+      comment.likedBy.add(userId);
+    }
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .doc(comment.id)
+        .update({'likedBy': comment.likedBy});
+  }
 }

@@ -107,8 +107,9 @@ class ScreenVisitProfile extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const FreindsListView(type: Friend.followers),
+                              builder: (context) => FreindsListView(
+                                  type: Friend.followers,
+                                  userId: userProfile.uid!),
                             ));
                       },
                       child: Row(
@@ -131,8 +132,9 @@ class ScreenVisitProfile extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const FreindsListView(type: Friend.following),
+                              builder: (context) => FreindsListView(
+                                  type: Friend.following,
+                                  userId: userProfile.uid!),
                             ));
                       },
                       child: Row(

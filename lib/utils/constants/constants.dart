@@ -66,22 +66,10 @@ ValueNotifier<bool> isAvailable = ValueNotifier(false);
 
 // screens
 List<Widget> screens = const [
-  KeepAlive(
-    keepAlive: true,
-    child: HomeScreen(),
-  ),
-  KeepAlive(
-    keepAlive: true,
-    child: SearchScreen(),
-  ),
-  KeepAlive(
-    keepAlive: true,
-    child: NotificationScreen(),
-  ),
-  KeepAlive(
-    keepAlive: true,
-    child: ProfileScreen(),
-  ),
+  HomeScreen(),
+  SearchScreen(),
+  NotificationScreen(),
+  ProfileScreen(),
 ];
 // Tab bar name
 const List<Tab> myTabs = <Tab>[
