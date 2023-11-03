@@ -1,13 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/business_logic/comment/comment_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
+import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/presentation/screens/comment_view/comment_screen.dart';
 import 'package:zed/presentation/screens/home/widgets/popup_menu_button/popup_menu_button.dart';
+import 'package:zed/presentation/screens/visit_profile/visit_profile.dart';
 import 'package:zed/presentation/widgets/like_widget/like_widget.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -92,9 +97,27 @@ class PostWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                post.username,
-                style: customFontStyle(size: 20, fontWeight: FontWeight.w700),
+              InkWell(
+                onTap: () async {
+                  if (post.userId == FirebaseAuth.instance.currentUser!.uid) {
+                    context
+                        .read<BottomNavigationBloc>()
+                        .add(IndexChagerEvent(index: 3));
+                  } else {
+                    final user =
+                        await UserDataSource().getUserByUid(post.userId);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ScreenVisitProfile(userProfile: user!),
+                        ));
+                  }
+                },
+                child: Text(
+                  post.username,
+                  style: customFontStyle(size: 20, fontWeight: FontWeight.w700),
+                ),
               ),
               PopupMenuButtonWidget(postId: post.id!, uid: post.userId)
             ],

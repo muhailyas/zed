@@ -5,7 +5,7 @@ import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/data/models/user/user.dart';
 import 'package:zed/presentation/screens/friends_list_view/friends_list_view.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
-import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
+import 'package:zed/presentation/widgets/follow_button/follow_button_widget.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
@@ -139,7 +139,7 @@ class ScreenVisitProfile extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Text("${userProfile.followers.length} ",
+                          Text("${userProfile.following.length} ",
                               style: customFontStyle(
                                   size: 17, fontWeight: FontWeight.bold)),
                           Text("following", style: customFontStyle(size: 17)),
@@ -231,14 +231,12 @@ class ScreenVisitProfile extends StatelessWidget {
                       child: const Icon(Iconsax.message_2, color: whiteColor),
                     ),
                     width05,
-                    ElevatedButtonWidget(
-                        color: secondaryBlue,
-                        width: 0.35,
-                        height: 0.04,
-                        label: 'Follow',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        onPressed: () {}),
+                    FollowButtonWidget(
+                      userProfile: userProfile,
+                      width: 120,
+                      fontSize: 18,
+                      height: screenHeight * 0.04,
+                    )
                   ],
                 ),
               ),
