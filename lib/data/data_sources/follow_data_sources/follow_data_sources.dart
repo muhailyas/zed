@@ -6,12 +6,11 @@ import 'package:zed/data/repositories/follow_repository/follow_repository.dart';
 class FollowDataSources extends FollowRepository {
   final usersCollection = FirebaseFirestore.instance.collection('users');
   @override
-  Future<void> followUser(
+  Future<void> unfollowUser(
       {required String uid, required String followId}) async {
     try {
       final snap = await usersCollection.doc(uid).get();
       List following = (snap.data()! as dynamic)['following'];
-
       if (following.contains(followId)) {
         await usersCollection.doc(followId).update({
           'followers': FieldValue.arrayRemove([uid])
@@ -19,12 +18,45 @@ class FollowDataSources extends FollowRepository {
         await usersCollection.doc(uid).update({
           'following': FieldValue.arrayRemove([followId])
         });
-      } else {
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  Future<void> followUser(
+      {required String uid, required String followId}) async {
+    try {
+      final snap = await usersCollection.doc(uid).get();
+      List following = (snap.data()! as dynamic)['following'];
+
+      if (!following.contains(followId)) {
         await usersCollection.doc(followId).update({
           'followers': FieldValue.arrayUnion([uid])
         });
         await usersCollection.doc(uid).update({
           'following': FieldValue.arrayUnion([followId])
+        });
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  Future<void> removeFollower(
+      {required String uid, required String followerId}) async {
+    try {
+      final snap = await usersCollection.doc(uid).get();
+      List followers = (snap.data()! as dynamic)['followers'];
+
+      if (followers.contains(followerId)) {
+        await usersCollection.doc(followerId).update({
+          'following': FieldValue.arrayRemove([uid])
+        });
+        await usersCollection.doc(uid).update({
+          'followers': FieldValue.arrayRemove([followerId])
         });
       }
     } catch (e) {

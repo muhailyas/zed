@@ -6,5 +6,6 @@ final class FreindsListInitial extends FreindsListState {}
 
 class FriendsListFetchSuccess extends FreindsListState {
   final List<UserProfile> freinds;
-  FriendsListFetchSuccess({required this.freinds});
+  final bool isRemoved;
+  FriendsListFetchSuccess({required this.freinds, this.isRemoved = false});
 }

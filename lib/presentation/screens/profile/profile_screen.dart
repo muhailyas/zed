@@ -18,7 +18,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -32,6 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SafeArea(
       child: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -171,6 +172,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) => current is ProfileFetchSuccess,
       builder: (context, state) {
+        print(state is ProfileFetchSuccess
+            ? '${state.userProfile!.coverPhoto} set'
+            : 'null ljsdlf ');
         return SizedBox(
           height: screenHeight * 0.2,
           child: Stack(
@@ -179,13 +183,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                 height: screenHeight * 0.12,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    color: secondaryBlue,
-                    image: state is ProfileFetchSuccess &&
-                            state.userProfile!.coverPhoto.isNotEmpty
-                        ? DecorationImage(
-                            image: NetworkImage(state.userProfile!.coverPhoto),
-                            fit: BoxFit.cover)
-                        : null),
+                  color: secondaryBlue,
+                  image: state is ProfileFetchSuccess &&
+                          state.userProfile!.coverPhoto.isNotEmpty
+                      ? DecorationImage(
+                          image: NetworkImage(state.userProfile!.coverPhoto),
+                          fit: BoxFit.cover)
+                      : null,
+                ),
                 child: const Align(
                     alignment: Alignment.topRight,
                     child: Padding(
@@ -223,8 +228,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
                     onPressed: () {
+                      state as ProfileFetchSuccess;
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ScreenEditProfile()));
+                          builder: (context) => ScreenEditProfile(
+                                user: state.userProfile!,
+                              )));
                     }),
               ),
             ],
@@ -233,4 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -37,7 +37,7 @@ class UserProfile {
       bio: json['bio'] ?? '',
       gender: json['gender'] ?? '',
       profilePhoto: json['profilephoto'] ?? '',
-      coverPhoto: json['coverphoto'] ?? '',
+      coverPhoto: json['coverPhoto'] ?? '',
       birthday:
           json['birthday'] != null ? DateTime.parse(json['birthday']) : null,
       mobile: json['mobile'] ?? '',

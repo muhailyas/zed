@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/friends_list/freinds_list_bloc.dart';
+import 'package:zed/presentation/screens/search/widgets/search_tile_widget/search_tile_widget.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
+import 'package:zed/utils/validators/snackbars.dart';
 
 class FreindsListView extends StatelessWidget {
   final Friend type;
@@ -22,77 +24,45 @@ class FreindsListView extends StatelessWidget {
           title:
               Text(type.name.replaceRange(0, 1, 'F'), style: customFontStyle()),
         ),
-        body: BlocBuilder<FreindsListBloc, FreindsListState>(
-          buildWhen: (previous, current) => current is FriendsListFetchSuccess,
-          builder: (context, state) {
-            if (state is FriendsListFetchSuccess) {
-              return ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: state.freinds.length,
-                itemBuilder: (context, index) {
-                  final friend = state.freinds[index];
-                  return Container(
-                    height: screenHeight * 0.09,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: primaryColor,
-                    ),
-                    child: Row(
-                      children: [
-                        width10,
-                        const CircleAvatar(
-                          radius: 28,
-                          backgroundImage: NetworkImage(test2),
-                        ),
-                        width10,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(friend.fullname,
-                                style: customFontStyle(
-                                    fontWeight: FontWeight.w400, size: 18)),
-                            Row(
-                              children: [
-                                Text('@${friend.userName}',
-                                    style: customFontStyle(
-                                        size: 13, fontWeight: FontWeight.w300)),
-                                width10,
-                                type == Friend.followers && index % 2 == 0
-                                    ? Text(
-                                        "follow",
-                                        style: customFontStyle(
-                                            color: secondaryBlue, size: 16),
-                                      )
-                                    : const SizedBox()
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        Container(
-                          height: 35,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: secondaryDarkgrey, borderRadius: radius10),
-                          child: Center(
-                              child: Text(
-                                  type == Friend.following
-                                      ? "following"
-                                      : "remove",
-                                  style: customFontStyle(size: 16))),
-                        ),
-                        width10,
-                      ],
-                    ),
-                  );
-                },
-              );
-            } else {
-              return const 
-              Center(child: CircularProgressIndicator());
-            }
+        body: RefreshIndicator(
+          onRefresh: () async {
+            context
+                .read<FreindsListBloc>()
+                .add(FetchFriendsListEvent(friend: type, userId: userId));
           },
+          child: BlocConsumer<FreindsListBloc, FreindsListState>(
+            listenWhen: (previous, current) =>
+                current is FriendsListFetchSuccess && current.isRemoved,
+            listener: (context, state) =>
+                showErrorSnackBar('removed from followers', context, red, 0),
+            builder: (context, state) {
+              if (state is FriendsListFetchSuccess) {
+                if (state.freinds.isEmpty) {
+                  return Center(
+                    child:
+                        Text("${type.name} is empty", style: customFontStyle()),
+                  );
+                } else {
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: state.freinds.length,
+                    itemBuilder: (context, index) {
+                      final friend = state.freinds[index];
+                      return SearchResultTileWidget(
+                        user: friend,
+                        friend: type == Friend.followers
+                            ? Friend.followers
+                            : Friend.following,
+                        isOwner: type == Friend.followers ? true : false,
+                      );
+                    },
+                  );
+                }
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         ));
   }
 }

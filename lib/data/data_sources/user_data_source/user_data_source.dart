@@ -15,7 +15,9 @@ class UserDataSource implements UserRepository {
   }
 
   @override
-  updateUser(UserProfile profile) {}
+  updateUser(UserProfile profile) async {
+    await usersCollection.doc(profile.uid).update(profile.toJson());
+  }
 
   @override
   Future<UserProfile?> getUserByUid(String uid) async {
@@ -62,6 +64,4 @@ class UserDataSource implements UserRepository {
     }
     return userProfiles;
   }
-
-  
 }

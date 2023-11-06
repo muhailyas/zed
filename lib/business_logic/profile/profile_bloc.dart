@@ -24,7 +24,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     final posts = await userRepository.getUserPosts(uid);
     final savedPosts = await postRepository.fetchSavedPosts(userId: uid);
-    return emit(ProfileFetchSuccess(
+    emit(ProfileFetchSuccess(
         userProfile: user, posts: posts, savedPosts: savedPosts));
   }
 }

@@ -19,6 +19,8 @@ import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/format_time_difference/format_time_defference.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:awesome_icons/awesome_icons.dart';
+
 class PostWidget extends StatelessWidget {
   final Post post;
 
@@ -33,6 +35,7 @@ class PostWidget extends StatelessWidget {
         child: Column(
           children: [
             _buildUserInfo(context),
+            height005,
             _buildPostImage(),
             height05,
             _buildPostStats(context),
@@ -180,19 +183,9 @@ class PostWidget extends StatelessWidget {
           },
         ),
         width10,
-        const Icon(
-          Icons.insights,
-          color: whiteColor,
-        ),
-        const SizedBox(width: 5),
-        Text(
-          post.views.toString(),
-          style: customFontStyle(size: 13, fontWeight: FontWeight.w300),
-        ),
-        const Spacer(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
-          child: const Icon(Icons.share, color: whiteColor, size: 25),
+          child: const Icon(FontAwesomeIcons.telegramPlane, color: whiteColor),
         ),
       ],
     );

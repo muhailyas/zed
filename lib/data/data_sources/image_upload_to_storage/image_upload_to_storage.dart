@@ -11,7 +11,6 @@ class FireStoreStorage {
           .ref()
           .child(folderName)
           .child(DateTime.now().millisecondsSinceEpoch.toString());
-
       final UploadTask uploadTask = ref.putFile(File(imagePath));
       final TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
       final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
