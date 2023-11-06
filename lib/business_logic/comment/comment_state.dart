@@ -1,16 +1,26 @@
 part of 'comment_bloc.dart';
 
-class CommentState {}
-
-final class CommentLoading extends CommentState {}
-
-final class CommentFetchSuccess extends CommentState {
+class CommentState {
   final List<CommentWithUserProfile> comments;
-  CommentFetchSuccess({required this.comments});
+  CommentState({required this.comments});
 }
 
-final class CommentFetchFailure extends CommentState {}
+final class CommentLoading extends CommentState {
+  CommentLoading({required super.comments});
+}
 
-final class CommentPostedSuccess extends CommentState {}
+final class CommentFetchSuccess extends CommentState {
+  CommentFetchSuccess({required super.comments});
+}
 
-final class CommentPostedFailure extends CommentState {}
+final class CommentFetchFailure extends CommentState {
+  CommentFetchFailure({required super.comments});
+}
+
+final class CommentPostedSuccess extends CommentState {
+  CommentPostedSuccess({required super.comments});
+}
+
+final class CommentPostedFailure extends CommentState {
+  CommentPostedFailure({required super.comments});
+}

@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
 import 'package:zed/data/models/comment/comment.dart';
 import 'package:zed/data/repositories/comment_repository/comment_repository.dart';
@@ -23,7 +21,7 @@ class CommentDataSource extends CommentRepository {
   }
 
   @override
-  Future<Either<String, bool>> deleteComment(
+  Future<void> deleteComment(
       {required String commentId, required String postId}) async {
     try {
       await FirebaseFirestore.instance
@@ -32,9 +30,8 @@ class CommentDataSource extends CommentRepository {
           .collection('comments')
           .doc(commentId)
           .delete();
-      return const Right(true);
     } catch (e) {
-      return Left('error$e');
+      log("Error$e");
     }
   }
 
@@ -69,7 +66,6 @@ class CommentDataSource extends CommentRepository {
         userProfile: userProfile!,
       ));
     }
-
     return commentsWithUserProfiles;
   }
 
@@ -101,5 +97,17 @@ class CommentDataSource extends CommentRepository {
         .collection('comments')
         .doc(comment.id)
         .update({'likedBy': comment.likedBy});
+  }
+
+  @override
+  Future<void> decrementCommentCount({required String postId}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postId)
+          .update({'commentCount': FieldValue.increment(-1)});
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

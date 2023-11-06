@@ -18,7 +18,7 @@ import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/format_time_difference/format_time_defference.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:share_plus/share_plus.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 
 class PostWidget extends StatelessWidget {
@@ -185,7 +185,12 @@ class PostWidget extends StatelessWidget {
         width10,
         Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
-          child: const Icon(FontAwesomeIcons.telegramPlane, color: whiteColor),
+          child: InkWell(
+              onTap: () async {
+                Share.shareUri(Uri.parse(post.imageUrl));
+              },
+              child: const Icon(FontAwesomeIcons.telegramPlane,
+                  color: whiteColor)),
         ),
       ],
     );

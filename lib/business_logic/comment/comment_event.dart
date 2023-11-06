@@ -12,4 +12,8 @@ class CommentAddEvent extends CommentEvent {
   CommentAddEvent({required this.comment});
 }
 
-class CommentDeleteEvent extends CommentEvent {}
+class CommentDeleteEvent extends CommentEvent {
+  final String commentId;
+  final String postId;
+  CommentDeleteEvent({required this.commentId, required this.postId});
+}

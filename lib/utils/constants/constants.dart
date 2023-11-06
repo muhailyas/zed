@@ -63,6 +63,7 @@ final radius20 = BorderRadius.circular(20);
 ValueNotifier<bool> isValid = ValueNotifier(false);
 ValueNotifier<bool> isObscure = ValueNotifier(true);
 ValueNotifier<bool> isAvailable = ValueNotifier(false);
+ValueNotifier<bool> isEditMode = ValueNotifier(false);
 
 // screens
 List<Widget> screens = const [

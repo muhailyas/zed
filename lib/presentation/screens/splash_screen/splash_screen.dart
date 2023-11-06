@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/presentation/screens/root_page/root_page.dart';
-import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -29,30 +29,21 @@ class SplashScreen extends StatelessWidget {
         );
       }
     });
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(colors: [
-          primaryColor,
-          secondaryDark,
-          primaryColor,
-        ]),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(width: double.infinity),
-            Text(
-              'Welcome to ZED',
-              style: customFontStyle(),
-            ),
-            height10,
-            const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(whiteColor),
-            ),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const SizedBox(width: double.infinity),
+          Text(
+            'Welcome to ZED',
+            style: customFontStyle(),
+          ),
+          const SizedBox(
+              height: 200,
+              width: 200,
+              child: RiveAnimation.asset('assets/loading.riv'))
+        ],
       ),
     );
   }

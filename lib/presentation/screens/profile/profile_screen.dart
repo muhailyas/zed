@@ -172,9 +172,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) => current is ProfileFetchSuccess,
       builder: (context, state) {
-        print(state is ProfileFetchSuccess
-            ? '${state.userProfile!.coverPhoto} set'
-            : 'null ljsdlf ');
         return SizedBox(
           height: screenHeight * 0.2,
           child: Stack(
