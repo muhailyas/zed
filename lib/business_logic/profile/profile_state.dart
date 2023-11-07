@@ -15,3 +15,12 @@ class ProfileFetchSuccess extends ProfileState {
       required this.posts,
       required this.savedPosts});
 }
+
+class VisitedProfileFetcState extends ProfileState {
+  final UserProfile? userProfile;
+  final List<Post> posts;
+  VisitedProfileFetcState({
+    required this.userProfile,
+    required this.posts,
+  });
+}

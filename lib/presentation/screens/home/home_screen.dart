@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/presentation/screens/chat_list/chat_list.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
+import 'package:zed/presentation/screens/home/widgets/post_widget_shimmer/post_widget_shimmer.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -113,7 +114,12 @@ class HomeScreen extends StatelessWidget {
             current is HomeLoading || current is PostFetchingSuccess,
         builder: (context, state) {
           if (state is HomeLoading) {
-            return const CircularProgressIndicator();
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: 10,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => const ShimmerPostWidget(),
+            );
           } else if (state is PostFetchingSuccess) {
             return ListView.separated(
               physics: const NeverScrollableScrollPhysics(),

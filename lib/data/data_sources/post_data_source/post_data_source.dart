@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/data/repositories/post_repository/post_repositories.dart';
 
@@ -81,6 +82,20 @@ class PostDataSource extends PostRepository {
     } catch (e) {
       log(e.toString());
       return [];
+    }
+  }
+
+  Future<void> updateProfileInPost(String url) async {
+    final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+    QuerySnapshot postSnapshot = await FirebaseFirestore.instance
+        .collection('posts')
+        .where('userId', isEqualTo: currentUserUid)
+        .get();
+    for (QueryDocumentSnapshot postDoc in postSnapshot.docs) {
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postDoc.id)
+          .update({'profileurl': url});
     }
   }
 }

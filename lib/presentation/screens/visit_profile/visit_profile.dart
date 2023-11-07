@@ -18,7 +18,7 @@ class ScreenVisitProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     context
         .read<ProfileBloc>()
-        .add(ProfileFetchEvent(userId: userProfile.uid!));
+        .add(VisitedProfileFetchEvent(userId: userProfile.uid!));
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -56,13 +56,12 @@ class ScreenVisitProfile extends StatelessWidget {
     return SizedBox(
         width: double.infinity,
         child: BlocBuilder<ProfileBloc, ProfileState>(
-          buildWhen: (previous, current) =>
-              current is ProfileFetchSuccess && previous is ProfileLoading,
+          buildWhen: (previous, current) => current is VisitedProfileFetcState,
           builder: (context, state) {
             if (state is ProfileLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (state is ProfileFetchSuccess) {
+            if (state is VisitedProfileFetcState) {
               return state.posts.isEmpty
                   ? Center(child: Text("No Posts", style: customFontStyle()))
                   : ListView.builder(
@@ -83,7 +82,7 @@ class ScreenVisitProfile extends StatelessWidget {
 
   Widget buildInfoSection() {
     return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (previous, current) => current is ProfileFetchSuccess,
+      buildWhen: (previous, current) => current is VisitedProfileFetcState,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
@@ -165,7 +164,7 @@ class ScreenVisitProfile extends StatelessWidget {
 
   Widget buildUpperSection() {
     return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (previous, current) => current is ProfileFetchSuccess,
+      buildWhen: (previous, current) => current is VisitedProfileFetcState,
       builder: (context, state) {
         return SizedBox(
           height: screenHeight * 0.2,

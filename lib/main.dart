@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/business_logic/comment/comment_bloc.dart';
-import 'package:zed/business_logic/edit_profile/edit_profile_bloc.dart';
 import 'package:zed/business_logic/friends_list/freinds_list_bloc.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
@@ -49,7 +48,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchBloc(UserDataSource())),
         BlocProvider(create: (context) => CommentBloc(CommentDataSource())),
         BlocProvider(create: (context) => FreindsListBloc(FollowDataSources())),
-        BlocProvider(create: (context) => EditProfileBloc(UserDataSource())),
       ],
       child: MaterialApp(
         title: 'Zed',

@@ -38,8 +38,9 @@ class SearchResultTileWidget extends StatelessWidget {
             width10,
             CircleAvatar(
               radius: screenWidth * 0.07,
-              backgroundImage: NetworkImage(
-                  user.profilePhoto.isEmpty ? testImage : user.profilePhoto),
+              backgroundImage: NetworkImage(user.profilePhoto.isEmpty
+                  ? defaultProfileImage
+                  : user.profilePhoto),
             ),
             width10,
             Column(

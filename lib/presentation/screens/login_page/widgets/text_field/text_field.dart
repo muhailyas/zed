@@ -15,15 +15,17 @@ class TextFieldWidget extends StatelessWidget {
       this.obscureText = false,
       this.isConfirm = false,
       required this.function,
-      this.available = false});
+      this.available = false,
+      this.fontSize = 16});
 
   final TextEditingController controller;
   final String hint;
-  final IconData iconData;
+  final IconData? iconData;
   final bool obscureText;
   final bool isConfirm;
   final Function function;
   final bool available;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +55,11 @@ class TextFieldWidget extends StatelessWidget {
                 await FireStoreService.userNameExist(value.trim())
             : null;
       },
-      style: customFontStyle(size: 16, color: greyColor),
+      style: customFontStyle(size: fontSize, color: greyColor),
       cursorColor: greyColor,
       decoration: InputDecoration(
-          prefixIcon: Icon(iconData, color: greyColor),
+          prefixIcon:
+              iconData == null ? null : Icon(iconData, color: greyColor),
           suffixIcon: available
               ? Icon(
                   !isAvailable.value

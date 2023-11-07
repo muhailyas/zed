@@ -64,6 +64,7 @@ ValueNotifier<bool> isValid = ValueNotifier(false);
 ValueNotifier<bool> isObscure = ValueNotifier(true);
 ValueNotifier<bool> isAvailable = ValueNotifier(false);
 ValueNotifier<bool> isEditMode = ValueNotifier(false);
+ValueNotifier<bool> loadingNotifier = ValueNotifier(false);
 
 // screens
 List<Widget> screens = const [
@@ -77,3 +78,15 @@ const List<Tab> myTabs = <Tab>[
   Tab(text: 'Posts'),
   Tab(text: 'Saved'),
 ];
+
+//
+
+const usernameUpdateText = 'For your new username, type here...';
+const nameUpdateText =
+    "Help people discover your account by using the name you're known by: either your full name,nickname, or business name.";
+
+//
+
+final TextEditingController nameController = TextEditingController();
+final TextEditingController usernameController = TextEditingController();
+final TextEditingController bioController = TextEditingController();
