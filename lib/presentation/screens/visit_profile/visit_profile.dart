@@ -202,16 +202,16 @@ class ScreenVisitProfile extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: secondaryDark,
                         shape: BoxShape.circle,
-                        image: userProfile.coverPhoto.isEmpty
+                        image: userProfile.profilePhoto.isEmpty
                             ? const DecorationImage(
-                                image: NetworkImage(testImage),
+                                image: NetworkImage(defaultProfileImage),
                                 fit: BoxFit.cover)
                             : DecorationImage(
                                 image: NetworkImage(state
                                         is! ProfileFetchSuccess
-                                    ? test2
+                                    ? defaultProfileImage
                                     : state.userProfile!.profilePhoto.isEmpty
-                                        ? test2
+                                        ? defaultProfileImage
                                         : state.userProfile!.profilePhoto),
                                 fit: BoxFit.cover)),
                   ),

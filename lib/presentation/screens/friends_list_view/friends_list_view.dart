@@ -5,7 +5,6 @@ import 'package:zed/presentation/screens/search/widgets/search_tile_widget/searc
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
-import 'package:zed/utils/validators/snackbars.dart';
 
 class FreindsListView extends StatelessWidget {
   final Friend type;
@@ -33,8 +32,13 @@ class FreindsListView extends StatelessWidget {
           child: BlocConsumer<FreindsListBloc, FreindsListState>(
             listenWhen: (previous, current) =>
                 current is FriendsListFetchSuccess && current.isRemoved,
-            listener: (context, state) =>
-                showErrorSnackBar('removed from followers', context, red, 0),
+            listener: (context, state) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(const SnackBar(
+                    content: Text('Removed from followers'),
+                    backgroundColor: red));
+            },
             builder: (context, state) {
               if (state is FriendsListFetchSuccess) {
                 if (state.freinds.isEmpty) {

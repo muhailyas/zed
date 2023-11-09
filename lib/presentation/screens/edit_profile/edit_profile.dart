@@ -204,8 +204,8 @@ class ScreenEditProfile extends StatelessWidget {
 }
 
 Future<String> photoUpdate({required String foldername}) async {
-  foldername.contains('profilePhotos') ? loadingNotifier.value = true : null;
   final imagePath = await ImagePickerProvider().pickImage(ImageSource.gallery);
+  foldername.contains('profilePhotos') ? loadingNotifier.value = true : null;
   if (imagePath != null) {
     final response =
         await FireStoreStorage().uploadImageAndGetUrl(imagePath, foldername);

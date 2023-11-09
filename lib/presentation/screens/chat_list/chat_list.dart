@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:zed/data/data_sources/follow_data_sources/follow_data_sources.dart';
+import 'package:zed/presentation/screens/chat/widgets/chat_screen.dart';
 import 'package:zed/presentation/widgets/search_field/search_field.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -26,13 +25,10 @@ class ChatListScreen extends StatelessWidget {
         title: Text("Chat Room", style: customFontStyle(size: 25)),
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          FollowDataSources()
-              .getFollowingList(uid: FirebaseAuth.instance.currentUser!.uid);
-        },
+        onRefresh: () async {},
         child: SafeArea(
             child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               height05,
@@ -54,71 +50,58 @@ class ChatListScreen extends StatelessWidget {
               ),
               height05,
               Container(
+                height: screenHeight,
                 decoration: const BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25))),
                 width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 20,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 85,
-                        width: double.infinity,
-                        child: Row(
+                child: ListView.builder(
+                  itemCount: 10,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatScreen()));
+                        },
+                        leading: const CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(defaultProfileImage),
+                        ),
+                        title: Text(
+                          "Muhammed ilyas",
+                          style: customFontStyle(size: 18),
+                        ),
+                        subtitle: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: NetworkImage(test2),
-                                )),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Sara Merry",
-                                  style: customFontStyle(size: 18),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Hello",
-                                      style: customFontStyle(size: 16),
-                                    ),
-                                    width10,
-                                    SizedBox(
-                                      width: screenWidth * 0.59,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            " 12min ago",
-                                            style: customFontStyle(size: 12),
-                                          ),
-                                          const CircleAvatar(
-                                              radius: 5,
-                                              backgroundColor: Colors.blue),
-                                        ],
-                                      ),
-                                    ),
-                                    width10
-                                  ],
-                                )
-                              ],
-                            )
+                            Container(
+                              constraints:
+                                  BoxConstraints(maxWidth: screenWidth * 0.42),
+                              child: Text(
+                                'how\'s going on your project',
+                                style: customFontStyle(size: 14),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            width05,
+                            Text(
+                              '2 h ago',
+                              style: customFontStyle(size: 12),
+                            ),
                           ],
                         ),
-                      );
-                    },
-                  ),
+                        trailing: const CircleAvatar(
+                            radius: 5, backgroundColor: Colors.blue),
+                      ),
+                    );
+                  },
                 ),
               )
             ],

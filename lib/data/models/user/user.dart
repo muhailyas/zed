@@ -9,7 +9,6 @@ class UserProfile {
   String coverPhoto;
   DateTime? birthday;
   String mobile;
-  bool isPrivate;
   List followers;
   List following;
   UserProfile(
@@ -23,7 +22,6 @@ class UserProfile {
       this.coverPhoto = '',
       this.birthday,
       this.mobile = '',
-      this.isPrivate = false,
       required this.followers,
       required this.following});
 
@@ -41,7 +39,6 @@ class UserProfile {
       birthday:
           json['birthday'] != null ? DateTime.parse(json['birthday']) : null,
       mobile: json['mobile'] ?? '',
-      isPrivate: json['isPrivate'] ?? false,
       followers: json['followers'],
       following: json['following'],
     );
@@ -60,7 +57,6 @@ class UserProfile {
       'coverPhoto': coverPhoto,
       'birthday': birthday?.toIso8601String(),
       'mobile': mobile,
-      'isPrivate': isPrivate,
       'followers': [],
       'following': []
     };
