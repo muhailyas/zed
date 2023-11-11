@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/presentation/screens/chat_list/chat_list.dart';
+import 'package:zed/presentation/screens/create_story/create_story.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget_shimmer/post_widget_shimmer.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
@@ -75,7 +76,16 @@ class HomeScreen extends StatelessWidget {
       width: double.infinity,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => _buildStoryItem(index),
+        itemBuilder: (context, index) => InkWell(
+            onTap: () {
+              if (index == 0) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreateStroyScreen()));
+              }
+            },
+            child: _buildStoryItem(index)),
         itemCount: 10,
         separatorBuilder: (context, index) => const SizedBox(width: 10),
       ),

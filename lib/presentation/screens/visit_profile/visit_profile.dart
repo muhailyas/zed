@@ -174,15 +174,11 @@ class ScreenVisitProfile extends StatelessWidget {
                 height: screenHeight * 0.12,
                 width: double.infinity,
                 decoration: BoxDecoration(
+                    color: secondaryBlue,
                     image: userProfile.coverPhoto.isEmpty
-                        ? const DecorationImage(
-                            image: NetworkImage(test2), fit: BoxFit.cover)
+                        ? null
                         : DecorationImage(
-                            image: NetworkImage(state is! ProfileFetchSuccess
-                                ? test2
-                                : state.userProfile!.coverPhoto.isEmpty
-                                    ? test2
-                                    : state.userProfile!.coverPhoto),
+                            image: NetworkImage(userProfile.coverPhoto),
                             fit: BoxFit.cover)),
                 child: const Align(
                     alignment: Alignment.topRight,
@@ -207,12 +203,7 @@ class ScreenVisitProfile extends StatelessWidget {
                                 image: NetworkImage(defaultProfileImage),
                                 fit: BoxFit.cover)
                             : DecorationImage(
-                                image: NetworkImage(state
-                                        is! ProfileFetchSuccess
-                                    ? defaultProfileImage
-                                    : state.userProfile!.profilePhoto.isEmpty
-                                        ? defaultProfileImage
-                                        : state.userProfile!.profilePhoto),
+                                image: NetworkImage(userProfile.profilePhoto),
                                 fit: BoxFit.cover)),
                   ),
                 ),

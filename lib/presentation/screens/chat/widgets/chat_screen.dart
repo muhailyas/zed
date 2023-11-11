@@ -21,7 +21,11 @@ class _ChatScreenState extends State<ChatScreen> {
           backgroundColor: primaryColor,
         ),
         body: Column(
-          children: [_chatInput()],
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _chatInput(),
+            height20,
+          ],
         ),
       ),
     );
