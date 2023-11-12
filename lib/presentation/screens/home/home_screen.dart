@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
+import 'package:zed/data/data_sources/story_data_source/story_data_source.dart';
 import 'package:zed/presentation/screens/chat_list/chat_list.dart';
 import 'package:zed/presentation/screens/create_story/create_story.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
@@ -40,9 +41,15 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "ZED",
-            style: customFontStyle(size: 35, fontWeight: FontWeight.bold),
+          InkWell(
+            onTap: () {
+              StoryDataSource()
+                  .fetchStories(userId: FirebaseAuth.instance.currentUser!.uid);
+            },
+            child: Text(
+              "ZED",
+              style: customFontStyle(size: 35, fontWeight: FontWeight.bold),
+            ),
           ),
           InkWell(
             onLongPress: () async {

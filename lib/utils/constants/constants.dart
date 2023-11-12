@@ -65,6 +65,7 @@ ValueNotifier<bool> isObscure = ValueNotifier(true);
 ValueNotifier<bool> isAvailable = ValueNotifier(false);
 ValueNotifier<bool> isEditMode = ValueNotifier(false);
 ValueNotifier<bool> loadingNotifier = ValueNotifier(false);
+ValueNotifier<bool> isReadMore = ValueNotifier(false);
 
 // screens
 List<Widget> screens = const [

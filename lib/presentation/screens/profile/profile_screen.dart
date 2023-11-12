@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   image: state is ProfileFetchSuccess &&
                           state.userProfile!.coverPhoto.isNotEmpty
                       ? DecorationImage(
-                          image: NetworkImage(state.userProfile!.coverPhoto),
+                          image: CachedNetworkImageProvider(state.userProfile!.coverPhoto),
                           fit: BoxFit.cover)
                       : null,
                 ),
@@ -218,8 +219,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                         image: DecorationImage(
                             image: state is ProfileFetchSuccess &&
                                     state.userProfile!.profilePhoto.isNotEmpty
-                                ? NetworkImage(state.userProfile!.profilePhoto)
-                                : const NetworkImage(defaultProfileImage),
+                                ? CachedNetworkImageProvider(state.userProfile!.profilePhoto)
+                                : const CachedNetworkImageProvider(defaultProfileImage),
                             fit: BoxFit.cover)),
                   ),
                 ),

@@ -68,7 +68,7 @@ class ChatListScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChatScreen()));
+                                  builder: (context) => const ChatScreen()));
                         },
                         leading: const CircleAvatar(
                           radius: 30,

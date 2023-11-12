@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zed/data/data_sources/follow_data_sources/follow_data_sources.dart';
+import 'package:zed/data/data_sources/follow_data_source/follow_data_source.dart';
 import 'package:zed/data/models/user/user.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';

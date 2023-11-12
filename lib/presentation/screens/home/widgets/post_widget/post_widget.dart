@@ -202,20 +202,31 @@ class PostWidget extends StatelessWidget {
         SizedBox(width: screenWidth * 0.11),
         SizedBox(
           width: screenWidth * 0.83,
-          child: RichText(
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: "${post.username}  ",
-                  style: customFontStyle(size: 16, fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: post.caption, style: customFontStyle(size: 14)),
-              ],
-            ),
-            textAlign: TextAlign.justify,
-          ),
+          child: ValueListenableBuilder(
+              valueListenable: isReadMore,
+              builder: (context, value, _) {
+                return InkWell(
+                  onTap: () {
+                    isReadMore.value = !isReadMore.value;
+                  },
+                  child: RichText(
+                    maxLines: value ? null : 2,
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "${post.username}  ",
+                          style: customFontStyle(
+                              size: 16, fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                            text: post.caption,
+                            style: customFontStyle(size: 14)),
+                      ],
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                );
+              }),
         ),
       ],
     );

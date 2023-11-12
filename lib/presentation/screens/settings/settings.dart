@@ -228,7 +228,7 @@ class ScreenSettings extends StatelessWidget {
                               color: whiteColor)
                         ],
                       ),
-                    )
+                    ),
                   ],
                 )
               ],

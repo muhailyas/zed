@@ -10,11 +10,13 @@ import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/business_logic/search/search_bloc.dart';
+import 'package:zed/business_logic/story/story_bloc.dart';
 import 'package:zed/business_logic/user/user_bloc.dart';
 import 'package:zed/data/data_sources/authentication_data_source/authentication_data_source.dart';
 import 'package:zed/data/data_sources/comment_data_source/comment_data_source.dart';
-import 'package:zed/data/data_sources/follow_data_sources/follow_data_sources.dart';
+import 'package:zed/data/data_sources/follow_data_source/follow_data_source.dart';
 import 'package:zed/data/data_sources/post_data_source/post_data_source.dart';
+import 'package:zed/data/data_sources/story_data_source/story_data_source.dart';
 import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
 import 'package:zed/firebase_options.dart';
 import 'package:zed/presentation/screens/splash_screen/splash_screen.dart';
@@ -48,6 +50,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchBloc(UserDataSource())),
         BlocProvider(create: (context) => CommentBloc(CommentDataSource())),
         BlocProvider(create: (context) => FreindsListBloc(FollowDataSources())),
+        BlocProvider(create: (context) => StoryBloc(StoryDataSource()))
       ],
       child: MaterialApp(
         title: 'Zed',
@@ -60,4 +63,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
