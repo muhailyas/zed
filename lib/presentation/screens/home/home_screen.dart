@@ -111,6 +111,12 @@ class HomeScreen extends StatelessWidget {
   Widget _buildStoryItem(
       int index, StoryWithUser storyWithUser, BuildContext context) {
     return InkWell(
+        onLongPress: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateStroyScreen()));
+        },
         onTap: () {
           index == 0 && storyWithUser.stories.isEmpty
               ? Navigator.push(

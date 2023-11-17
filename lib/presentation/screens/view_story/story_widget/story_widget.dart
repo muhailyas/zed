@@ -74,6 +74,7 @@ class StoryWidgetState extends State<StoryWidget> {
             Material(
               type: MaterialType.transparency,
               child: StoryView(
+                indicatorForegroundColor: Colors.amber,
                 storyItems: storyItems,
                 controller: controller,
                 onComplete: handleCompleted,
@@ -99,9 +100,12 @@ class StoryWidgetState extends State<StoryWidget> {
               child: Row(
                 children: [
                   CircleAvatar(
-                    radius: 18,
-                    backgroundImage:
-                        NetworkImage(widget.user.userProfile.profilePhoto),
+                    radius: screenWidth * 0.04,
+                    backgroundImage: NetworkImage(
+                      widget.user.userProfile.profilePhoto.isEmpty
+                          ? defaultProfileImage
+                          : widget.user.userProfile.profilePhoto,
+                    ),
                   ),
                   width10,
                   RichText(

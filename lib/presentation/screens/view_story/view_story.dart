@@ -27,7 +27,11 @@ class ScreenStoryViewState extends State<ScreenStoryView> {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      onPageChanged: (value) {},
+      onPageChanged: (value) {
+        if (value == 0 && storiesIn[0].stories.isEmpty) {
+          Navigator.pop(context);
+        }
+      },
       controller: _controller,
       children: storiesIn
           .map((user) => StoryWidget(user: user, controller: _controller))
