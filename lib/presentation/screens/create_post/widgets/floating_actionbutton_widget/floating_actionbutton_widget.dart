@@ -51,7 +51,6 @@ class PostFloatingActionButton extends StatelessWidget {
                 imageUrl: state.image!,
                 likes: [],
                 commentCount: 0,
-                views: 0,
                 profileUrl: '',
                 username: '',
                 dateTime: DateTime.now(),

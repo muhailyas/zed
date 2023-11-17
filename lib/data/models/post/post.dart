@@ -9,7 +9,6 @@ class Post {
   String imageUrl;
   List likes;
   int commentCount;
-  int views;
   DateTime dateTime;
 
   Post(
@@ -19,7 +18,6 @@ class Post {
       required this.imageUrl,
       required this.likes,
       required this.commentCount,
-      required this.views,
       required this.profileUrl,
       required this.username,
       required this.dateTime});
@@ -33,7 +31,6 @@ class Post {
         imageUrl: data['imageUrl'] ?? '',
         likes: data['likes'] ?? [],
         commentCount: data['commentCount'] ?? 0,
-        views: data['views'] ?? 0,
         profileUrl: data['profileurl'] ?? '',
         username: data['username'] ?? '',
         dateTime: (data['datepublished'] as Timestamp).toDate());
@@ -46,7 +43,6 @@ class Post {
       'imageUrl': imageUrl,
       'likes': [],
       'commentCount': commentCount,
-      'views': views,
       'profileurl': profileUrl,
       'username': username,
       'datepublished': dateTime,

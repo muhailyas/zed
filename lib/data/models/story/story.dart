@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zed/data/models/user/user.dart';
+
 class Story {
   String? stroyId;
   String userId;
@@ -15,7 +18,7 @@ class Story {
       stroyId: json['storyId'] ?? '',
       userId: json['userId'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
-      time: json['time'] ?? '',
+      time: (json['time'] as Timestamp).toDate(),
       isFullView: json['isFullView'] ?? '',
     );
   }
@@ -27,4 +30,10 @@ class Story {
       'isFullView': isFullView,
     };
   }
+}
+
+class StoryWithUser {
+  final List<Story> stories;
+  final UserProfile userProfile;
+  StoryWithUser({required this.stories, required this.userProfile});
 }

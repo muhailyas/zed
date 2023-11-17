@@ -5,14 +5,20 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/data/data_sources/story_data_source/story_data_source.dart';
+import 'package:zed/data/models/story/story.dart';
 import 'package:zed/presentation/screens/chat_list/chat_list.dart';
 import 'package:zed/presentation/screens/create_story/create_story.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget_shimmer/post_widget_shimmer.dart';
+import 'package:zed/presentation/screens/home/widgets/story_item_widget/story_item_widget.dart';
+import 'package:zed/presentation/screens/home/widgets/story_items_shimmer/story_items_shimmer.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
+import 'package:zed/presentation/screens/view_story/view_story.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/validators/validations.dart';
+
+List<StoryWithUser> storiesIn = [];
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,7 +32,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             _buildHeader(context),
-            _buildStoryList(),
+            _buildStoryList(context),
             divider,
             _buildPostList(),
           ],
@@ -42,9 +48,8 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {
-              StoryDataSource()
-                  .fetchStories(userId: FirebaseAuth.instance.currentUser!.uid);
+            onTap: () async {
+              //test
             },
             child: Text(
               "ZED",
@@ -77,84 +82,82 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStoryList() {
+  Widget _buildStoryList(BuildContext context) {
     return SizedBox(
       height: screenHeight * 0.122,
       width: double.infinity,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => InkWell(
-            onTap: () {
-              if (index == 0) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CreateStroyScreen()));
-              }
-            },
-            child: _buildStoryItem(index)),
-        itemCount: 10,
-        separatorBuilder: (context, index) => const SizedBox(width: 10),
+      child: FutureBuilder(
+        future: StoryDataSource().fetchStories(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<StoryWithUser> stories = snapshot.data as List<StoryWithUser>;
+            storiesIn.addAll(stories);
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return _buildStoryItem(index, stories[index], context);
+              },
+              itemCount: stories.length,
+              separatorBuilder: (context, index) => width10,
+            );
+          } else {
+            return const StoryItemShimmer();
+          }
+        },
       ),
     );
   }
 
-  Widget _buildStoryItem(int index) {
-    return Column(
-      children: [
-        Container(
-          height: screenHeight * 0.1,
-          width: screenWidth * 0.2,
-          decoration: BoxDecoration(
-              color: secondaryDark,
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: index == 0
-                      ? const NetworkImage(defaultProfileImage)
-                      : const NetworkImage(test2),
-                  fit: BoxFit.cover)),
-          child: index == 0
-              ? const Align(
-                  alignment: Alignment.bottomRight,
-                  child: Icon(Iconsax.add_circle5, size: 25, color: whiteColor))
-              : null,
-        ),
-        Text(index == 0 ? "Your story" : "username",
-            style: customFontStyle(size: 14)),
-      ],
-    );
+  Widget _buildStoryItem(
+      int index, StoryWithUser storyWithUser, BuildContext context) {
+    return InkWell(
+        onTap: () {
+          index == 0 && storyWithUser.stories.isEmpty
+              ? Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateStroyScreen(),
+                  ))
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ScreenStoryView(storyWithUser: storyWithUser),
+                  ));
+        },
+        child: StoryItemWidget(index: index, storyWithUser: storyWithUser));
   }
+}
 
-  Widget _buildPostList() {
-    return BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (previous, current) =>
-            current is HomeLoading || current is PostFetchingSuccess,
-        builder: (context, state) {
-          if (state is HomeLoading) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: 10,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => const ShimmerPostWidget(),
-            );
-          } else if (state is PostFetchingSuccess) {
-            return ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final post = state.posts[index];
-                return Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: PostWidget(post: post),
-                );
-              },
-              separatorBuilder: (context, index) =>
-                  const Divider(color: whiteColor),
-              itemCount: state.posts.length,
-            );
-          } else {
-            return const SizedBox();
-          }
-        });
-  }
+Widget _buildPostList() {
+  return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) =>
+          current is HomeLoading || current is PostFetchingSuccess,
+      builder: (context, state) {
+        if (state is HomeLoading) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: 10,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => const ShimmerPostWidget(),
+          );
+        } else if (state is PostFetchingSuccess) {
+          return ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final post = state.posts[index];
+              return Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: PostWidget(post: post),
+              );
+            },
+            separatorBuilder: (context, index) =>
+                const Divider(color: whiteColor),
+            itemCount: state.posts.length,
+          );
+        } else {
+          return const SizedBox();
+        }
+      });
 }
