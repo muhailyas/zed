@@ -45,9 +45,4 @@ class CommentWithUserProfile {
   final Comment comment;
   final UserProfile userProfile;
   CommentWithUserProfile({required this.comment, required this.userProfile});
-
-  factory CommentWithUserProfile.fromJson(Map<String, dynamic> json) {
-    return CommentWithUserProfile(
-        comment: json['comment'], userProfile: json['userprofile']);
-  }
 }

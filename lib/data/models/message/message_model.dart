@@ -8,13 +8,14 @@ class Message {
   final DateTime time;
   final String senderId;
   final Type type;
-  Message({
-    this.messageId,
-    required this.content,
-    required this.time,
-    required this.senderId,
-    required this.type,
-  });
+  final String read;
+  Message(
+      {this.messageId,
+      required this.content,
+      required this.time,
+      required this.senderId,
+      required this.type,
+      required this.read});
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       messageId: json['messageId'] ?? '',
@@ -22,6 +23,7 @@ class Message {
       time: (json['time'] as Timestamp).toDate(),
       senderId: json['senderId'] ?? '',
       type: json['type'] == Type.text ? Type.text : Type.image,
+      read: json['read'] ?? '',
     );
   }
   Map<String, dynamic> toJson() {
@@ -29,7 +31,8 @@ class Message {
       'content': content,
       'time': time,
       'senderId': senderId,
-      'type': type.name
+      'type': type.name,
+      'read': read,
     };
   }
 }

@@ -1,12 +1,20 @@
+import 'dart:developer';
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
-import 'package:zed/presentation/screens/chat/widgets/chat_widget/chat_widget.dart';
+import 'package:zed/data/models/message/message_model.dart';
+import 'package:zed/data/models/user/user.dart';
+import 'package:zed/presentation/screens/chat/widgets/chat_tile_widget/chat_tile_widget.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({super.key, required this.user, required this.toId});
+  final String toId;
+  final UserProfile user;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -14,10 +22,11 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _chatInputController = TextEditingController();
-  List<ChatWidget> chats = [];
+  final ScrollController _scrollController = ScrollController();
+  List list = [];
+
   @override
   Widget build(BuildContext context) {
-    print(chats);
     return SafeArea(
       child: Scaffold(
         backgroundColor: primaryColor,
@@ -31,20 +40,27 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Expanded(
               child: StreamBuilder(
-                  stream: MessageDataSource().getChatMessages(chatId: 'chatId'),
+                  stream:
+                      MessageDataSource().getChatMessages(toId: widget.toId),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data!.isNotEmpty) {
+                      final data = snapshot.data!.docs;
+                      list =
+                          data.map((e) => Message.fromJson(e.data())).toList();
+                      if (list.isEmpty) {
                         return Center(
                             child: Text("Say Hi 👋", style: customFontStyle()));
                       }
                       return ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        controller: _scrollController,
                         shrinkWrap: true,
-                        itemCount: chats.length,
+                        itemCount: list.length,
                         itemBuilder: (context, index) {
-                          return ChatWidget(
-                              senderId: chats[index].senderId,
-                              content: chats[index].content);
+                          final message = list[index];
+                          return ChatTileWidget(
+                            message: message,
+                          );
                         },
                       );
                     } else {
@@ -70,15 +86,17 @@ class _ChatScreenState extends State<ChatScreen> {
             icon: const Icon(Icons.arrow_back, color: whiteColor)),
         CircleAvatar(
           radius: screenWidth * 0.05,
-          backgroundImage: const NetworkImage(defaultProfileImage),
+          backgroundImage: NetworkImage(widget.user.profilePhoto.isEmpty
+              ? defaultProfileImage
+              : widget.user.profilePhoto),
         ),
         width10,
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Muhammed ilyas", style: customFontStyle()),
-            Text("@ilyas", style: customFontStyle(size: 14)),
+            Text(widget.user.fullname, style: customFontStyle()),
+            Text("@${widget.user.userName}", style: customFontStyle(size: 14)),
           ],
         )
       ],
@@ -89,6 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           // input field and button
           Expanded(
@@ -136,13 +155,16 @@ class _ChatScreenState extends State<ChatScreen> {
             onTap: () {
               sendMessage();
             },
-            child: Container(
-              height: 48,
-              width: 48,
-              decoration: const BoxDecoration(
-                  color: secondaryDarkgrey, shape: BoxShape.circle),
-              child: const Center(
-                child: Icon(Icons.send, color: whiteColor),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Container(
+                height: 48,
+                width: 48,
+                decoration: const BoxDecoration(
+                    color: secondaryDarkgrey, shape: BoxShape.circle),
+                child: const Center(
+                  child: Icon(Icons.send, color: whiteColor),
+                ),
               ),
             ),
           ),
@@ -154,11 +176,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void sendMessage() {
     if (_chatInputController.text.isNotEmpty) {
-      chats.add(ChatWidget(
+      final message = Message(
+          content: _chatInputController.text.trim(),
+          time: DateTime.now(),
           senderId: FirebaseAuth.instance.currentUser!.uid,
-          content: _chatInputController.text.trim()));
-      setState(() {});
+          type: Type.text,
+          read: '');
+      MessageDataSource().sendMessage(toId: widget.toId, message: message);
       _chatInputController.clear();
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     }
   }
 }
