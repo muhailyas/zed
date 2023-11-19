@@ -24,7 +24,7 @@ class ScreenConfirmStroy extends StatelessWidget {
               valueListenable: isZoomed,
               builder: (context, value, _) {
                 return Container(
-                  height: 750,
+                  height: screenHeight / 1.15,
                   decoration: BoxDecoration(
                       borderRadius: radius20,
                       color: primaryColor,
@@ -80,7 +80,7 @@ class ScreenConfirmStroy extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  height: 55,
+                  height: screenHeight * 0.07,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: secondaryBlue, borderRadius: radius20),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,14 +11,43 @@ import 'package:zed/data/repositories/message_repository/message_repository.dart
 
 class MessageDataSource implements MessageRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // @override
+  // Stream<QuerySnapshot<Map<String, dynamic>>> getChatMessages(
+  //     {required String toId}) {
+  //   final chatId = getChatId(toId: toId);
+  //   return _firestore
+  //       .collection('messageCollection/$chatId/messages')
+  //       .orderBy('time', descending: false)
+  //       .snapshots();
+  // }
   @override
-  Stream<QuerySnapshot<Map<String, dynamic>>> getChatMessages(
-      {required String toId}) {
+  Stream<List<Message>> getChatMessages({required String toId}) {
     final chatId = getChatId(toId: toId);
+
     return _firestore
         .collection('messageCollection/$chatId/messages')
-        .orderBy('time')
-        .snapshots();
+        .orderBy('time', descending: false)
+        .snapshots()
+        .map((querySnapshot) {
+      List<Message> messages = [];
+
+      for (var doc in querySnapshot.docs) {
+        final message = Message.fromJson(doc.data());
+        // Update read status if the message is not sent by the current user
+        if (message.senderId != FirebaseAuth.instance.currentUser!.uid) {
+          // Check if the current user's ID is not in the 'read' field
+          if (!message.read.contains(FirebaseAuth.instance.currentUser!.uid)) {
+            // Update the read status of the message
+            doc.reference
+                .update({'read': FirebaseAuth.instance.currentUser!.uid});
+          }
+        }
+
+        messages.add(message);
+      }
+
+      return messages;
+    });
   }
 
   @override
@@ -64,6 +94,7 @@ class MessageDataSource implements MessageRepository {
     return [];
   }
 
+  @override
   Future<List<ChatUserWithUserProfile>> getChatUserWithUserProfile() async {
     final currentUserId = FirebaseAuth.instance.currentUser!.uid;
     final chatUsers = await getChatUsers();

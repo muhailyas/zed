@@ -11,6 +11,7 @@ import 'package:zed/presentation/screens/edit_field_screen/edit_field_screen.dar
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/image_picker/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 ValueNotifier<UserProfile?> userProfile = ValueNotifier(null);
 
@@ -43,7 +44,8 @@ class ScreenEditProfile extends StatelessWidget {
                               color: secondaryBlue,
                               image: value!.coverPhoto.isNotEmpty
                                   ? DecorationImage(
-                                      image: NetworkImage(value.coverPhoto),
+                                      image: CachedNetworkImageProvider(
+                                          value.coverPhoto),
                                       fit: BoxFit.cover)
                                   : null),
                           child: Row(
@@ -94,11 +96,11 @@ class ScreenEditProfile extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       image: value.profilePhoto.isNotEmpty
                                           ? DecorationImage(
-                                              image: NetworkImage(
+                                              image: CachedNetworkImageProvider(
                                                   value.profilePhoto),
                                               fit: BoxFit.cover)
                                           : const DecorationImage(
-                                              image: NetworkImage(
+                                              image: CachedNetworkImageProvider(
                                                   defaultProfileImage)),
                                       color: secondaryDark,
                                       shape: BoxShape.circle),

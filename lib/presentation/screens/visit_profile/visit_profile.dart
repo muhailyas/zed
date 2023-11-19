@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/data/models/user/user.dart';
-import 'package:zed/presentation/screens/chat/widgets/chat_screen.dart';
+import 'package:zed/presentation/screens/chat/chat_screen.dart';
 import 'package:zed/presentation/screens/friends_list_view/friends_list_view.dart';
 import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.dart';
 import 'package:zed/presentation/widgets/follow_button/follow_button_widget.dart';

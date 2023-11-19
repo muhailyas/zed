@@ -9,13 +9,15 @@ class Message {
   final String senderId;
   final Type type;
   final String read;
+  final String toId;
   Message(
       {this.messageId,
       required this.content,
       required this.time,
       required this.senderId,
       required this.type,
-      required this.read});
+      required this.read,
+      required this.toId});
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       messageId: json['messageId'] ?? '',
@@ -24,6 +26,7 @@ class Message {
       senderId: json['senderId'] ?? '',
       type: json['type'] == Type.text ? Type.text : Type.image,
       read: json['read'] ?? '',
+      toId: json['toId'] ?? '',
     );
   }
   Map<String, dynamic> toJson() {
@@ -33,6 +36,7 @@ class Message {
       'senderId': senderId,
       'type': type.name,
       'read': read,
+      'toId': toId
     };
   }
 }

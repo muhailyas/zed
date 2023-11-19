@@ -1,7 +1,3 @@
-import 'dart:developer';
-import 'dart:ffi';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
@@ -22,7 +18,8 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _chatInputController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: screenHeight);
   List list = [];
 
   @override
@@ -38,35 +35,40 @@ class _ChatScreenState extends State<ChatScreen> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            height05,
             Expanded(
-              child: StreamBuilder(
-                  stream:
-                      MessageDataSource().getChatMessages(toId: widget.toId),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data!.docs;
-                      list =
-                          data.map((e) => Message.fromJson(e.data())).toList();
-                      if (list.isEmpty) {
-                        return Center(
-                            child: Text("Say Hi 👋", style: customFontStyle()));
-                      }
-                      return ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        controller: _scrollController,
-                        shrinkWrap: true,
-                        itemCount: list.length,
-                        itemBuilder: (context, index) {
-                          final message = list[index];
-                          return ChatTileWidget(
-                            message: message,
-                          );
-                        },
+              child: StreamBuilder<List<Message>>(
+                stream: MessageDataSource().getChatMessages(toId: widget.toId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final messages = snapshot.data!;
+                    if (messages.isEmpty) {
+                      return Center(
+                        child: Text("Say Hi 👋", style: customFontStyle()),
                       );
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
                     }
-                  }),
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        final message = messages[index];
+                        return ChatTileWidget(
+                          message: message,
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error: ${snapshot.error}",
+                          style: customFontStyle(color: Colors.red)),
+                    );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
             ),
             _chatInput(),
             height005,
@@ -98,7 +100,17 @@ class _ChatScreenState extends State<ChatScreen> {
             Text(widget.user.fullname, style: customFontStyle()),
             Text("@${widget.user.userName}", style: customFontStyle(size: 14)),
           ],
-        )
+        ),
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_vert_rounded, color: whiteColor)),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -177,14 +189,16 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendMessage() {
     if (_chatInputController.text.isNotEmpty) {
       final message = Message(
-          content: _chatInputController.text.trim(),
-          time: DateTime.now(),
-          senderId: FirebaseAuth.instance.currentUser!.uid,
-          type: Type.text,
-          read: '');
+        content: _chatInputController.text.trim(),
+        time: DateTime.now(),
+        senderId: FirebaseAuth.instance.currentUser!.uid,
+        type: Type.text,
+        read: '',
+        toId: widget.toId,
+      );
       MessageDataSource().sendMessage(toId: widget.toId, message: message);
       _chatInputController.clear();
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent + 70);
     }
   }
 }

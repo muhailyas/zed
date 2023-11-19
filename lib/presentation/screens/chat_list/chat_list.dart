@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
-import 'package:zed/presentation/screens/chat/widgets/chat_screen.dart';
+import 'package:zed/presentation/screens/chat/chat_screen.dart';
 import 'package:zed/presentation/widgets/search_field/search_field.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
