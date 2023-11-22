@@ -116,12 +116,13 @@ class CreateStroyScreen extends StatelessWidget {
             height005,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: BlocBuilder<StoryBloc, StoryState>(
+              child: BlocConsumer<StoryBloc, StoryState>(
+                listenWhen: (previous, current) => current is Initial,
+                listener: (context, state) => context
+                    .read<StoryBloc>()
+                    .add(const StoryEvent.fetchRecentImages()),
                 builder: (context, state) {
                   if (state is Initial) {
-                    context
-                        .read<StoryBloc>()
-                        .add(const StoryEvent.fetchRecentImages());
                     return const CircularProgressIndicator();
                   } else if (state is Loading) {
                     return const CircularProgressIndicator();

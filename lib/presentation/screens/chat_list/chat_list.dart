@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
@@ -33,21 +35,13 @@ class ChatListScreen extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
-              height05,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SearchFieldWidget(
-                      width: screenWidth * 0.8, type: SearchType.chatSearch),
-                  Container(
-                    height: 50,
-                    width: screenWidth * 0.15,
-                    decoration: BoxDecoration(
-                        color: primaryColor, borderRadius: radius10),
-                    child: Center(
-                      child: Text("filter", style: customFontStyle(size: 15)),
-                    ),
-                  )
+                      width: screenWidth,
+                      type: SearchType.chatSearch,
+                      isChat: true),
                 ],
               ),
               height05,
@@ -59,10 +53,16 @@ class ChatListScreen extends StatelessWidget {
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25))),
                 width: double.infinity,
-                child: FutureBuilder(
-                    future: MessageDataSource().getChatUserWithUserProfile(),
+                child: StreamBuilder(
+                    stream:
+                        MessageDataSource().getChatUserWithUserProfileStream(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        if (snapshot.data!.isEmpty) {
+                          return const Center(
+                            child: Text("No chats..."),
+                          );
+                        }
                         return ListView.builder(
                           itemCount: snapshot.data!.length,
                           shrinkWrap: true,
@@ -83,10 +83,11 @@ class ChatListScreen extends StatelessWidget {
                                 },
                                 leading: CircleAvatar(
                                   radius: 30,
-                                  backgroundImage: NetworkImage(
-                                      data.userProfile.profilePhoto.isEmpty
-                                          ? defaultProfileImage
-                                          : data.userProfile.profilePhoto),
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    data.userProfile.profilePhoto.isEmpty
+                                        ? defaultProfileImage
+                                        : data.userProfile.profilePhoto,
+                                  ),
                                 ),
                                 title: Text(
                                   data.userProfile.fullname,
@@ -105,15 +106,35 @@ class ChatListScreen extends StatelessWidget {
                                       ),
                                     ),
                                     width05,
-                                    Text(
-                                      formatTimeDifference(
-                                          data.chatUser.lastMessageTime),
-                                      style: customFontStyle(size: 12),
-                                    ),
+                                    if (data
+                                        .chatUser.lastMessageTime.isNotEmpty)
+                                      Text(
+                                        formatTimeDifference(DateTime.parse(
+                                            data.chatUser.lastMessageTime)),
+                                        style: customFontStyle(size: 12),
+                                      ),
                                   ],
                                 ),
-                                trailing: const CircleAvatar(
-                                    radius: 5, backgroundColor: Colors.blue),
+                                trailing: StreamBuilder(
+                                    stream: MessageDataSource()
+                                        .getLastChatMessage(
+                                            toId: data.userProfile.uid!),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        final message = snapshot.data;
+                                        return message != null &&
+                                                message.read.isEmpty &&
+                                                message.senderId !=
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid
+                                            ? const CircleAvatar(
+                                                radius: 5,
+                                                backgroundColor: Colors.blue)
+                                            : const SizedBox();
+                                      } else {
+                                        return const SizedBox();
+                                      }
+                                    }),
                               ),
                             );
                           },

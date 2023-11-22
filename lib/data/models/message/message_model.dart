@@ -24,7 +24,7 @@ class Message {
       content: json['content'] ?? '',
       time: (json['time'] as Timestamp).toDate(),
       senderId: json['senderId'] ?? '',
-      type: json['type'] == Type.text ? Type.text : Type.image,
+      type: json['type'] == Type.text.name ? Type.text : Type.image,
       read: json['read'] ?? '',
       toId: json['toId'] ?? '',
     );

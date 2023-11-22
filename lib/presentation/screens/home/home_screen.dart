@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
 import 'package:zed/data/data_sources/story_data_source/story_data_source.dart';
@@ -12,11 +10,9 @@ import 'package:zed/presentation/screens/home/widgets/post_widget/post_widget.da
 import 'package:zed/presentation/screens/home/widgets/post_widget_shimmer/post_widget_shimmer.dart';
 import 'package:zed/presentation/screens/home/widgets/story_item_widget/story_item_widget.dart';
 import 'package:zed/presentation/screens/home/widgets/story_items_shimmer/story_items_shimmer.dart';
-import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/presentation/screens/view_story/view_story.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
-import 'package:zed/utils/validators/validations.dart';
 
 List<StoryWithUser> storiesIn = [];
 
@@ -57,19 +53,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onLongPress: () async {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AuthScreen(),
-                  ),
-                  (route) => false);
-              await Future.delayed(const Duration(seconds: 1));
-              if (getProviderForCurrentUser() == 'Google Provider') {
-                GoogleSignIn().signOut();
-              }
-              FirebaseAuth.instance.signOut();
-            },
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ChatListScreen(),
@@ -131,7 +114,10 @@ class HomeScreen extends StatelessWidget {
                         ScreenStoryView(storyWithUser: storyWithUser),
                   ));
         },
-        child: StoryItemWidget(index: index, storyWithUser: storyWithUser));
+        child: Padding(
+          padding: EdgeInsets.only(left: index == 0 ? 10 : 0),
+          child: StoryItemWidget(index: index, storyWithUser: storyWithUser),
+        ));
   }
 }
 
@@ -143,7 +129,7 @@ Widget _buildPostList() {
         if (state is HomeLoading) {
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: 10,
+            itemCount: 6,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => const ShimmerPostWidget(),
           );
@@ -154,7 +140,9 @@ Widget _buildPostList() {
             itemBuilder: (context, index) {
               final post = state.posts[index];
               return Padding(
-                padding: const EdgeInsets.only(top: 0),
+                padding: const EdgeInsets.only(
+                  top: 0,
+                ),
                 child: PostWidget(post: post),
               );
             },

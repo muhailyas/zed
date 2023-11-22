@@ -1,25 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zed/data/models/user/user.dart';
 
 class ChatUser {
   final String chatId;
   final List<String> participants;
   final String lastMessage;
-  final DateTime lastMessageTime;
+  final String lastMessageTime;
 
-  ChatUser({
-    required this.chatId,
-    required this.participants,
-    required this.lastMessage,
-    required this.lastMessageTime,
-  });
+  ChatUser(
+      {required this.chatId,
+      required this.participants,
+      required this.lastMessage,
+      required this.lastMessageTime});
 
   factory ChatUser.fromJson(Map<String, dynamic> json) {
     return ChatUser(
       chatId: json['chatId'],
       participants: List<String>.from(json['participants']),
-      lastMessage: json['lastMessage'],
-      lastMessageTime: (json['lastMessageTime'] as Timestamp).toDate(),
+      lastMessage: json['lastMessage'] ?? '',
+      lastMessageTime: json['lastMessageTime'].toString(),
     );
   }
 

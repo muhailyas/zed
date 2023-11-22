@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/data/repositories/auth_repository/auth_repositories.dart';
 import 'package:zed/utils/enums/enums.dart';
+import 'package:zed/utils/validators/validations.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -24,8 +27,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<VerifyEmailEvent>(verifyEmailEvent);
     on<GoogleSignUpEvent>(googleSignUpEvent);
     on<PasswordResetEvent>(passwordResetEvent);
+    on<LogoutEvent>(logoutEvent);
   }
-  
+
   FutureOr<void> signUpEvent(SignUpEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     AuthResults authResults =
@@ -66,5 +70,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     final result = await authRepository.passwordReset(email: event.email);
     emit(PasswordResetSuccess(result: result));
+  }
+
+  FutureOr<void> logoutEvent(LogoutEvent event, Emitter<AuthState> emit) async {
+    await Future.delayed(const Duration(seconds: 1));
+    if (getProviderForCurrentUser() == 'Google Provider') {
+      GoogleSignIn().signOut();
+    }
+    FirebaseAuth.instance.signOut();
+    emit(LogoutSuccess());
   }
 }

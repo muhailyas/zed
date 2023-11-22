@@ -6,15 +6,27 @@ import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/enums/enums.dart';
 
 class SearchFieldWidget extends StatelessWidget {
-  const SearchFieldWidget({super.key, required this.width, required this.type});
+  const SearchFieldWidget(
+      {super.key,
+      required this.width,
+      required this.type,
+      this.isChat = false});
   final double width;
   final SearchType type;
+  final bool isChat;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      decoration: BoxDecoration(color: primaryColor, borderRadius: radius10),
+      height: screenHeight * 0.06,
+      decoration: BoxDecoration(
+        color: primaryColor,
+        borderRadius: isChat
+            ? const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20))
+            : radius10,
+      ),
       width: width,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),

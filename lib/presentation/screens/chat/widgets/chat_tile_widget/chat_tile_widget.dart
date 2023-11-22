@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,24 +29,36 @@ class ChatTileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                constraints: BoxConstraints(
-                  maxWidth: screenWidth / 1.4,
-                ),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                    bottomLeft: Radius.circular(25),
+                  constraints: BoxConstraints(
+                    maxWidth: screenWidth / 1.4,
                   ),
-                  color: secondaryBlue,
-                ),
-                child: Text(
-                  message.content,
-                  style: customFontStyle(size: 16),
-                  textAlign: TextAlign.justify,
-                ),
-              ),
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                      bottomLeft: Radius.circular(25),
+                    ),
+                    color: secondaryBlue,
+                  ),
+                  child: message.type == Type.text
+                      ? Text(
+                          message.content,
+                          style: customFontStyle(size: 16),
+                          textAlign: TextAlign.justify,
+                        )
+                      : ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(screenWidth * 0.05),
+                          child: CachedNetworkImage(
+                            imageUrl: message.content,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) {
+                              return const Icon(Icons.image, size: 70);
+                            },
+                          ),
+                        )),
               Row(
                 children: [
                   width05,
@@ -78,24 +91,36 @@ class ChatTileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                constraints: BoxConstraints(
-                  maxWidth: screenWidth / 1.4,
-                ),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                    bottomRight: Radius.circular(25),
+                  constraints: BoxConstraints(
+                    maxWidth: screenWidth / 1.4,
                   ),
-                  color: secondaryDark,
-                ),
-                child: Text(
-                  message.content,
-                  style: customFontStyle(size: 16),
-                  textAlign: TextAlign.justify,
-                ),
-              ),
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                    color: secondaryDark,
+                  ),
+                  child: message.type == Type.text
+                      ? Text(
+                          message.content,
+                          style: customFontStyle(size: 16),
+                          textAlign: TextAlign.justify,
+                        )
+                      : ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(screenWidth * 0.05),
+                          child: CachedNetworkImage(
+                            imageUrl: message.content,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) {
+                              return const Icon(Icons.image, size: 70);
+                            },
+                          ),
+                        )),
               Text(
                 getFormattedDate(message.time),
                 style: customFontStyle(size: 10, color: Colors.white70),

@@ -22,3 +22,5 @@ class PasswordResetSuccess extends AuthState {
   final String result;
   PasswordResetSuccess({required this.result});
 }
+
+class LogoutSuccess extends AuthState {}

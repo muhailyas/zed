@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/business_logic/auth/auth_bloc.dart';
+import 'package:zed/presentation/screens/login_page/login.dart';
+import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/app_strings.dart';
 import 'package:zed/utils/constants/constants.dart';
@@ -186,56 +190,81 @@ class ScreenSettings extends StatelessWidget {
             height10,
             const Divider(color: greyColor, thickness: 1),
             height10,
-            Row(
-              children: [
-                width20,
-                width20,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Login",
-                      style: customFontStyle(size: 16, color: greyColor),
+            BlocListener<AuthBloc, AuthState>(
+              listenWhen: (previous, current) => current is LogoutSuccess,
+              listener: (context, state) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AuthScreen(),
                     ),
-                    height10,
-                    SizedBox(
-                      height: screenHeight / 20,
-                      width: screenWidth / 1.17,
-                      child: Row(
-                        children: [
-                          Text(
-                            "Add account",
-                            style:
-                                customFontStyle(size: 16, color: secondaryBlue),
-                          ),
-                          const Spacer(),
-                          const Icon(Icons.arrow_forward_ios_rounded,
-                              color: whiteColor)
-                        ],
+                    (route) => false);
+              },
+              child: InkWell(
+                onTap: () {
+                  _logoutDialog(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.logout, color: red),
+                      width10,
+                      Text(
+                        "Log out ",
+                        style: customFontStyle(size: 16, color: red),
                       ),
-                    ),
-                    SizedBox(
-                      height: screenHeight / 20,
-                      width: screenWidth / 1.17,
-                      child: Row(
-                        children: [
-                          Text(
-                            "Log out User12345",
-                            style: customFontStyle(size: 16, color: red),
-                          ),
-                          const Spacer(),
-                          const Icon(Icons.arrow_forward_ios_rounded,
-                              color: whiteColor)
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
+                      const Spacer(),
+                      const Icon(Icons.arrow_forward_ios_rounded,
+                          color: whiteColor)
+                    ],
+                  ),
+                ),
+              ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> _logoutDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: primaryColor,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Are you sure ?", style: customFontStyle()),
+              InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.close, color: whiteColor, size: 16))
+            ],
+          ),
+          content: Text("Please confirm if you want to logout",
+              style: customFontStyle(size: 15.5)),
+          actions: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButtonWidget(
+                    color: red,
+                    label: 'confirm',
+                    onPressed: () {
+                      context.read<AuthBloc>().add(LogoutEvent());
+                      Navigator.pop(context);
+                    },
+                    width: .7),
+                height10
+              ],
+            )
+          ],
+        );
+      },
     );
   }
 }
