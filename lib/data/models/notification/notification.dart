@@ -1,33 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zed/data/models/user/user.dart';
 
-enum NotificationType { like, follow }
-
 class Notification {
-  String userId;
-  NotificationType type;
+  String? notificationId;
+  String toId;
   String senderId;
+  String content;
   DateTime time;
-  Notification({
-    required this.userId,
-    required this.type,
-    required this.senderId,
-    required this.time,
-  });
+  String? type;
+  Notification(
+      {this.notificationId,
+      this.type,
+      required this.toId,
+      required this.senderId,
+      required this.time,
+      required this.content});
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
-        userId: json['userId'],
-        type: json['type'] == NotificationType.follow.name
-            ? NotificationType.follow
-            : NotificationType.like,
+        notificationId: json['notificationId'] ?? '',
+        toId: json['toId'],
+        content: json['status'],
         senderId: json['senderId'],
-        time: json['time']);
+        time: (json['time'] as Timestamp).toDate(),
+        type: json['type'] ?? '');
   }
   Map<String, dynamic> toJson() {
     return {
-      'userId': userId,
-      'type': type.name,
+      'toId': toId,
+      'status': content,
       'senderId': senderId,
       'time': time,
+      'type': type,
     };
   }
 }

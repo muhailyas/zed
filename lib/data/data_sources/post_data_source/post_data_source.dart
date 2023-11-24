@@ -57,6 +57,29 @@ class PostDataSource extends PostRepository {
       await path.set({
         'postId': postId,
       });
+      FirebaseFirestore.instance.collection('posts').doc(postId).update({
+        'savedIds': FieldValue.arrayUnion([userId])
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteSavedPost({
+    required String postId,
+    required String userId,
+  }) async {
+    try {
+      final path = FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('saved posts')
+          .doc(postId);
+      FirebaseFirestore.instance.collection('posts').doc(postId).update({
+        'savedIds': FieldValue.arrayRemove([userId])
+      });
+      await path.delete();
     } catch (e) {
       log(e.toString());
     }

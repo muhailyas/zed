@@ -18,7 +18,7 @@ class CommentInputWidget extends StatelessWidget {
       child: Row(
         children: <Widget>[
           CircleAvatar(
-            backgroundImage: const NetworkImage(test2),
+            backgroundImage: const NetworkImage(defaultProfileImage),
             radius: screenHeight * 0.023,
           ),
           width05,

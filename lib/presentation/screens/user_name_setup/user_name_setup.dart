@@ -125,7 +125,8 @@ class UserNameSetup extends StatelessWidget {
                               fullname: fullname!,
                               userName:
                                   blocProvider.userNameController.text.trim(),
-                              email: email!);
+                              email: email!,
+                              token: '');
                           context
                               .read<UserBloc>()
                               .add(CreateUserEvent(userProfile: newUser));

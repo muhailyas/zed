@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildStoryList(BuildContext context) {
     return SizedBox(
-      height: screenHeight * 0.122,
+      height: screenHeight * 0.123,
       width: double.infinity,
       child: FutureBuilder(
         future: StoryDataSource().fetchStories(),

@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:zed/data/data_sources/notification_data_source/notification_data_source.dart';
 import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
 import 'package:zed/data/models/chat_user/chat_user.dart';
 import 'package:zed/data/models/message/message_model.dart';
@@ -26,13 +27,11 @@ class MessageDataSource implements MessageRepository {
 
       for (var doc in querySnapshot.docs) {
         final message = Message.fromJson(doc.data());
-        // Update read status if the message is not sent by the current user
         if (message.senderId != FirebaseAuth.instance.currentUser!.uid) {
-          // Check if the current user's ID is not in the 'read' field
-          if (!message.read.contains(FirebaseAuth.instance.currentUser!.uid)) {
+          // Check if the 'read' field is empty
+          if (message.read.isEmpty) {
             // Update the read status of the message
-            doc.reference
-                .update({'read': FirebaseAuth.instance.currentUser!.uid});
+            doc.reference.update({'read': DateTime.now().toIso8601String()});
           }
         }
         messages.add(message);
@@ -47,7 +46,7 @@ class MessageDataSource implements MessageRepository {
 
     return _firestore
         .collection('messageCollection/$chatId/messages')
-        .orderBy('time', descending: true) 
+        .orderBy('time', descending: true)
         .limit(1)
         .snapshots()
         .map((querySnapshot) {
@@ -62,10 +61,11 @@ class MessageDataSource implements MessageRepository {
   }
 
   @override
-  Future<Either<String, bool>> sendMessage(
-      {required String toId,
-      required Type type,
-      required String content}) async {
+  Future<Either<String, bool>> sendMessage({
+    required String toId,
+    required Type type,
+    required String content,
+  }) async {
     try {
       final message = Message(
         content: content,
@@ -86,13 +86,21 @@ class MessageDataSource implements MessageRepository {
         'lastMessageTime': message.time.toString(),
         'chatId': chatId,
       });
+      final reciever = await UserDataSource().getUserByUid(toId);
+      final sender = await UserDataSource()
+          .getUserByUid(FirebaseAuth.instance.currentUser!.uid);
       final messagesCollection = _firestore
           .collection('messageCollection')
           .doc(chatId)
           .collection('messages')
           .doc();
       await messagesCollection
-          .set({...message.toJson(), 'messageId': messagesCollection.id});
+          .set({...message.toJson(), 'messageId': messagesCollection.id}).then(
+              (value) => NotificationDataSource().sendPushNotification(
+                    token: reciever!.token,
+                    title: sender!.userName,
+                    content: content,
+                  ));
       return right(true);
     } catch (e) {
       return left(e.toString());
@@ -157,5 +165,21 @@ class MessageDataSource implements MessageRepository {
       {required String imagePath, required String toId}) async {
     final imageUrl = await uploadImageAndGetUrl(imagePath, 'chat images');
     await sendMessage(toId: toId, type: Type.image, content: imageUrl);
+  }
+
+  Future<Either<String, bool>> deleteMessage(
+      {required String messageId, required String toId}) async {
+    final chatId = getChatId(toId: toId);
+    try {
+      await _firestore
+          .collection('messageCollection')
+          .doc(chatId)
+          .collection('messages')
+          .doc(messageId)
+          .delete();
+      return right(true);
+    } catch (e) {
+      return left(e.toString());
+    }
   }
 }

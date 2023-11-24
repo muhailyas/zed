@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zed/data/data_sources/notification_data_source/notification_data_source.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/data/repositories/like_repository/like_repositories.dart';
 
@@ -9,6 +11,14 @@ class LikeDataSource implements LikeRepository {
       post.likes.remove(userId);
     } else {
       post.likes.add(userId);
+      if (post.userId != FirebaseAuth.instance.currentUser!.uid) {
+        NotificationDataSource().addNotifications(
+          toId: post.userId,
+          content: " liked your post",
+          token: 'token',
+          type: post.imageUrl,
+        );
+      }
     }
     await FirebaseFirestore.instance
         .collection('posts')

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,9 +39,11 @@ class SearchResultTileWidget extends StatelessWidget {
             width10,
             CircleAvatar(
               radius: screenWidth * 0.07,
-              backgroundImage: NetworkImage(user.profilePhoto.isEmpty
-                  ? defaultProfileImage
-                  : user.profilePhoto),
+              backgroundImage: CachedNetworkImageProvider(
+                user.profilePhoto.isEmpty
+                    ? defaultProfileImage
+                    : user.profilePhoto,
+              ),
             ),
             width10,
             Column(

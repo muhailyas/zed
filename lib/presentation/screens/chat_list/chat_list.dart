@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
 import 'package:zed/presentation/screens/chat/chat_screen.dart';
-import 'package:zed/presentation/widgets/search_field/search_field.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
-import 'package:zed/utils/enums/enums.dart';
 import 'package:zed/utils/format_time_difference/format_time_defference.dart';
 
 class ChatListScreen extends StatelessWidget {
@@ -35,15 +33,15 @@ class ChatListScreen extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SearchFieldWidget(
-                      width: screenWidth,
-                      type: SearchType.chatSearch,
-                      isChat: true),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     SearchFieldWidget(
+              //         width: screenWidth,
+              //         type: SearchType.chatSearch,
+              //         isChat: true),
+              //   ],
+              // ),
               height05,
               Container(
                 height: screenHeight,
@@ -59,8 +57,14 @@ class ChatListScreen extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data!.isEmpty) {
-                          return const Center(
-                            child: Text("No chats..."),
+                          return Center(
+                            child: SizedBox(
+                                height: screenHeight / 4,
+                                width: double.infinity,
+                                child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Text("Chat room is empty",
+                                        style: customFontStyle()))),
                           );
                         }
                         return ListView.builder(

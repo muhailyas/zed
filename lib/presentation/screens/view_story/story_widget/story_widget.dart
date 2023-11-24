@@ -39,7 +39,7 @@ class StoryWidgetState extends State<StoryWidget> {
           url: story.imageUrl,
           imageFit: story.isFullView ? BoxFit.cover : BoxFit.contain,
           controller: controller,
-          duration: const Duration(days: 5),
+          duration: const Duration(seconds: 5),
         ),
       );
     }
@@ -74,7 +74,8 @@ class StoryWidgetState extends State<StoryWidget> {
             Material(
               type: MaterialType.transparency,
               child: StoryView(
-                indicatorForegroundColor: Colors.amber,
+                progressPosition: ProgressPosition.bottom,
+                indicatorForegroundColor: secondaryBlue,
                 storyItems: storyItems,
                 controller: controller,
                 onComplete: handleCompleted,
@@ -128,10 +129,6 @@ class StoryWidgetState extends State<StoryWidget> {
                 ],
               ),
             ),
-            const Positioned(
-                top: 25,
-                right: 8,
-                child: Icon(Icons.more_vert_rounded, color: whiteColor))
           ],
         ),
       );

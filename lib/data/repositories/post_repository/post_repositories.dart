@@ -7,4 +7,6 @@ abstract class PostRepository {
   Future<void> addintoSavedPost(
       {required String postId, required String userId});
   Future<List<Post>> fetchSavedPosts({required String userId});
+  Future<void> deleteSavedPost(
+      {required String postId, required String userId});
 }

@@ -6,6 +6,7 @@ import 'package:zed/data/data_sources/message_data_source/message_data_source.da
 import 'package:zed/data/models/message/message_model.dart';
 import 'package:zed/data/models/user/user.dart';
 import 'package:zed/presentation/screens/chat/widgets/chat_tile_widget/chat_tile_widget.dart';
+import 'package:zed/presentation/screens/visit_profile/visit_profile.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 import 'package:zed/utils/image_picker/image_picker.dart';
@@ -124,13 +125,24 @@ class _ChatScreenState extends State<ChatScreen> {
               : widget.user.profilePhoto),
         ),
         width10,
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.user.fullname, style: customFontStyle()),
-            Text("@${widget.user.userName}", style: customFontStyle(size: 14)),
-          ],
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ScreenVisitProfile(userProfile: widget.user),
+                ));
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.user.fullname, style: customFontStyle()),
+              Text("@${widget.user.userName}",
+                  style: customFontStyle(size: 14)),
+            ],
+          ),
         ),
         Flexible(
           child: Row(
@@ -243,13 +255,14 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendMessage() {
     if (_chatInputController.text.isNotEmpty) {
       MessageDataSource().sendMessage(
-          toId: widget.toId,
-          content: _chatInputController.text.trim(),
-          type: Type.text);
+        toId: widget.toId,
+        content: _chatInputController.text.trim(),
+        type: Type.text,
+      );
       _chatInputController.clear();
       _scrollController.animateTo(
           curve: Curves.bounceIn,
-          duration: const Duration(seconds: 2),
+          duration: const Duration(milliseconds: 300),
           _scrollController.position.maxScrollExtent);
     }
   }

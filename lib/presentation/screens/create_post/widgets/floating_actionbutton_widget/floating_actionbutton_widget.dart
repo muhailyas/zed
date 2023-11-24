@@ -54,6 +54,7 @@ class PostFloatingActionButton extends StatelessWidget {
                 profileUrl: '',
                 username: '',
                 dateTime: DateTime.now(),
+                savedIds: [],
               );
               context.read<PostBloc>().add(AddPostEvent(post: post));
             } else {

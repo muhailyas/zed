@@ -12,6 +12,7 @@ import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
 import 'package:zed/data/models/post/post.dart';
 import 'package:zed/presentation/screens/comment_view/comment_screen.dart';
 import 'package:zed/presentation/screens/home/widgets/popup_menu_button/popup_menu_button.dart';
+import 'package:zed/presentation/screens/view_post/view_post.dart';
 import 'package:zed/presentation/screens/visit_profile/visit_profile.dart';
 import 'package:zed/presentation/widgets/like_widget/like_widget.dart';
 import 'package:zed/utils/colors/colors.dart';
@@ -28,25 +29,34 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-        child: Column(
-          children: [
-            _buildUserInfo(context),
-            height005,
-            _buildPostImage(),
-            height05,
-            _buildPostStats(context),
-            height05,
-            _buildPostCaption(),
-            height005,
-            _buildCommentView(context),
-            height005,
-            _buildPublishedDate(),
-            height005,
-          ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            CupertinoModalPopupRoute(
+              builder: (context) => ScreenViewPost(post: post),
+            ));
+      },
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+          child: Column(
+            children: [
+              _buildUserInfo(context),
+              height005,
+              _buildPostImage(),
+              height05,
+              _buildPostStats(context),
+              height05,
+              _buildPostCaption(),
+              height005,
+              _buildCommentView(context),
+              height005,
+              _buildPublishedDate(),
+              height005,
+            ],
+          ),
         ),
       ),
     );
@@ -122,7 +132,7 @@ class PostWidget extends StatelessWidget {
                   style: customFontStyle(size: 20, fontWeight: FontWeight.w700),
                 ),
               ),
-              PopupMenuButtonWidget(postId: post.id!, uid: post.userId)
+              PopupMenuButtonWidget(post: post, uid: post.userId)
             ],
           ),
         ),

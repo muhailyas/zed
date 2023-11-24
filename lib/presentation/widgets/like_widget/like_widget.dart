@@ -20,6 +20,8 @@ class LikeButtonWidget extends StatefulWidget {
 class _LikeButtonWidgetState extends State<LikeButtonWidget> {
   @override
   Widget build(BuildContext context) {
+    bool isLiked =
+        widget.post.likes.contains(FirebaseAuth.instance.currentUser!.uid);
     return Row(
       children: [
         InkWell(
@@ -37,15 +39,8 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
             setState(() {});
           },
           child: widget.comment == null
-              ? Icon(
-                  widget.post.likes
-                          .contains(FirebaseAuth.instance.currentUser!.uid)
-                      ? Iconsax.like_15
-                      : Iconsax.like_14,
-                  color: widget.post.likes
-                          .contains(FirebaseAuth.instance.currentUser!.uid)
-                      ? secondaryBlue
-                      : whiteColor)
+              ? Icon(isLiked ? Iconsax.like_15 : Iconsax.like_14,
+                  color: isLiked ? secondaryBlue : whiteColor)
               : Icon(
                   widget.comment!.likedBy
                           .contains(FirebaseAuth.instance.currentUser!.uid)
