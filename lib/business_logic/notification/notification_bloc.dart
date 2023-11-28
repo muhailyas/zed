@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:zed/data/data_sources/notification_data_source/notification_data_source.dart';
 import 'package:zed/data/models/notification/notification.dart';

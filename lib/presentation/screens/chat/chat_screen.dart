@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,16 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _chatInputController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   bool emojiOpened = false;
+
+  @override
+  void initState() {
+    Timer(const Duration(seconds: 1), () {
+      _scrollController.position.jumpTo(
+        _scrollController.position.maxScrollExtent,
+      );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

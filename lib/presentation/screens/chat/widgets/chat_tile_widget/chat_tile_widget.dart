@@ -6,6 +6,7 @@ import 'package:zed/data/data_sources/message_data_source/message_data_source.da
 import 'package:zed/data/models/message/message_model.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/format_time_difference/format_time_defference.dart';
 
 class ChatTileWidget extends StatelessWidget {
   const ChatTileWidget({Key? key, required this.message}) : super(key: key);
@@ -185,7 +186,7 @@ class ChatTileWidget extends StatelessWidget {
                     style: customFontStyle(size: 16, color: whiteColor)),
                 subtitle: message.read.isEmpty
                     ? null
-                    : Text(getFormattedDate(DateTime.parse(message.read)),
+                    : Text(formatDateTime(message.read),
                         style: customFontStyle(size: 10, color: greyColor)),
               ),
             ),
@@ -197,7 +198,7 @@ class ChatTileWidget extends StatelessWidget {
                 leading: const Icon(Icons.done_all_rounded, color: greyColor),
                 title: Text("Sent",
                     style: customFontStyle(size: 16, color: whiteColor)),
-                subtitle: Text(getFormattedDate(message.time),
+                subtitle: Text(formatDateTime(message.time.toIso8601String()),
                     style: customFontStyle(size: 10, color: greyColor)),
               ),
             ),

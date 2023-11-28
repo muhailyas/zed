@@ -86,21 +86,12 @@ class __$$FetchNotificationsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FetchNotificationsImpl
-    with DiagnosticableTreeMixin
-    implements FetchNotifications {
+class _$FetchNotificationsImpl implements FetchNotifications {
   const _$FetchNotificationsImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'NotificationEvent.fetchNotifications()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(
-        DiagnosticsProperty('type', 'NotificationEvent.fetchNotifications'));
   }
 
   @override
@@ -260,18 +251,12 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
+class _$InitialImpl implements _Initial {
   const _$InitialImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'NotificationState.initial()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'NotificationState.initial'));
   }
 
   @override
@@ -377,18 +362,12 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
+class _$LoadingImpl implements Loading {
   const _$LoadingImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'NotificationState.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'NotificationState.loading'));
   }
 
   @override
@@ -509,9 +488,7 @@ class __$$FetchedSuccesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FetchedSuccesImpl
-    with DiagnosticableTreeMixin
-    implements FetchedSucces {
+class _$FetchedSuccesImpl implements FetchedSucces {
   const _$FetchedSuccesImpl(
       {required final List<NotificationWithUserProfile> notifications})
       : _notifications = notifications;
@@ -525,16 +502,8 @@ class _$FetchedSuccesImpl
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'NotificationState.fetchedSuccess(notifications: $notifications)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'NotificationState.fetchedSuccess'))
-      ..add(DiagnosticsProperty('notifications', notifications));
   }
 
   @override
