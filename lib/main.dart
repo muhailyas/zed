@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
+import 'package:zed/business_logic/chat/chat_bloc.dart';
 import 'package:zed/business_logic/comment/comment_bloc.dart';
 import 'package:zed/business_logic/friends_list/freinds_list_bloc.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:zed/business_logic/user/user_bloc.dart';
 import 'package:zed/data/data_sources/authentication_data_source/authentication_data_source.dart';
 import 'package:zed/data/data_sources/comment_data_source/comment_data_source.dart';
 import 'package:zed/data/data_sources/follow_data_source/follow_data_source.dart';
+import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
 import 'package:zed/data/data_sources/post_data_source/post_data_source.dart';
 import 'package:zed/data/data_sources/story_data_source/story_data_source.dart';
 import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
@@ -52,7 +54,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CommentBloc(CommentDataSource())),
         BlocProvider(create: (context) => FreindsListBloc(FollowDataSources())),
         BlocProvider(create: (context) => StoryBloc(StoryDataSource())),
-        BlocProvider(create: (context) => NotificationBloc())
+        BlocProvider(create: (context) => NotificationBloc()),
+        BlocProvider(create: (context) => ChatBloc(MessageDataSource())),
       ],
       child: MaterialApp(
         title: 'Zed',

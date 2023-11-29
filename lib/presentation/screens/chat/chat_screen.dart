@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zed/business_logic/chat/chat_bloc.dart';
 import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
 import 'package:zed/data/models/message/message_model.dart';
 import 'package:zed/data/models/user/user.dart';
@@ -10,7 +12,10 @@ import 'package:zed/presentation/screens/chat/widgets/chat_tile_widget/chat_tile
 import 'package:zed/presentation/screens/visit_profile/visit_profile.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/format_time_difference/format_time_defference.dart';
 import 'package:zed/utils/image_picker/image_picker.dart';
+
+import 'widgets/chat_tile_with_time/chat_tile_with_time.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.user, required this.toId});
@@ -33,6 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _scrollController.position.maxScrollExtent,
       );
     });
+    context.read<ChatBloc>().add(GetChatMessages(toId: widget.toId));
     super.initState();
   }
 
@@ -62,17 +68,10 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 height05,
                 Expanded(
-                  child: StreamBuilder<List<Message>>(
-                    stream:
-                        MessageDataSource().getChatMessages(toId: widget.toId),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final messages = snapshot.data!;
-                        if (messages.isEmpty) {
-                          return Center(
-                            child: Text("Say Hi 👋", style: customFontStyle()),
-                          );
-                        }
+                  child: BlocBuilder<ChatBloc, ChatState>(
+                    builder: (context, state) {
+                      if (state is ChatLoaded) {
+                        final messages = state.messages;
                         return ListView.builder(
                           physics: const BouncingScrollPhysics(),
                           controller: _scrollController,
@@ -80,18 +79,32 @@ class _ChatScreenState extends State<ChatScreen> {
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final message = messages[index];
-                            return ChatTileWidget(
-                              message: message,
-                            );
+                            // check new day
+                            if (index == 0 ||
+                                !isSameDay(
+                                    messages[index - 1].time, message.time)) {
+                              final today = DateTime.now();
+                              final yesterday = DateTime.now()
+                                  .subtract(const Duration(days: 1));
+
+                              // show with group time and chat tile widget
+                              return ChatTileWithGroupTimeHeader(
+                                message: message,
+                                today: today,
+                                yesterday: yesterday,
+                              );
+                            } else {
+                              // Display the chat tile without the group time header
+                              return ChatTileWidget(message: message);
+                            }
                           },
                         );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text("Error: ${snapshot.error}",
-                              style: customFontStyle(color: Colors.red)),
-                        );
-                      } else {
+                      } else if (state is Initial) {
                         return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return Center(
+                          child: Text("Say Hi 👋", style: customFontStyle()),
+                        );
                       }
                     },
                   ),

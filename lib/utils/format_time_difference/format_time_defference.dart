@@ -50,3 +50,19 @@ String formatDateTime(String inputDateTimeString) {
     return DateFormat('MMMM d, hh:mm a').format(inputDateTime);
   }
 }
+
+String formatGroupTime(DateTime timestamp, DateTime today, DateTime yesterday) {
+  if (isSameDay(timestamp, today)) {
+    return 'Today';
+  } else if (isSameDay(timestamp, yesterday)) {
+    return 'Yesterday';
+  } else {
+    return '${timestamp.day}/${timestamp.month}/${timestamp.year}';
+  }
+}
+
+bool isSameDay(DateTime date1, DateTime date2) {
+  return date1.year == date2.year &&
+      date1.month == date2.month &&
+      date1.day == date2.day;
+}
