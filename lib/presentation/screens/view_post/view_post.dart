@@ -34,6 +34,7 @@ class ScreenViewPost extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
+                  radius: screenWidth*0.04,
                   backgroundImage: CachedNetworkImageProvider(post.profileUrl),
                 ),
                 width10,

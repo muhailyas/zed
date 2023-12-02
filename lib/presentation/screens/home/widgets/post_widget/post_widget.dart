@@ -43,8 +43,9 @@ class PostWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
           child: Column(
             children: [
-              _buildUserInfo(context),
               height005,
+              _buildUserInfo(context),
+              height05,
               _buildPostImage(),
               height05,
               _buildPostStats(context),
@@ -101,7 +102,8 @@ class PostWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: screenHeight * 0.018,
-          backgroundImage: NetworkImage(
+          backgroundColor: Colors.transparent,
+          backgroundImage: CachedNetworkImageProvider(
               post.profileUrl.isEmpty ? defaultProfileImage : post.profileUrl),
         ),
         SizedBox(width: screenWidth * 0.03),

@@ -43,5 +43,18 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
       await storyRepository.addStory(story: event.story);
       return emit(const StoryState.storyAddedSuccesfully());
     });
+    on<FetchArchivedStroies>((event, emit) async {
+      emit(const StoryState.loading());
+      final response = await storyRepository.fetchArchivedStroies();
+      response
+          .fold((error) => StoryState.fetchedArchivedStroiesError(error: error),
+              (stories) {
+        if (stories.isEmpty) {
+          emit(const StoryState.fetchedArchivedStroiesIsEmpty());
+        } else {
+          emit(StoryState.fetchedArchivedStroiesSuccess(stories: stories));
+        }
+      });
+    });
   }
 }

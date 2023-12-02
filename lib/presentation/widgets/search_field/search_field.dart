@@ -10,10 +10,11 @@ class SearchFieldWidget extends StatelessWidget {
       {super.key,
       required this.width,
       required this.type,
-      this.isChat = false});
+      this.isChat = false,this.textEditingController});
   final double width;
   final SearchType type;
   final bool isChat;
+  final TextEditingController? textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class SearchFieldWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: TextField(
+          controller: textEditingController,
           style: customFontStyle(),
           onChanged: (value) async {
             if (SearchType.gloabal == type) {

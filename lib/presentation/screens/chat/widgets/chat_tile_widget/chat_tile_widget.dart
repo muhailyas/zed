@@ -51,7 +51,7 @@ class ChatTileWidget extends StatelessWidget {
                         ? Text(
                             message.content,
                             style: customFontStyle(size: 16),
-                            textAlign: TextAlign.justify,
+                            textAlign: TextAlign.left,
                           )
                         : ClipRRect(
                             borderRadius:
@@ -114,7 +114,7 @@ class ChatTileWidget extends StatelessWidget {
                       ? Text(
                           message.content,
                           style: customFontStyle(size: 16),
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.left,
                         )
                       : ClipRRect(
                           borderRadius:

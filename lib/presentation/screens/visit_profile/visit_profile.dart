@@ -181,13 +181,6 @@ class ScreenVisitProfile extends StatelessWidget {
                         : DecorationImage(
                             image: NetworkImage(userProfile.coverPhoto),
                             fit: BoxFit.cover)),
-                child: const Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child:
-                          Icon(Icons.menu_rounded, color: whiteColor, size: 35),
-                    )),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),

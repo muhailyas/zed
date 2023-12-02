@@ -24,11 +24,11 @@ class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: myTabs.length);
     context
         .read<ProfileBloc>()
         .add(ProfileFetchEvent(userId: FirebaseAuth.instance.currentUser!.uid));
+    _tabController = TabController(vsync: this, length: 2);
+    super.initState();
   }
 
   late TabController _tabController;
@@ -37,46 +37,62 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return SafeArea(
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // edit profile and profile image
-            buildUpperSection(),
+        child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled)
+                // edit profile and profile image
+                =>
+                [SliverToBoxAdapter(child: buildUpperSection())],
+            body: Column(
+              children: [
+                // user details
+                buildInfoSection(),
 
-            // user details
-            buildInfoSection(),
+                // post and saved head
+                buildTabBar(),
 
-            // post and saved head
-            buildTabBar(),
-
-            height05,
-            // post and saved view
-            buildTabBarView()
-          ],
-        ),
-      ),
-    );
+                height05,
+                // post and saved view
+                buildTabBarView()
+              ],
+            )));
   }
 
   Widget buildTabBarView() {
-    return TabViewWidget(tabController: _tabController);
-  }
-
-  SizedBox buildTabBar() {
-    return SizedBox(
-      height: screenHeight * 0.05,
-      width: double.infinity,
-      child: DefaultTabController(
-        length: 2,
-        initialIndex: 0,
-        child: TabBar(
-          tabs: myTabs,
-          controller: _tabController,
-        ),
+    return Expanded(
+      child: TabViewWidget(
+        tabController: _tabController,
       ),
     );
+  }
+
+  Widget buildTabBar() {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        return SizedBox(
+          height: screenHeight * 0.05,
+          width: double.infinity,
+          child: DefaultTabController(
+            length: 2,
+            initialIndex: 0,
+            child: TabBar(
+              tabs: _buildTabs(state),
+              controller: _tabController,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _buildTabs(ProfileState state) {
+    // if (state is ProfileFetchSuccess) {
+    //   return [
+    //     Tab(text: "Posts ${state.posts.length.toString()}"),
+    //     Tab(text: "Saved ${state.savedPosts.length.toString()}"),
+    //   ];
+    // } else {
+    return [const Tab(text: "Posts "), const Tab(text: "Saved ")];
+    // }
   }
 
   Widget buildInfoSection() {
@@ -94,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   state is! ProfileFetchSuccess
                       ? ''
                       : state.userProfile!.fullname.isEmpty
-                          ? 'ilyas'
+                          ? ''
                           : state.userProfile!.fullname,
                   style: customFontStyle(size: 24),
                 ),
@@ -183,11 +199,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                 height: screenHeight * 0.12,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: secondaryBlue,
                   image: state is ProfileFetchSuccess &&
                           state.userProfile!.coverPhoto.isNotEmpty
                       ? DecorationImage(
-                          image: CachedNetworkImageProvider(state.userProfile!.coverPhoto),
+                          image: CachedNetworkImageProvider(
+                              state.userProfile!.coverPhoto),
                           fit: BoxFit.cover)
                       : null,
                 ),
@@ -219,8 +235,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                         image: DecorationImage(
                             image: state is ProfileFetchSuccess &&
                                     state.userProfile!.profilePhoto.isNotEmpty
-                                ? CachedNetworkImageProvider(state.userProfile!.profilePhoto)
-                                : const CachedNetworkImageProvider(defaultProfileImage),
+                                ? CachedNetworkImageProvider(
+                                    state.userProfile!.profilePhoto)
+                                : const CachedNetworkImageProvider(
+                                    defaultProfileImage),
                             fit: BoxFit.cover)),
                   ),
                 ),

@@ -14,3 +14,10 @@ class PostLoading extends PostState {}
 class ClosePostScreenToHome extends PostState {}
 
 class PostAddSuccess extends PostState {}
+
+class PostsFetchSuccess extends PostState {
+  List<Post> posts;
+  PostsFetchSuccess({required this.posts});
+}
+
+class PostsFetchIsEmpty extends PostState {}

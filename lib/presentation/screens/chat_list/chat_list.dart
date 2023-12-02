@@ -1,12 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:zed/business_logic/chat/chat_bloc.dart';
 import 'package:zed/data/data_sources/message_data_source/message_data_source.dart';
-import 'package:zed/presentation/screens/chat/chat_screen.dart';
+import 'package:zed/data/models/chat_user/chat_user.dart';
+import 'package:zed/presentation/screens/chat_list/widgets/chat_tile_user_widget/chat_tile_user_widget.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
-import 'package:zed/utils/format_time_difference/format_time_defference.dart';
 
 class ChatListScreen extends StatelessWidget {
   const ChatListScreen({super.key});
@@ -25,133 +25,160 @@ class ChatListScreen extends StatelessWidget {
               Navigator.pop(context);
             }),
         title: Text("Chat Room", style: customFontStyle(size: 25)),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(context: context, delegate: ChatUserSearchDelegate());
+            },
+            icon: const Icon(Icons.search),
+          )
+        ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {},
-        child: SafeArea(
-            child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Column(
-            children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     SearchFieldWidget(
-              //         width: screenWidth,
-              //         type: SearchType.chatSearch,
-              //         isChat: true),
-              //   ],
-              // ),
-              height05,
-              Container(
-                height: screenHeight,
-                decoration: const BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25))),
-                width: double.infinity,
-                child: StreamBuilder(
-                    stream:
-                        MessageDataSource().getChatUserWithUserProfileStream(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data!.isEmpty) {
-                          return Center(
-                            child: SizedBox(
-                                height: screenHeight / 4,
-                                width: double.infinity,
-                                child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Text("Chat room is empty",
-                                        style: customFontStyle()))),
-                          );
-                        }
-                        return ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final data = snapshot.data![index];
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ChatScreen(
-                                                user: data.userProfile,
-                                                toId: data.userProfile.uid!,
-                                              )));
-                                },
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                    data.userProfile.profilePhoto.isEmpty
-                                        ? defaultProfileImage
-                                        : data.userProfile.profilePhoto,
-                                  ),
-                                ),
-                                title: Text(
-                                  data.userProfile.fullname,
-                                  style: customFontStyle(size: 18),
-                                ),
-                                subtitle: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      constraints: BoxConstraints(
-                                          maxWidth: screenWidth * 0.42),
-                                      child: Text(
-                                        data.chatUser.lastMessage,
-                                        style: customFontStyle(size: 14),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    width05,
-                                    if (data
-                                        .chatUser.lastMessageTime.isNotEmpty)
-                                      Text(
-                                        formatTimeDifference(DateTime.parse(
-                                            data.chatUser.lastMessageTime)),
-                                        style: customFontStyle(size: 12),
-                                      ),
-                                  ],
-                                ),
-                                trailing: StreamBuilder(
-                                    stream: MessageDataSource()
-                                        .getLastChatMessage(
-                                            toId: data.userProfile.uid!),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        final message = snapshot.data;
-                                        return message != null &&
-                                                message.read.isEmpty &&
-                                                message.senderId !=
-                                                    FirebaseAuth.instance
-                                                        .currentUser!.uid
-                                            ? const CircleAvatar(
-                                                radius: 5,
-                                                backgroundColor: Colors.blue)
-                                            : const SizedBox();
-                                      } else {
-                                        return const SizedBox();
-                                      }
-                                    }),
-                              ),
-                            );
-                          },
+      body: SafeArea(
+          child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            height05,
+            Container(
+              height: screenHeight,
+              decoration: const BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25))),
+              width: double.infinity,
+              child: StreamBuilder(
+                  stream:
+                      MessageDataSource().getChatUserWithUserProfileStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.isEmpty) {
+                        return Center(
+                          child: SizedBox(
+                              height: screenHeight / 4,
+                              width: double.infinity,
+                              child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Text("Chat room is empty",
+                                      style: customFontStyle()))),
                         );
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
                       }
-                    }),
-              )
-            ],
-          ),
-        )),
-      ),
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final data = snapshot.data![index];
+                          return ChatUserTileWidget(data: data);
+                        },
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  }),
+            )
+          ],
+        ),
+      )),
     );
+  }
+}
+
+class ChatUserSearchDelegate
+    extends SearchDelegate<List<ChatUserWithUserProfile>> {
+  ChatUserSearchDelegate() : super(searchFieldStyle: customFontStyle());
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+        scaffoldBackgroundColor: primaryColor,
+        appBarTheme: const AppBarTheme(
+            backgroundColor: primaryColor, foregroundColor: whiteColor),
+        inputDecorationTheme: InputDecorationTheme(
+            hintStyle: customFontStyle(size: 17), border: InputBorder.none));
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, []);
+        },
+        icon: const Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    context.read<ChatBloc>().add(ChatEvent.searchChatUsers(query: query));
+
+    return BlocBuilder<ChatBloc, ChatState>(
+      buildWhen: (previous, current) =>
+          current is ChatUsersSearchResult ||
+          current is Initial ||
+          current is SearchResultIsEmpty,
+      builder: (context, state) {
+        if (state is ChatUsersSearchResult) {
+          return ListView.builder(
+            itemCount: state.users.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final users = state.users[index];
+              return ChatUserTileWidget(data: users);
+            },
+          );
+        } else if (state is SearchResultIsEmpty) {
+          return Center(
+            child: SizedBox(
+                height: screenHeight / 4,
+                width: double.infinity,
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child:
+                        Text("Chat room is empty", style: customFontStyle()))),
+          );
+        }
+        return const SizedBox();
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return StreamBuilder(
+        stream: MessageDataSource().getChatUserWithUserProfileStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return Center(
+                child: SizedBox(
+                    height: screenHeight / 4,
+                    width: double.infinity,
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text("Chat room is empty",
+                            style: customFontStyle()))),
+              );
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final data = snapshot.data![index];
+                return ChatUserTileWidget(data: data);
+              },
+            );
+          }
+          return const SizedBox();
+        });
   }
 }

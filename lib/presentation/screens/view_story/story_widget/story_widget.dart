@@ -74,7 +74,6 @@ class StoryWidgetState extends State<StoryWidget> {
             Material(
               type: MaterialType.transparency,
               child: StoryView(
-                progressPosition: ProgressPosition.bottom,
                 indicatorForegroundColor: secondaryBlue,
                 storyItems: storyItems,
                 controller: controller,

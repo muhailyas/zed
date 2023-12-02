@@ -14,4 +14,7 @@ class ChatEvent with _$ChatEvent {
   const factory ChatEvent.getChatMessages({
     required String toId,
   }) = GetChatMessages;
+  const factory ChatEvent.searchChatUsers({
+    required String query,
+  }) = GetChatUsers;
 }

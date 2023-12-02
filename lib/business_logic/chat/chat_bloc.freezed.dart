@@ -16,13 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ChatEvent {
-  String get toId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String toId, Type type, String content)
         sendTextMessage,
     required TResult Function(String imagePath, String toId) sendImage,
     required TResult Function(String toId) getChatMessages,
+    required TResult Function(String query) searchChatUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +30,7 @@ mixin _$ChatEvent {
     TResult? Function(String toId, Type type, String content)? sendTextMessage,
     TResult? Function(String imagePath, String toId)? sendImage,
     TResult? Function(String toId)? getChatMessages,
+    TResult? Function(String query)? searchChatUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,6 +38,7 @@ mixin _$ChatEvent {
     TResult Function(String toId, Type type, String content)? sendTextMessage,
     TResult Function(String imagePath, String toId)? sendImage,
     TResult Function(String toId)? getChatMessages,
+    TResult Function(String query)? searchChatUsers,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -45,6 +47,7 @@ mixin _$ChatEvent {
     required TResult Function(SendTextMessage value) sendTextMessage,
     required TResult Function(SendImage value) sendImage,
     required TResult Function(GetChatMessages value) getChatMessages,
+    required TResult Function(GetChatUsers value) searchChatUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -52,6 +55,7 @@ mixin _$ChatEvent {
     TResult? Function(SendTextMessage value)? sendTextMessage,
     TResult? Function(SendImage value)? sendImage,
     TResult? Function(GetChatMessages value)? getChatMessages,
+    TResult? Function(GetChatUsers value)? searchChatUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,12 +63,9 @@ mixin _$ChatEvent {
     TResult Function(SendTextMessage value)? sendTextMessage,
     TResult Function(SendImage value)? sendImage,
     TResult Function(GetChatMessages value)? getChatMessages,
+    TResult Function(GetChatUsers value)? searchChatUsers,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ChatEventCopyWith<ChatEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -72,8 +73,6 @@ mixin _$ChatEvent {
 abstract class $ChatEventCopyWith<$Res> {
   factory $ChatEventCopyWith(ChatEvent value, $Res Function(ChatEvent) then) =
       _$ChatEventCopyWithImpl<$Res, ChatEvent>;
-  @useResult
-  $Res call({String toId});
 }
 
 /// @nodoc
@@ -85,28 +84,13 @@ class _$ChatEventCopyWithImpl<$Res, $Val extends ChatEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? toId = null,
-  }) {
-    return _then(_value.copyWith(
-      toId: null == toId
-          ? _value.toId
-          : toId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$SendTextMessageImplCopyWith<$Res>
-    implements $ChatEventCopyWith<$Res> {
+abstract class _$$SendTextMessageImplCopyWith<$Res> {
   factory _$$SendTextMessageImplCopyWith(_$SendTextMessageImpl value,
           $Res Function(_$SendTextMessageImpl) then) =
       __$$SendTextMessageImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String toId, Type type, String content});
 }
@@ -145,7 +129,9 @@ class __$$SendTextMessageImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SendTextMessageImpl implements SendTextMessage {
+class _$SendTextMessageImpl
+    with DiagnosticableTreeMixin
+    implements SendTextMessage {
   const _$SendTextMessageImpl(
       {required this.toId, required this.type, required this.content});
 
@@ -157,8 +143,18 @@ class _$SendTextMessageImpl implements SendTextMessage {
   final String content;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatEvent.sendTextMessage(toId: $toId, type: $type, content: $content)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatEvent.sendTextMessage'))
+      ..add(DiagnosticsProperty('toId', toId))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('content', content));
   }
 
   @override
@@ -188,6 +184,7 @@ class _$SendTextMessageImpl implements SendTextMessage {
         sendTextMessage,
     required TResult Function(String imagePath, String toId) sendImage,
     required TResult Function(String toId) getChatMessages,
+    required TResult Function(String query) searchChatUsers,
   }) {
     return sendTextMessage(toId, type, content);
   }
@@ -198,6 +195,7 @@ class _$SendTextMessageImpl implements SendTextMessage {
     TResult? Function(String toId, Type type, String content)? sendTextMessage,
     TResult? Function(String imagePath, String toId)? sendImage,
     TResult? Function(String toId)? getChatMessages,
+    TResult? Function(String query)? searchChatUsers,
   }) {
     return sendTextMessage?.call(toId, type, content);
   }
@@ -208,6 +206,7 @@ class _$SendTextMessageImpl implements SendTextMessage {
     TResult Function(String toId, Type type, String content)? sendTextMessage,
     TResult Function(String imagePath, String toId)? sendImage,
     TResult Function(String toId)? getChatMessages,
+    TResult Function(String query)? searchChatUsers,
     required TResult orElse(),
   }) {
     if (sendTextMessage != null) {
@@ -222,6 +221,7 @@ class _$SendTextMessageImpl implements SendTextMessage {
     required TResult Function(SendTextMessage value) sendTextMessage,
     required TResult Function(SendImage value) sendImage,
     required TResult Function(GetChatMessages value) getChatMessages,
+    required TResult Function(GetChatUsers value) searchChatUsers,
   }) {
     return sendTextMessage(this);
   }
@@ -232,6 +232,7 @@ class _$SendTextMessageImpl implements SendTextMessage {
     TResult? Function(SendTextMessage value)? sendTextMessage,
     TResult? Function(SendImage value)? sendImage,
     TResult? Function(GetChatMessages value)? getChatMessages,
+    TResult? Function(GetChatUsers value)? searchChatUsers,
   }) {
     return sendTextMessage?.call(this);
   }
@@ -242,6 +243,7 @@ class _$SendTextMessageImpl implements SendTextMessage {
     TResult Function(SendTextMessage value)? sendTextMessage,
     TResult Function(SendImage value)? sendImage,
     TResult Function(GetChatMessages value)? getChatMessages,
+    TResult Function(GetChatUsers value)? searchChatUsers,
     required TResult orElse(),
   }) {
     if (sendTextMessage != null) {
@@ -257,23 +259,19 @@ abstract class SendTextMessage implements ChatEvent {
       required final Type type,
       required final String content}) = _$SendTextMessageImpl;
 
-  @override
   String get toId;
   Type get type;
   String get content;
-  @override
   @JsonKey(ignore: true)
   _$$SendTextMessageImplCopyWith<_$SendTextMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SendImageImplCopyWith<$Res>
-    implements $ChatEventCopyWith<$Res> {
+abstract class _$$SendImageImplCopyWith<$Res> {
   factory _$$SendImageImplCopyWith(
           _$SendImageImpl value, $Res Function(_$SendImageImpl) then) =
       __$$SendImageImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String imagePath, String toId});
 }
@@ -307,7 +305,7 @@ class __$$SendImageImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SendImageImpl implements SendImage {
+class _$SendImageImpl with DiagnosticableTreeMixin implements SendImage {
   const _$SendImageImpl({required this.imagePath, required this.toId});
 
   @override
@@ -316,8 +314,17 @@ class _$SendImageImpl implements SendImage {
   final String toId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatEvent.sendImage(imagePath: $imagePath, toId: $toId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatEvent.sendImage'))
+      ..add(DiagnosticsProperty('imagePath', imagePath))
+      ..add(DiagnosticsProperty('toId', toId));
   }
 
   @override
@@ -346,6 +353,7 @@ class _$SendImageImpl implements SendImage {
         sendTextMessage,
     required TResult Function(String imagePath, String toId) sendImage,
     required TResult Function(String toId) getChatMessages,
+    required TResult Function(String query) searchChatUsers,
   }) {
     return sendImage(imagePath, toId);
   }
@@ -356,6 +364,7 @@ class _$SendImageImpl implements SendImage {
     TResult? Function(String toId, Type type, String content)? sendTextMessage,
     TResult? Function(String imagePath, String toId)? sendImage,
     TResult? Function(String toId)? getChatMessages,
+    TResult? Function(String query)? searchChatUsers,
   }) {
     return sendImage?.call(imagePath, toId);
   }
@@ -366,6 +375,7 @@ class _$SendImageImpl implements SendImage {
     TResult Function(String toId, Type type, String content)? sendTextMessage,
     TResult Function(String imagePath, String toId)? sendImage,
     TResult Function(String toId)? getChatMessages,
+    TResult Function(String query)? searchChatUsers,
     required TResult orElse(),
   }) {
     if (sendImage != null) {
@@ -380,6 +390,7 @@ class _$SendImageImpl implements SendImage {
     required TResult Function(SendTextMessage value) sendTextMessage,
     required TResult Function(SendImage value) sendImage,
     required TResult Function(GetChatMessages value) getChatMessages,
+    required TResult Function(GetChatUsers value) searchChatUsers,
   }) {
     return sendImage(this);
   }
@@ -390,6 +401,7 @@ class _$SendImageImpl implements SendImage {
     TResult? Function(SendTextMessage value)? sendTextMessage,
     TResult? Function(SendImage value)? sendImage,
     TResult? Function(GetChatMessages value)? getChatMessages,
+    TResult? Function(GetChatUsers value)? searchChatUsers,
   }) {
     return sendImage?.call(this);
   }
@@ -400,6 +412,7 @@ class _$SendImageImpl implements SendImage {
     TResult Function(SendTextMessage value)? sendTextMessage,
     TResult Function(SendImage value)? sendImage,
     TResult Function(GetChatMessages value)? getChatMessages,
+    TResult Function(GetChatUsers value)? searchChatUsers,
     required TResult orElse(),
   }) {
     if (sendImage != null) {
@@ -415,21 +428,17 @@ abstract class SendImage implements ChatEvent {
       required final String toId}) = _$SendImageImpl;
 
   String get imagePath;
-  @override
   String get toId;
-  @override
   @JsonKey(ignore: true)
   _$$SendImageImplCopyWith<_$SendImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$GetChatMessagesImplCopyWith<$Res>
-    implements $ChatEventCopyWith<$Res> {
+abstract class _$$GetChatMessagesImplCopyWith<$Res> {
   factory _$$GetChatMessagesImplCopyWith(_$GetChatMessagesImpl value,
           $Res Function(_$GetChatMessagesImpl) then) =
       __$$GetChatMessagesImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String toId});
 }
@@ -458,15 +467,25 @@ class __$$GetChatMessagesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetChatMessagesImpl implements GetChatMessages {
+class _$GetChatMessagesImpl
+    with DiagnosticableTreeMixin
+    implements GetChatMessages {
   const _$GetChatMessagesImpl({required this.toId});
 
   @override
   final String toId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatEvent.getChatMessages(toId: $toId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatEvent.getChatMessages'))
+      ..add(DiagnosticsProperty('toId', toId));
   }
 
   @override
@@ -494,6 +513,7 @@ class _$GetChatMessagesImpl implements GetChatMessages {
         sendTextMessage,
     required TResult Function(String imagePath, String toId) sendImage,
     required TResult Function(String toId) getChatMessages,
+    required TResult Function(String query) searchChatUsers,
   }) {
     return getChatMessages(toId);
   }
@@ -504,6 +524,7 @@ class _$GetChatMessagesImpl implements GetChatMessages {
     TResult? Function(String toId, Type type, String content)? sendTextMessage,
     TResult? Function(String imagePath, String toId)? sendImage,
     TResult? Function(String toId)? getChatMessages,
+    TResult? Function(String query)? searchChatUsers,
   }) {
     return getChatMessages?.call(toId);
   }
@@ -514,6 +535,7 @@ class _$GetChatMessagesImpl implements GetChatMessages {
     TResult Function(String toId, Type type, String content)? sendTextMessage,
     TResult Function(String imagePath, String toId)? sendImage,
     TResult Function(String toId)? getChatMessages,
+    TResult Function(String query)? searchChatUsers,
     required TResult orElse(),
   }) {
     if (getChatMessages != null) {
@@ -528,6 +550,7 @@ class _$GetChatMessagesImpl implements GetChatMessages {
     required TResult Function(SendTextMessage value) sendTextMessage,
     required TResult Function(SendImage value) sendImage,
     required TResult Function(GetChatMessages value) getChatMessages,
+    required TResult Function(GetChatUsers value) searchChatUsers,
   }) {
     return getChatMessages(this);
   }
@@ -538,6 +561,7 @@ class _$GetChatMessagesImpl implements GetChatMessages {
     TResult? Function(SendTextMessage value)? sendTextMessage,
     TResult? Function(SendImage value)? sendImage,
     TResult? Function(GetChatMessages value)? getChatMessages,
+    TResult? Function(GetChatUsers value)? searchChatUsers,
   }) {
     return getChatMessages?.call(this);
   }
@@ -548,6 +572,7 @@ class _$GetChatMessagesImpl implements GetChatMessages {
     TResult Function(SendTextMessage value)? sendTextMessage,
     TResult Function(SendImage value)? sendImage,
     TResult Function(GetChatMessages value)? getChatMessages,
+    TResult Function(GetChatUsers value)? searchChatUsers,
     required TResult orElse(),
   }) {
     if (getChatMessages != null) {
@@ -561,11 +586,164 @@ abstract class GetChatMessages implements ChatEvent {
   const factory GetChatMessages({required final String toId}) =
       _$GetChatMessagesImpl;
 
-  @override
   String get toId;
-  @override
   @JsonKey(ignore: true)
   _$$GetChatMessagesImplCopyWith<_$GetChatMessagesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetChatUsersImplCopyWith<$Res> {
+  factory _$$GetChatUsersImplCopyWith(
+          _$GetChatUsersImpl value, $Res Function(_$GetChatUsersImpl) then) =
+      __$$GetChatUsersImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String query});
+}
+
+/// @nodoc
+class __$$GetChatUsersImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$GetChatUsersImpl>
+    implements _$$GetChatUsersImplCopyWith<$Res> {
+  __$$GetChatUsersImplCopyWithImpl(
+      _$GetChatUsersImpl _value, $Res Function(_$GetChatUsersImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? query = null,
+  }) {
+    return _then(_$GetChatUsersImpl(
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetChatUsersImpl with DiagnosticableTreeMixin implements GetChatUsers {
+  const _$GetChatUsersImpl({required this.query});
+
+  @override
+  final String query;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ChatEvent.searchChatUsers(query: $query)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatEvent.searchChatUsers'))
+      ..add(DiagnosticsProperty('query', query));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetChatUsersImpl &&
+            (identical(other.query, query) || other.query == query));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, query);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetChatUsersImplCopyWith<_$GetChatUsersImpl> get copyWith =>
+      __$$GetChatUsersImplCopyWithImpl<_$GetChatUsersImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String toId, Type type, String content)
+        sendTextMessage,
+    required TResult Function(String imagePath, String toId) sendImage,
+    required TResult Function(String toId) getChatMessages,
+    required TResult Function(String query) searchChatUsers,
+  }) {
+    return searchChatUsers(query);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String toId, Type type, String content)? sendTextMessage,
+    TResult? Function(String imagePath, String toId)? sendImage,
+    TResult? Function(String toId)? getChatMessages,
+    TResult? Function(String query)? searchChatUsers,
+  }) {
+    return searchChatUsers?.call(query);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String toId, Type type, String content)? sendTextMessage,
+    TResult Function(String imagePath, String toId)? sendImage,
+    TResult Function(String toId)? getChatMessages,
+    TResult Function(String query)? searchChatUsers,
+    required TResult orElse(),
+  }) {
+    if (searchChatUsers != null) {
+      return searchChatUsers(query);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SendTextMessage value) sendTextMessage,
+    required TResult Function(SendImage value) sendImage,
+    required TResult Function(GetChatMessages value) getChatMessages,
+    required TResult Function(GetChatUsers value) searchChatUsers,
+  }) {
+    return searchChatUsers(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SendTextMessage value)? sendTextMessage,
+    TResult? Function(SendImage value)? sendImage,
+    TResult? Function(GetChatMessages value)? getChatMessages,
+    TResult? Function(GetChatUsers value)? searchChatUsers,
+  }) {
+    return searchChatUsers?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SendTextMessage value)? sendTextMessage,
+    TResult Function(SendImage value)? sendImage,
+    TResult Function(GetChatMessages value)? getChatMessages,
+    TResult Function(GetChatUsers value)? searchChatUsers,
+    required TResult orElse(),
+  }) {
+    if (searchChatUsers != null) {
+      return searchChatUsers(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetChatUsers implements ChatEvent {
+  const factory GetChatUsers({required final String query}) =
+      _$GetChatUsersImpl;
+
+  String get query;
+  @JsonKey(ignore: true)
+  _$$GetChatUsersImplCopyWith<_$GetChatUsersImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -577,6 +755,9 @@ mixin _$ChatState {
     required TResult Function(List<Message> messages) chatLoaded,
     required TResult Function() chatIsEmpty,
     required TResult Function(String error) error,
+    required TResult Function(List<ChatUserWithUserProfile> users)
+        chatUsersSearchResult,
+    required TResult Function() chatUsersSearchResultIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -585,6 +766,9 @@ mixin _$ChatState {
     TResult? Function(List<Message> messages)? chatLoaded,
     TResult? Function()? chatIsEmpty,
     TResult? Function(String error)? error,
+    TResult? Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult? Function()? chatUsersSearchResultIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -593,6 +777,9 @@ mixin _$ChatState {
     TResult Function(List<Message> messages)? chatLoaded,
     TResult Function()? chatIsEmpty,
     TResult Function(String error)? error,
+    TResult Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult Function()? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -602,6 +789,10 @@ mixin _$ChatState {
     required TResult Function(ChatLoaded value) chatLoaded,
     required TResult Function(ChatIsEmpty value) chatIsEmpty,
     required TResult Function(Error value) error,
+    required TResult Function(ChatUsersSearchResult value)
+        chatUsersSearchResult,
+    required TResult Function(SearchResultIsEmpty value)
+        chatUsersSearchResultIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -610,6 +801,8 @@ mixin _$ChatState {
     TResult? Function(ChatLoaded value)? chatLoaded,
     TResult? Function(ChatIsEmpty value)? chatIsEmpty,
     TResult? Function(Error value)? error,
+    TResult? Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult? Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -618,6 +811,8 @@ mixin _$ChatState {
     TResult Function(ChatLoaded value)? chatLoaded,
     TResult Function(ChatIsEmpty value)? chatIsEmpty,
     TResult Function(Error value)? error,
+    TResult Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -658,12 +853,18 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl implements Initial {
+class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
   const _$InitialImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'ChatState.initial'));
   }
 
   @override
@@ -682,6 +883,9 @@ class _$InitialImpl implements Initial {
     required TResult Function(List<Message> messages) chatLoaded,
     required TResult Function() chatIsEmpty,
     required TResult Function(String error) error,
+    required TResult Function(List<ChatUserWithUserProfile> users)
+        chatUsersSearchResult,
+    required TResult Function() chatUsersSearchResultIsEmpty,
   }) {
     return initial();
   }
@@ -693,6 +897,9 @@ class _$InitialImpl implements Initial {
     TResult? Function(List<Message> messages)? chatLoaded,
     TResult? Function()? chatIsEmpty,
     TResult? Function(String error)? error,
+    TResult? Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult? Function()? chatUsersSearchResultIsEmpty,
   }) {
     return initial?.call();
   }
@@ -704,6 +911,9 @@ class _$InitialImpl implements Initial {
     TResult Function(List<Message> messages)? chatLoaded,
     TResult Function()? chatIsEmpty,
     TResult Function(String error)? error,
+    TResult Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult Function()? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -719,6 +929,10 @@ class _$InitialImpl implements Initial {
     required TResult Function(ChatLoaded value) chatLoaded,
     required TResult Function(ChatIsEmpty value) chatIsEmpty,
     required TResult Function(Error value) error,
+    required TResult Function(ChatUsersSearchResult value)
+        chatUsersSearchResult,
+    required TResult Function(SearchResultIsEmpty value)
+        chatUsersSearchResultIsEmpty,
   }) {
     return initial(this);
   }
@@ -730,6 +944,8 @@ class _$InitialImpl implements Initial {
     TResult? Function(ChatLoaded value)? chatLoaded,
     TResult? Function(ChatIsEmpty value)? chatIsEmpty,
     TResult? Function(Error value)? error,
+    TResult? Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult? Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
   }) {
     return initial?.call(this);
   }
@@ -741,6 +957,8 @@ class _$InitialImpl implements Initial {
     TResult Function(ChatLoaded value)? chatLoaded,
     TResult Function(ChatIsEmpty value)? chatIsEmpty,
     TResult Function(Error value)? error,
+    TResult Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -787,7 +1005,7 @@ class __$$ChatLoadedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChatLoadedImpl implements ChatLoaded {
+class _$ChatLoadedImpl with DiagnosticableTreeMixin implements ChatLoaded {
   const _$ChatLoadedImpl({required final List<Message> messages})
       : _messages = messages;
 
@@ -800,8 +1018,16 @@ class _$ChatLoadedImpl implements ChatLoaded {
   }
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatState.chatLoaded(messages: $messages)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatState.chatLoaded'))
+      ..add(DiagnosticsProperty('messages', messages));
   }
 
   @override
@@ -829,6 +1055,9 @@ class _$ChatLoadedImpl implements ChatLoaded {
     required TResult Function(List<Message> messages) chatLoaded,
     required TResult Function() chatIsEmpty,
     required TResult Function(String error) error,
+    required TResult Function(List<ChatUserWithUserProfile> users)
+        chatUsersSearchResult,
+    required TResult Function() chatUsersSearchResultIsEmpty,
   }) {
     return chatLoaded(messages);
   }
@@ -840,6 +1069,9 @@ class _$ChatLoadedImpl implements ChatLoaded {
     TResult? Function(List<Message> messages)? chatLoaded,
     TResult? Function()? chatIsEmpty,
     TResult? Function(String error)? error,
+    TResult? Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult? Function()? chatUsersSearchResultIsEmpty,
   }) {
     return chatLoaded?.call(messages);
   }
@@ -851,6 +1083,9 @@ class _$ChatLoadedImpl implements ChatLoaded {
     TResult Function(List<Message> messages)? chatLoaded,
     TResult Function()? chatIsEmpty,
     TResult Function(String error)? error,
+    TResult Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult Function()? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (chatLoaded != null) {
@@ -866,6 +1101,10 @@ class _$ChatLoadedImpl implements ChatLoaded {
     required TResult Function(ChatLoaded value) chatLoaded,
     required TResult Function(ChatIsEmpty value) chatIsEmpty,
     required TResult Function(Error value) error,
+    required TResult Function(ChatUsersSearchResult value)
+        chatUsersSearchResult,
+    required TResult Function(SearchResultIsEmpty value)
+        chatUsersSearchResultIsEmpty,
   }) {
     return chatLoaded(this);
   }
@@ -877,6 +1116,8 @@ class _$ChatLoadedImpl implements ChatLoaded {
     TResult? Function(ChatLoaded value)? chatLoaded,
     TResult? Function(ChatIsEmpty value)? chatIsEmpty,
     TResult? Function(Error value)? error,
+    TResult? Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult? Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
   }) {
     return chatLoaded?.call(this);
   }
@@ -888,6 +1129,8 @@ class _$ChatLoadedImpl implements ChatLoaded {
     TResult Function(ChatLoaded value)? chatLoaded,
     TResult Function(ChatIsEmpty value)? chatIsEmpty,
     TResult Function(Error value)? error,
+    TResult Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (chatLoaded != null) {
@@ -925,12 +1168,18 @@ class __$$ChatIsEmptyImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChatIsEmptyImpl implements ChatIsEmpty {
+class _$ChatIsEmptyImpl with DiagnosticableTreeMixin implements ChatIsEmpty {
   const _$ChatIsEmptyImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatState.chatIsEmpty()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'ChatState.chatIsEmpty'));
   }
 
   @override
@@ -949,6 +1198,9 @@ class _$ChatIsEmptyImpl implements ChatIsEmpty {
     required TResult Function(List<Message> messages) chatLoaded,
     required TResult Function() chatIsEmpty,
     required TResult Function(String error) error,
+    required TResult Function(List<ChatUserWithUserProfile> users)
+        chatUsersSearchResult,
+    required TResult Function() chatUsersSearchResultIsEmpty,
   }) {
     return chatIsEmpty();
   }
@@ -960,6 +1212,9 @@ class _$ChatIsEmptyImpl implements ChatIsEmpty {
     TResult? Function(List<Message> messages)? chatLoaded,
     TResult? Function()? chatIsEmpty,
     TResult? Function(String error)? error,
+    TResult? Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult? Function()? chatUsersSearchResultIsEmpty,
   }) {
     return chatIsEmpty?.call();
   }
@@ -971,6 +1226,9 @@ class _$ChatIsEmptyImpl implements ChatIsEmpty {
     TResult Function(List<Message> messages)? chatLoaded,
     TResult Function()? chatIsEmpty,
     TResult Function(String error)? error,
+    TResult Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult Function()? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (chatIsEmpty != null) {
@@ -986,6 +1244,10 @@ class _$ChatIsEmptyImpl implements ChatIsEmpty {
     required TResult Function(ChatLoaded value) chatLoaded,
     required TResult Function(ChatIsEmpty value) chatIsEmpty,
     required TResult Function(Error value) error,
+    required TResult Function(ChatUsersSearchResult value)
+        chatUsersSearchResult,
+    required TResult Function(SearchResultIsEmpty value)
+        chatUsersSearchResultIsEmpty,
   }) {
     return chatIsEmpty(this);
   }
@@ -997,6 +1259,8 @@ class _$ChatIsEmptyImpl implements ChatIsEmpty {
     TResult? Function(ChatLoaded value)? chatLoaded,
     TResult? Function(ChatIsEmpty value)? chatIsEmpty,
     TResult? Function(Error value)? error,
+    TResult? Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult? Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
   }) {
     return chatIsEmpty?.call(this);
   }
@@ -1008,6 +1272,8 @@ class _$ChatIsEmptyImpl implements ChatIsEmpty {
     TResult Function(ChatLoaded value)? chatLoaded,
     TResult Function(ChatIsEmpty value)? chatIsEmpty,
     TResult Function(Error value)? error,
+    TResult Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (chatIsEmpty != null) {
@@ -1054,15 +1320,23 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl implements Error {
+class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   const _$ErrorImpl({required this.error});
 
   @override
   final String error;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatState.error(error: $error)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatState.error'))
+      ..add(DiagnosticsProperty('error', error));
   }
 
   @override
@@ -1089,6 +1363,9 @@ class _$ErrorImpl implements Error {
     required TResult Function(List<Message> messages) chatLoaded,
     required TResult Function() chatIsEmpty,
     required TResult Function(String error) error,
+    required TResult Function(List<ChatUserWithUserProfile> users)
+        chatUsersSearchResult,
+    required TResult Function() chatUsersSearchResultIsEmpty,
   }) {
     return error(this.error);
   }
@@ -1100,6 +1377,9 @@ class _$ErrorImpl implements Error {
     TResult? Function(List<Message> messages)? chatLoaded,
     TResult? Function()? chatIsEmpty,
     TResult? Function(String error)? error,
+    TResult? Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult? Function()? chatUsersSearchResultIsEmpty,
   }) {
     return error?.call(this.error);
   }
@@ -1111,6 +1391,9 @@ class _$ErrorImpl implements Error {
     TResult Function(List<Message> messages)? chatLoaded,
     TResult Function()? chatIsEmpty,
     TResult Function(String error)? error,
+    TResult Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult Function()? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1126,6 +1409,10 @@ class _$ErrorImpl implements Error {
     required TResult Function(ChatLoaded value) chatLoaded,
     required TResult Function(ChatIsEmpty value) chatIsEmpty,
     required TResult Function(Error value) error,
+    required TResult Function(ChatUsersSearchResult value)
+        chatUsersSearchResult,
+    required TResult Function(SearchResultIsEmpty value)
+        chatUsersSearchResultIsEmpty,
   }) {
     return error(this);
   }
@@ -1137,6 +1424,8 @@ class _$ErrorImpl implements Error {
     TResult? Function(ChatLoaded value)? chatLoaded,
     TResult? Function(ChatIsEmpty value)? chatIsEmpty,
     TResult? Function(Error value)? error,
+    TResult? Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult? Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
   }) {
     return error?.call(this);
   }
@@ -1148,6 +1437,8 @@ class _$ErrorImpl implements Error {
     TResult Function(ChatLoaded value)? chatLoaded,
     TResult Function(ChatIsEmpty value)? chatIsEmpty,
     TResult Function(Error value)? error,
+    TResult Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1164,4 +1455,329 @@ abstract class Error implements ChatState {
   @JsonKey(ignore: true)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatUsersSearchResultImplCopyWith<$Res> {
+  factory _$$ChatUsersSearchResultImplCopyWith(
+          _$ChatUsersSearchResultImpl value,
+          $Res Function(_$ChatUsersSearchResultImpl) then) =
+      __$$ChatUsersSearchResultImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<ChatUserWithUserProfile> users});
+}
+
+/// @nodoc
+class __$$ChatUsersSearchResultImplCopyWithImpl<$Res>
+    extends _$ChatStateCopyWithImpl<$Res, _$ChatUsersSearchResultImpl>
+    implements _$$ChatUsersSearchResultImplCopyWith<$Res> {
+  __$$ChatUsersSearchResultImplCopyWithImpl(_$ChatUsersSearchResultImpl _value,
+      $Res Function(_$ChatUsersSearchResultImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? users = null,
+  }) {
+    return _then(_$ChatUsersSearchResultImpl(
+      users: null == users
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<ChatUserWithUserProfile>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ChatUsersSearchResultImpl
+    with DiagnosticableTreeMixin
+    implements ChatUsersSearchResult {
+  const _$ChatUsersSearchResultImpl(
+      {required final List<ChatUserWithUserProfile> users})
+      : _users = users;
+
+  final List<ChatUserWithUserProfile> _users;
+  @override
+  List<ChatUserWithUserProfile> get users {
+    if (_users is EqualUnmodifiableListView) return _users;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ChatState.chatUsersSearchResult(users: $users)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatState.chatUsersSearchResult'))
+      ..add(DiagnosticsProperty('users', users));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatUsersSearchResultImpl &&
+            const DeepCollectionEquality().equals(other._users, _users));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_users));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatUsersSearchResultImplCopyWith<_$ChatUsersSearchResultImpl>
+      get copyWith => __$$ChatUsersSearchResultImplCopyWithImpl<
+          _$ChatUsersSearchResultImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<Message> messages) chatLoaded,
+    required TResult Function() chatIsEmpty,
+    required TResult Function(String error) error,
+    required TResult Function(List<ChatUserWithUserProfile> users)
+        chatUsersSearchResult,
+    required TResult Function() chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResult(users);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<Message> messages)? chatLoaded,
+    TResult? Function()? chatIsEmpty,
+    TResult? Function(String error)? error,
+    TResult? Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult? Function()? chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResult?.call(users);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<Message> messages)? chatLoaded,
+    TResult Function()? chatIsEmpty,
+    TResult Function(String error)? error,
+    TResult Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult Function()? chatUsersSearchResultIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (chatUsersSearchResult != null) {
+      return chatUsersSearchResult(users);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(ChatLoaded value) chatLoaded,
+    required TResult Function(ChatIsEmpty value) chatIsEmpty,
+    required TResult Function(Error value) error,
+    required TResult Function(ChatUsersSearchResult value)
+        chatUsersSearchResult,
+    required TResult Function(SearchResultIsEmpty value)
+        chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResult(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(ChatLoaded value)? chatLoaded,
+    TResult? Function(ChatIsEmpty value)? chatIsEmpty,
+    TResult? Function(Error value)? error,
+    TResult? Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult? Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResult?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(ChatLoaded value)? chatLoaded,
+    TResult Function(ChatIsEmpty value)? chatIsEmpty,
+    TResult Function(Error value)? error,
+    TResult Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (chatUsersSearchResult != null) {
+      return chatUsersSearchResult(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ChatUsersSearchResult implements ChatState {
+  const factory ChatUsersSearchResult(
+          {required final List<ChatUserWithUserProfile> users}) =
+      _$ChatUsersSearchResultImpl;
+
+  List<ChatUserWithUserProfile> get users;
+  @JsonKey(ignore: true)
+  _$$ChatUsersSearchResultImplCopyWith<_$ChatUsersSearchResultImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SearchResultIsEmptyImplCopyWith<$Res> {
+  factory _$$SearchResultIsEmptyImplCopyWith(_$SearchResultIsEmptyImpl value,
+          $Res Function(_$SearchResultIsEmptyImpl) then) =
+      __$$SearchResultIsEmptyImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$SearchResultIsEmptyImplCopyWithImpl<$Res>
+    extends _$ChatStateCopyWithImpl<$Res, _$SearchResultIsEmptyImpl>
+    implements _$$SearchResultIsEmptyImplCopyWith<$Res> {
+  __$$SearchResultIsEmptyImplCopyWithImpl(_$SearchResultIsEmptyImpl _value,
+      $Res Function(_$SearchResultIsEmptyImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$SearchResultIsEmptyImpl
+    with DiagnosticableTreeMixin
+    implements SearchResultIsEmpty {
+  const _$SearchResultIsEmptyImpl();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ChatState.chatUsersSearchResultIsEmpty()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+        DiagnosticsProperty('type', 'ChatState.chatUsersSearchResultIsEmpty'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchResultIsEmptyImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<Message> messages) chatLoaded,
+    required TResult Function() chatIsEmpty,
+    required TResult Function(String error) error,
+    required TResult Function(List<ChatUserWithUserProfile> users)
+        chatUsersSearchResult,
+    required TResult Function() chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResultIsEmpty();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<Message> messages)? chatLoaded,
+    TResult? Function()? chatIsEmpty,
+    TResult? Function(String error)? error,
+    TResult? Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult? Function()? chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResultIsEmpty?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<Message> messages)? chatLoaded,
+    TResult Function()? chatIsEmpty,
+    TResult Function(String error)? error,
+    TResult Function(List<ChatUserWithUserProfile> users)?
+        chatUsersSearchResult,
+    TResult Function()? chatUsersSearchResultIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (chatUsersSearchResultIsEmpty != null) {
+      return chatUsersSearchResultIsEmpty();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(ChatLoaded value) chatLoaded,
+    required TResult Function(ChatIsEmpty value) chatIsEmpty,
+    required TResult Function(Error value) error,
+    required TResult Function(ChatUsersSearchResult value)
+        chatUsersSearchResult,
+    required TResult Function(SearchResultIsEmpty value)
+        chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResultIsEmpty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(ChatLoaded value)? chatLoaded,
+    TResult? Function(ChatIsEmpty value)? chatIsEmpty,
+    TResult? Function(Error value)? error,
+    TResult? Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult? Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
+  }) {
+    return chatUsersSearchResultIsEmpty?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(ChatLoaded value)? chatLoaded,
+    TResult Function(ChatIsEmpty value)? chatIsEmpty,
+    TResult Function(Error value)? error,
+    TResult Function(ChatUsersSearchResult value)? chatUsersSearchResult,
+    TResult Function(SearchResultIsEmpty value)? chatUsersSearchResultIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (chatUsersSearchResultIsEmpty != null) {
+      return chatUsersSearchResultIsEmpty(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SearchResultIsEmpty implements ChatState {
+  const factory SearchResultIsEmpty() = _$SearchResultIsEmptyImpl;
 }

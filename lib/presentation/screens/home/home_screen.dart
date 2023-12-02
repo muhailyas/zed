@@ -21,17 +21,24 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<HomeBloc>().add(FetchingPostEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeBloc>().add(FetchingPostEvent());
+    });
     return SafeArea(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            _buildHeader(context),
-            _buildStoryList(context),
-            divider,
-            _buildPostList(),
-          ],
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<HomeBloc>().add(FetchingPostEvent());
+        },
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              _buildHeader(context),
+              _buildStoryList(context),
+              divider,
+              _buildPostList(),
+            ],
+          ),
         ),
       ),
     );

@@ -17,9 +17,9 @@ class TabViewWidget extends StatelessWidget {
       child: TabBarView(
         physics: const BouncingScrollPhysics(),
         controller: tabController,
-        children: myTabs.map((Tab tab) {
-          return tab == myTabs[0]
-              ? BlocBuilder<ProfileBloc, ProfileState>(
+        children:List.generate(2, (index) {
+          return index%2==0
+          ? BlocBuilder<ProfileBloc, ProfileState>(
                   buildWhen: (previous, current) =>
                       current is ProfileFetchSuccess &&
                       previous is ProfileLoading,

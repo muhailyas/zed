@@ -20,6 +20,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<AddPostEvent>(addPostEvent);
     on<OpenCameraEvent>(openCameraEvent);
     on<SelectImageFromGalleryEvent>(selectImageFromGalleryEvent);
+    on<FetchPostsOrSavedPosts>(fetchPostsOrSavedPosts);
   }
 
   FutureOr<void> closePostScreenEvent(
@@ -51,5 +52,24 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       SelectImageFromGalleryEvent event, Emitter<PostState> emit) async {
     String? image = await ImagePickerProvider().pickImage(ImageSource.gallery);
     emit(PostImageSelected(image: image));
+  }
+
+  FutureOr<void> fetchPostsOrSavedPosts(
+      FetchPostsOrSavedPosts event, Emitter<PostState> emit) async {
+    emit(PostInitial());
+    List<Post> posts = [];
+    final user = FirebaseAuth.instance.currentUser!.uid;
+    if (event.isSavedPost) {
+      final data = await postRepository.fetchSavedPosts(userId: user);
+      posts.addAll(data);
+    } else {
+      final data = await userRepository.getUserPosts(user);
+      posts.addAll(data);
+    }
+    if (posts.isEmpty) {
+      emit(PostsFetchIsEmpty());
+    } else {
+      emit(PostsFetchSuccess(posts: posts));
+    }
   }
 }

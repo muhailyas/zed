@@ -65,17 +65,11 @@ ValueNotifier<bool> isEditMode = ValueNotifier(false);
 ValueNotifier<bool> loadingNotifier = ValueNotifier(false);
 ValueNotifier<bool> isReadMore = ValueNotifier(false);
 
-// screens
 List<Widget> screens = const [
   HomeScreen(),
   SearchScreen(),
   NotificationScreen(),
   ProfileScreen(),
-];
-// Tab bar name
-const List<Tab> myTabs = <Tab>[
-  Tab(text: 'Posts'),
-  Tab(text: 'Saved'),
 ];
 
 //

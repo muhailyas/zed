@@ -22,6 +22,7 @@ mixin _$StoryEvent {
     required TResult Function() selectImageFromGallery,
     required TResult Function() takeImageWithCamera,
     required TResult Function(Story story) addToStory,
+    required TResult Function() fetchArchivedStroies,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$StoryEvent {
     TResult? Function()? selectImageFromGallery,
     TResult? Function()? takeImageWithCamera,
     TResult? Function(Story story)? addToStory,
+    TResult? Function()? fetchArchivedStroies,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$StoryEvent {
     TResult Function()? selectImageFromGallery,
     TResult Function()? takeImageWithCamera,
     TResult Function(Story story)? addToStory,
+    TResult Function()? fetchArchivedStroies,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +51,7 @@ mixin _$StoryEvent {
         selectImageFromGallery,
     required TResult Function(TakeImageWithCamera value) takeImageWithCamera,
     required TResult Function(AddToStory value) addToStory,
+    required TResult Function(FetchArchivedStroies value) fetchArchivedStroies,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,6 +60,7 @@ mixin _$StoryEvent {
     TResult? Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult? Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult? Function(AddToStory value)? addToStory,
+    TResult? Function(FetchArchivedStroies value)? fetchArchivedStroies,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,6 +69,7 @@ mixin _$StoryEvent {
     TResult Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult Function(AddToStory value)? addToStory,
+    TResult Function(FetchArchivedStroies value)? fetchArchivedStroies,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -137,6 +143,7 @@ class _$FetchRecentImagesImpl
     required TResult Function() selectImageFromGallery,
     required TResult Function() takeImageWithCamera,
     required TResult Function(Story story) addToStory,
+    required TResult Function() fetchArchivedStroies,
   }) {
     return fetchRecentImages();
   }
@@ -148,6 +155,7 @@ class _$FetchRecentImagesImpl
     TResult? Function()? selectImageFromGallery,
     TResult? Function()? takeImageWithCamera,
     TResult? Function(Story story)? addToStory,
+    TResult? Function()? fetchArchivedStroies,
   }) {
     return fetchRecentImages?.call();
   }
@@ -159,6 +167,7 @@ class _$FetchRecentImagesImpl
     TResult Function()? selectImageFromGallery,
     TResult Function()? takeImageWithCamera,
     TResult Function(Story story)? addToStory,
+    TResult Function()? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (fetchRecentImages != null) {
@@ -175,6 +184,7 @@ class _$FetchRecentImagesImpl
         selectImageFromGallery,
     required TResult Function(TakeImageWithCamera value) takeImageWithCamera,
     required TResult Function(AddToStory value) addToStory,
+    required TResult Function(FetchArchivedStroies value) fetchArchivedStroies,
   }) {
     return fetchRecentImages(this);
   }
@@ -186,6 +196,7 @@ class _$FetchRecentImagesImpl
     TResult? Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult? Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult? Function(AddToStory value)? addToStory,
+    TResult? Function(FetchArchivedStroies value)? fetchArchivedStroies,
   }) {
     return fetchRecentImages?.call(this);
   }
@@ -197,6 +208,7 @@ class _$FetchRecentImagesImpl
     TResult Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult Function(AddToStory value)? addToStory,
+    TResult Function(FetchArchivedStroies value)? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (fetchRecentImages != null) {
@@ -264,6 +276,7 @@ class _$SelectImageFromGalleryImpl
     required TResult Function() selectImageFromGallery,
     required TResult Function() takeImageWithCamera,
     required TResult Function(Story story) addToStory,
+    required TResult Function() fetchArchivedStroies,
   }) {
     return selectImageFromGallery();
   }
@@ -275,6 +288,7 @@ class _$SelectImageFromGalleryImpl
     TResult? Function()? selectImageFromGallery,
     TResult? Function()? takeImageWithCamera,
     TResult? Function(Story story)? addToStory,
+    TResult? Function()? fetchArchivedStroies,
   }) {
     return selectImageFromGallery?.call();
   }
@@ -286,6 +300,7 @@ class _$SelectImageFromGalleryImpl
     TResult Function()? selectImageFromGallery,
     TResult Function()? takeImageWithCamera,
     TResult Function(Story story)? addToStory,
+    TResult Function()? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (selectImageFromGallery != null) {
@@ -302,6 +317,7 @@ class _$SelectImageFromGalleryImpl
         selectImageFromGallery,
     required TResult Function(TakeImageWithCamera value) takeImageWithCamera,
     required TResult Function(AddToStory value) addToStory,
+    required TResult Function(FetchArchivedStroies value) fetchArchivedStroies,
   }) {
     return selectImageFromGallery(this);
   }
@@ -313,6 +329,7 @@ class _$SelectImageFromGalleryImpl
     TResult? Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult? Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult? Function(AddToStory value)? addToStory,
+    TResult? Function(FetchArchivedStroies value)? fetchArchivedStroies,
   }) {
     return selectImageFromGallery?.call(this);
   }
@@ -324,6 +341,7 @@ class _$SelectImageFromGalleryImpl
     TResult Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult Function(AddToStory value)? addToStory,
+    TResult Function(FetchArchivedStroies value)? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (selectImageFromGallery != null) {
@@ -389,6 +407,7 @@ class _$TakeImageWithCameraImpl
     required TResult Function() selectImageFromGallery,
     required TResult Function() takeImageWithCamera,
     required TResult Function(Story story) addToStory,
+    required TResult Function() fetchArchivedStroies,
   }) {
     return takeImageWithCamera();
   }
@@ -400,6 +419,7 @@ class _$TakeImageWithCameraImpl
     TResult? Function()? selectImageFromGallery,
     TResult? Function()? takeImageWithCamera,
     TResult? Function(Story story)? addToStory,
+    TResult? Function()? fetchArchivedStroies,
   }) {
     return takeImageWithCamera?.call();
   }
@@ -411,6 +431,7 @@ class _$TakeImageWithCameraImpl
     TResult Function()? selectImageFromGallery,
     TResult Function()? takeImageWithCamera,
     TResult Function(Story story)? addToStory,
+    TResult Function()? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (takeImageWithCamera != null) {
@@ -427,6 +448,7 @@ class _$TakeImageWithCameraImpl
         selectImageFromGallery,
     required TResult Function(TakeImageWithCamera value) takeImageWithCamera,
     required TResult Function(AddToStory value) addToStory,
+    required TResult Function(FetchArchivedStroies value) fetchArchivedStroies,
   }) {
     return takeImageWithCamera(this);
   }
@@ -438,6 +460,7 @@ class _$TakeImageWithCameraImpl
     TResult? Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult? Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult? Function(AddToStory value)? addToStory,
+    TResult? Function(FetchArchivedStroies value)? fetchArchivedStroies,
   }) {
     return takeImageWithCamera?.call(this);
   }
@@ -449,6 +472,7 @@ class _$TakeImageWithCameraImpl
     TResult Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult Function(AddToStory value)? addToStory,
+    TResult Function(FetchArchivedStroies value)? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (takeImageWithCamera != null) {
@@ -538,6 +562,7 @@ class _$AddToStoryImpl with DiagnosticableTreeMixin implements AddToStory {
     required TResult Function() selectImageFromGallery,
     required TResult Function() takeImageWithCamera,
     required TResult Function(Story story) addToStory,
+    required TResult Function() fetchArchivedStroies,
   }) {
     return addToStory(story);
   }
@@ -549,6 +574,7 @@ class _$AddToStoryImpl with DiagnosticableTreeMixin implements AddToStory {
     TResult? Function()? selectImageFromGallery,
     TResult? Function()? takeImageWithCamera,
     TResult? Function(Story story)? addToStory,
+    TResult? Function()? fetchArchivedStroies,
   }) {
     return addToStory?.call(story);
   }
@@ -560,6 +586,7 @@ class _$AddToStoryImpl with DiagnosticableTreeMixin implements AddToStory {
     TResult Function()? selectImageFromGallery,
     TResult Function()? takeImageWithCamera,
     TResult Function(Story story)? addToStory,
+    TResult Function()? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (addToStory != null) {
@@ -576,6 +603,7 @@ class _$AddToStoryImpl with DiagnosticableTreeMixin implements AddToStory {
         selectImageFromGallery,
     required TResult Function(TakeImageWithCamera value) takeImageWithCamera,
     required TResult Function(AddToStory value) addToStory,
+    required TResult Function(FetchArchivedStroies value) fetchArchivedStroies,
   }) {
     return addToStory(this);
   }
@@ -587,6 +615,7 @@ class _$AddToStoryImpl with DiagnosticableTreeMixin implements AddToStory {
     TResult? Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult? Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult? Function(AddToStory value)? addToStory,
+    TResult? Function(FetchArchivedStroies value)? fetchArchivedStroies,
   }) {
     return addToStory?.call(this);
   }
@@ -598,6 +627,7 @@ class _$AddToStoryImpl with DiagnosticableTreeMixin implements AddToStory {
     TResult Function(SelectImageFromGallery value)? selectImageFromGallery,
     TResult Function(TakeImageWithCamera value)? takeImageWithCamera,
     TResult Function(AddToStory value)? addToStory,
+    TResult Function(FetchArchivedStroies value)? fetchArchivedStroies,
     required TResult orElse(),
   }) {
     if (addToStory != null) {
@@ -617,6 +647,137 @@ abstract class AddToStory implements StoryEvent {
 }
 
 /// @nodoc
+abstract class _$$FetchArchivedStroiesImplCopyWith<$Res> {
+  factory _$$FetchArchivedStroiesImplCopyWith(_$FetchArchivedStroiesImpl value,
+          $Res Function(_$FetchArchivedStroiesImpl) then) =
+      __$$FetchArchivedStroiesImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchArchivedStroiesImplCopyWithImpl<$Res>
+    extends _$StoryEventCopyWithImpl<$Res, _$FetchArchivedStroiesImpl>
+    implements _$$FetchArchivedStroiesImplCopyWith<$Res> {
+  __$$FetchArchivedStroiesImplCopyWithImpl(_$FetchArchivedStroiesImpl _value,
+      $Res Function(_$FetchArchivedStroiesImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$FetchArchivedStroiesImpl
+    with DiagnosticableTreeMixin
+    implements FetchArchivedStroies {
+  const _$FetchArchivedStroiesImpl();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StoryEvent.fetchArchivedStroies()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+        .add(DiagnosticsProperty('type', 'StoryEvent.fetchArchivedStroies'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchArchivedStroiesImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchRecentImages,
+    required TResult Function() selectImageFromGallery,
+    required TResult Function() takeImageWithCamera,
+    required TResult Function(Story story) addToStory,
+    required TResult Function() fetchArchivedStroies,
+  }) {
+    return fetchArchivedStroies();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchRecentImages,
+    TResult? Function()? selectImageFromGallery,
+    TResult? Function()? takeImageWithCamera,
+    TResult? Function(Story story)? addToStory,
+    TResult? Function()? fetchArchivedStroies,
+  }) {
+    return fetchArchivedStroies?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchRecentImages,
+    TResult Function()? selectImageFromGallery,
+    TResult Function()? takeImageWithCamera,
+    TResult Function(Story story)? addToStory,
+    TResult Function()? fetchArchivedStroies,
+    required TResult orElse(),
+  }) {
+    if (fetchArchivedStroies != null) {
+      return fetchArchivedStroies();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FetchRecentImages value) fetchRecentImages,
+    required TResult Function(SelectImageFromGallery value)
+        selectImageFromGallery,
+    required TResult Function(TakeImageWithCamera value) takeImageWithCamera,
+    required TResult Function(AddToStory value) addToStory,
+    required TResult Function(FetchArchivedStroies value) fetchArchivedStroies,
+  }) {
+    return fetchArchivedStroies(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FetchRecentImages value)? fetchRecentImages,
+    TResult? Function(SelectImageFromGallery value)? selectImageFromGallery,
+    TResult? Function(TakeImageWithCamera value)? takeImageWithCamera,
+    TResult? Function(AddToStory value)? addToStory,
+    TResult? Function(FetchArchivedStroies value)? fetchArchivedStroies,
+  }) {
+    return fetchArchivedStroies?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FetchRecentImages value)? fetchRecentImages,
+    TResult Function(SelectImageFromGallery value)? selectImageFromGallery,
+    TResult Function(TakeImageWithCamera value)? takeImageWithCamera,
+    TResult Function(AddToStory value)? addToStory,
+    TResult Function(FetchArchivedStroies value)? fetchArchivedStroies,
+    required TResult orElse(),
+  }) {
+    if (fetchArchivedStroies != null) {
+      return fetchArchivedStroies(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FetchArchivedStroies implements StoryEvent {
+  const factory FetchArchivedStroies() = _$FetchArchivedStroiesImpl;
+}
+
+/// @nodoc
 mixin _$StoryState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -626,6 +787,10 @@ mixin _$StoryState {
     required TResult Function(File selectedImage, bool isCamera) imageSelected,
     required TResult Function() storyAddedSuccesfully,
     required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -635,6 +800,9 @@ mixin _$StoryState {
     TResult? Function(File selectedImage, bool isCamera)? imageSelected,
     TResult? Function()? storyAddedSuccesfully,
     TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -644,6 +812,9 @@ mixin _$StoryState {
     TResult Function(File selectedImage, bool isCamera)? imageSelected,
     TResult Function()? storyAddedSuccesfully,
     TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -656,6 +827,12 @@ mixin _$StoryState {
     required TResult Function(StoryAddedSuccesfully value)
         storyAddedSuccesfully,
     required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -666,6 +843,12 @@ mixin _$StoryState {
     TResult? Function(ImageSelected value)? imageSelected,
     TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -676,6 +859,12 @@ mixin _$StoryState {
     TResult Function(ImageSelected value)? imageSelected,
     TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -749,6 +938,10 @@ class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
     required TResult Function(File selectedImage, bool isCamera) imageSelected,
     required TResult Function() storyAddedSuccesfully,
     required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
   }) {
     return initial();
   }
@@ -761,6 +954,9 @@ class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
     TResult? Function(File selectedImage, bool isCamera)? imageSelected,
     TResult? Function()? storyAddedSuccesfully,
     TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
   }) {
     return initial?.call();
   }
@@ -773,6 +969,9 @@ class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
     TResult Function(File selectedImage, bool isCamera)? imageSelected,
     TResult Function()? storyAddedSuccesfully,
     TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -791,6 +990,12 @@ class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
     required TResult Function(StoryAddedSuccesfully value)
         storyAddedSuccesfully,
     required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return initial(this);
   }
@@ -804,6 +1009,12 @@ class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
     TResult? Function(ImageSelected value)? imageSelected,
     TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return initial?.call(this);
   }
@@ -817,6 +1028,12 @@ class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
     TResult Function(ImageSelected value)? imageSelected,
     TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -923,6 +1140,10 @@ class _$RecentImagesFetchedSuccessImpl
     required TResult Function(File selectedImage, bool isCamera) imageSelected,
     required TResult Function() storyAddedSuccesfully,
     required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
   }) {
     return recentImagesFetchedSuccess(recentImages);
   }
@@ -935,6 +1156,9 @@ class _$RecentImagesFetchedSuccessImpl
     TResult? Function(File selectedImage, bool isCamera)? imageSelected,
     TResult? Function()? storyAddedSuccesfully,
     TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
   }) {
     return recentImagesFetchedSuccess?.call(recentImages);
   }
@@ -947,6 +1171,9 @@ class _$RecentImagesFetchedSuccessImpl
     TResult Function(File selectedImage, bool isCamera)? imageSelected,
     TResult Function()? storyAddedSuccesfully,
     TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (recentImagesFetchedSuccess != null) {
@@ -965,6 +1192,12 @@ class _$RecentImagesFetchedSuccessImpl
     required TResult Function(StoryAddedSuccesfully value)
         storyAddedSuccesfully,
     required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return recentImagesFetchedSuccess(this);
   }
@@ -978,6 +1211,12 @@ class _$RecentImagesFetchedSuccessImpl
     TResult? Function(ImageSelected value)? imageSelected,
     TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return recentImagesFetchedSuccess?.call(this);
   }
@@ -991,6 +1230,12 @@ class _$RecentImagesFetchedSuccessImpl
     TResult Function(ImageSelected value)? imageSelected,
     TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (recentImagesFetchedSuccess != null) {
@@ -1103,6 +1348,10 @@ class _$ImageSelectedImpl
     required TResult Function(File selectedImage, bool isCamera) imageSelected,
     required TResult Function() storyAddedSuccesfully,
     required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
   }) {
     return imageSelected(selectedImage, isCamera);
   }
@@ -1115,6 +1364,9 @@ class _$ImageSelectedImpl
     TResult? Function(File selectedImage, bool isCamera)? imageSelected,
     TResult? Function()? storyAddedSuccesfully,
     TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
   }) {
     return imageSelected?.call(selectedImage, isCamera);
   }
@@ -1127,6 +1379,9 @@ class _$ImageSelectedImpl
     TResult Function(File selectedImage, bool isCamera)? imageSelected,
     TResult Function()? storyAddedSuccesfully,
     TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (imageSelected != null) {
@@ -1145,6 +1400,12 @@ class _$ImageSelectedImpl
     required TResult Function(StoryAddedSuccesfully value)
         storyAddedSuccesfully,
     required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return imageSelected(this);
   }
@@ -1158,6 +1419,12 @@ class _$ImageSelectedImpl
     TResult? Function(ImageSelected value)? imageSelected,
     TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return imageSelected?.call(this);
   }
@@ -1171,6 +1438,12 @@ class _$ImageSelectedImpl
     TResult Function(ImageSelected value)? imageSelected,
     TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (imageSelected != null) {
@@ -1247,6 +1520,10 @@ class _$StoryAddedSuccesfullyImpl
     required TResult Function(File selectedImage, bool isCamera) imageSelected,
     required TResult Function() storyAddedSuccesfully,
     required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
   }) {
     return storyAddedSuccesfully();
   }
@@ -1259,6 +1536,9 @@ class _$StoryAddedSuccesfullyImpl
     TResult? Function(File selectedImage, bool isCamera)? imageSelected,
     TResult? Function()? storyAddedSuccesfully,
     TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
   }) {
     return storyAddedSuccesfully?.call();
   }
@@ -1271,6 +1551,9 @@ class _$StoryAddedSuccesfullyImpl
     TResult Function(File selectedImage, bool isCamera)? imageSelected,
     TResult Function()? storyAddedSuccesfully,
     TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (storyAddedSuccesfully != null) {
@@ -1289,6 +1572,12 @@ class _$StoryAddedSuccesfullyImpl
     required TResult Function(StoryAddedSuccesfully value)
         storyAddedSuccesfully,
     required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return storyAddedSuccesfully(this);
   }
@@ -1302,6 +1591,12 @@ class _$StoryAddedSuccesfullyImpl
     TResult? Function(ImageSelected value)? imageSelected,
     TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return storyAddedSuccesfully?.call(this);
   }
@@ -1315,6 +1610,12 @@ class _$StoryAddedSuccesfullyImpl
     TResult Function(ImageSelected value)? imageSelected,
     TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (storyAddedSuccesfully != null) {
@@ -1378,6 +1679,10 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
     required TResult Function(File selectedImage, bool isCamera) imageSelected,
     required TResult Function() storyAddedSuccesfully,
     required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
   }) {
     return loading();
   }
@@ -1390,6 +1695,9 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
     TResult? Function(File selectedImage, bool isCamera)? imageSelected,
     TResult? Function()? storyAddedSuccesfully,
     TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
   }) {
     return loading?.call();
   }
@@ -1402,6 +1710,9 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
     TResult Function(File selectedImage, bool isCamera)? imageSelected,
     TResult Function()? storyAddedSuccesfully,
     TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1420,6 +1731,12 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
     required TResult Function(StoryAddedSuccesfully value)
         storyAddedSuccesfully,
     required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return loading(this);
   }
@@ -1433,6 +1750,12 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
     TResult? Function(ImageSelected value)? imageSelected,
     TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
   }) {
     return loading?.call(this);
   }
@@ -1446,6 +1769,12 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
     TResult Function(ImageSelected value)? imageSelected,
     TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
     TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1457,4 +1786,579 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
 
 abstract class Loading implements StoryState {
   const factory Loading() = _$LoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$FetchedArchivedStroiesSuccessImplCopyWith<$Res> {
+  factory _$$FetchedArchivedStroiesSuccessImplCopyWith(
+          _$FetchedArchivedStroiesSuccessImpl value,
+          $Res Function(_$FetchedArchivedStroiesSuccessImpl) then) =
+      __$$FetchedArchivedStroiesSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Story> stories});
+}
+
+/// @nodoc
+class __$$FetchedArchivedStroiesSuccessImplCopyWithImpl<$Res>
+    extends _$StoryStateCopyWithImpl<$Res, _$FetchedArchivedStroiesSuccessImpl>
+    implements _$$FetchedArchivedStroiesSuccessImplCopyWith<$Res> {
+  __$$FetchedArchivedStroiesSuccessImplCopyWithImpl(
+      _$FetchedArchivedStroiesSuccessImpl _value,
+      $Res Function(_$FetchedArchivedStroiesSuccessImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? stories = null,
+  }) {
+    return _then(_$FetchedArchivedStroiesSuccessImpl(
+      stories: null == stories
+          ? _value._stories
+          : stories // ignore: cast_nullable_to_non_nullable
+              as List<Story>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FetchedArchivedStroiesSuccessImpl
+    with DiagnosticableTreeMixin
+    implements FetchedArchivedStroiesSuccess {
+  const _$FetchedArchivedStroiesSuccessImpl(
+      {required final List<Story> stories})
+      : _stories = stories;
+
+  final List<Story> _stories;
+  @override
+  List<Story> get stories {
+    if (_stories is EqualUnmodifiableListView) return _stories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_stories);
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StoryState.fetchedArchivedStroiesSuccess(stories: $stories)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty(
+          'type', 'StoryState.fetchedArchivedStroiesSuccess'))
+      ..add(DiagnosticsProperty('stories', stories));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchedArchivedStroiesSuccessImpl &&
+            const DeepCollectionEquality().equals(other._stories, _stories));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_stories));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchedArchivedStroiesSuccessImplCopyWith<
+          _$FetchedArchivedStroiesSuccessImpl>
+      get copyWith => __$$FetchedArchivedStroiesSuccessImplCopyWithImpl<
+          _$FetchedArchivedStroiesSuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<File?> recentImages)
+        recentImagesFetchedSuccess,
+    required TResult Function(File selectedImage, bool isCamera) imageSelected,
+    required TResult Function() storyAddedSuccesfully,
+    required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesSuccess(stories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<File?> recentImages)? recentImagesFetchedSuccess,
+    TResult? Function(File selectedImage, bool isCamera)? imageSelected,
+    TResult? Function()? storyAddedSuccesfully,
+    TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesSuccess?.call(stories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<File?> recentImages)? recentImagesFetchedSuccess,
+    TResult Function(File selectedImage, bool isCamera)? imageSelected,
+    TResult Function()? storyAddedSuccesfully,
+    TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (fetchedArchivedStroiesSuccess != null) {
+      return fetchedArchivedStroiesSuccess(stories);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(RecentImagesFetchedSuccess value)
+        recentImagesFetchedSuccess,
+    required TResult Function(ImageSelected value) imageSelected,
+    required TResult Function(StoryAddedSuccesfully value)
+        storyAddedSuccesfully,
+    required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(RecentImagesFetchedSuccess value)?
+        recentImagesFetchedSuccess,
+    TResult? Function(ImageSelected value)? imageSelected,
+    TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(RecentImagesFetchedSuccess value)?
+        recentImagesFetchedSuccess,
+    TResult Function(ImageSelected value)? imageSelected,
+    TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
+    TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (fetchedArchivedStroiesSuccess != null) {
+      return fetchedArchivedStroiesSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FetchedArchivedStroiesSuccess implements StoryState {
+  const factory FetchedArchivedStroiesSuccess(
+          {required final List<Story> stories}) =
+      _$FetchedArchivedStroiesSuccessImpl;
+
+  List<Story> get stories;
+  @JsonKey(ignore: true)
+  _$$FetchedArchivedStroiesSuccessImplCopyWith<
+          _$FetchedArchivedStroiesSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FetchedArchivedStroiesErrorImplCopyWith<$Res> {
+  factory _$$FetchedArchivedStroiesErrorImplCopyWith(
+          _$FetchedArchivedStroiesErrorImpl value,
+          $Res Function(_$FetchedArchivedStroiesErrorImpl) then) =
+      __$$FetchedArchivedStroiesErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String error});
+}
+
+/// @nodoc
+class __$$FetchedArchivedStroiesErrorImplCopyWithImpl<$Res>
+    extends _$StoryStateCopyWithImpl<$Res, _$FetchedArchivedStroiesErrorImpl>
+    implements _$$FetchedArchivedStroiesErrorImplCopyWith<$Res> {
+  __$$FetchedArchivedStroiesErrorImplCopyWithImpl(
+      _$FetchedArchivedStroiesErrorImpl _value,
+      $Res Function(_$FetchedArchivedStroiesErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? error = null,
+  }) {
+    return _then(_$FetchedArchivedStroiesErrorImpl(
+      error: null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FetchedArchivedStroiesErrorImpl
+    with DiagnosticableTreeMixin
+    implements FetchedArchivedStroiesError {
+  const _$FetchedArchivedStroiesErrorImpl({required this.error});
+
+  @override
+  final String error;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StoryState.fetchedArchivedStroiesError(error: $error)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'StoryState.fetchedArchivedStroiesError'))
+      ..add(DiagnosticsProperty('error', error));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchedArchivedStroiesErrorImpl &&
+            (identical(other.error, error) || other.error == error));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, error);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchedArchivedStroiesErrorImplCopyWith<_$FetchedArchivedStroiesErrorImpl>
+      get copyWith => __$$FetchedArchivedStroiesErrorImplCopyWithImpl<
+          _$FetchedArchivedStroiesErrorImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<File?> recentImages)
+        recentImagesFetchedSuccess,
+    required TResult Function(File selectedImage, bool isCamera) imageSelected,
+    required TResult Function() storyAddedSuccesfully,
+    required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesError(error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<File?> recentImages)? recentImagesFetchedSuccess,
+    TResult? Function(File selectedImage, bool isCamera)? imageSelected,
+    TResult? Function()? storyAddedSuccesfully,
+    TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesError?.call(error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<File?> recentImages)? recentImagesFetchedSuccess,
+    TResult Function(File selectedImage, bool isCamera)? imageSelected,
+    TResult Function()? storyAddedSuccesfully,
+    TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (fetchedArchivedStroiesError != null) {
+      return fetchedArchivedStroiesError(error);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(RecentImagesFetchedSuccess value)
+        recentImagesFetchedSuccess,
+    required TResult Function(ImageSelected value) imageSelected,
+    required TResult Function(StoryAddedSuccesfully value)
+        storyAddedSuccesfully,
+    required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(RecentImagesFetchedSuccess value)?
+        recentImagesFetchedSuccess,
+    TResult? Function(ImageSelected value)? imageSelected,
+    TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(RecentImagesFetchedSuccess value)?
+        recentImagesFetchedSuccess,
+    TResult Function(ImageSelected value)? imageSelected,
+    TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
+    TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (fetchedArchivedStroiesError != null) {
+      return fetchedArchivedStroiesError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FetchedArchivedStroiesError implements StoryState {
+  const factory FetchedArchivedStroiesError({required final String error}) =
+      _$FetchedArchivedStroiesErrorImpl;
+
+  String get error;
+  @JsonKey(ignore: true)
+  _$$FetchedArchivedStroiesErrorImplCopyWith<_$FetchedArchivedStroiesErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FetchedArchivedStroiesIsEmptyImplCopyWith<$Res> {
+  factory _$$FetchedArchivedStroiesIsEmptyImplCopyWith(
+          _$FetchedArchivedStroiesIsEmptyImpl value,
+          $Res Function(_$FetchedArchivedStroiesIsEmptyImpl) then) =
+      __$$FetchedArchivedStroiesIsEmptyImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchedArchivedStroiesIsEmptyImplCopyWithImpl<$Res>
+    extends _$StoryStateCopyWithImpl<$Res, _$FetchedArchivedStroiesIsEmptyImpl>
+    implements _$$FetchedArchivedStroiesIsEmptyImplCopyWith<$Res> {
+  __$$FetchedArchivedStroiesIsEmptyImplCopyWithImpl(
+      _$FetchedArchivedStroiesIsEmptyImpl _value,
+      $Res Function(_$FetchedArchivedStroiesIsEmptyImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$FetchedArchivedStroiesIsEmptyImpl
+    with DiagnosticableTreeMixin
+    implements FetchedArchivedStroiesIsEmpty {
+  const _$FetchedArchivedStroiesIsEmptyImpl();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StoryState.fetchedArchivedStroiesIsEmpty()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty(
+        'type', 'StoryState.fetchedArchivedStroiesIsEmpty'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchedArchivedStroiesIsEmptyImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<File?> recentImages)
+        recentImagesFetchedSuccess,
+    required TResult Function(File selectedImage, bool isCamera) imageSelected,
+    required TResult Function() storyAddedSuccesfully,
+    required TResult Function() loading,
+    required TResult Function(List<Story> stories)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(String error) fetchedArchivedStroiesError,
+    required TResult Function() fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesIsEmpty();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<File?> recentImages)? recentImagesFetchedSuccess,
+    TResult? Function(File selectedImage, bool isCamera)? imageSelected,
+    TResult? Function()? storyAddedSuccesfully,
+    TResult? Function()? loading,
+    TResult? Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult? Function(String error)? fetchedArchivedStroiesError,
+    TResult? Function()? fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesIsEmpty?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<File?> recentImages)? recentImagesFetchedSuccess,
+    TResult Function(File selectedImage, bool isCamera)? imageSelected,
+    TResult Function()? storyAddedSuccesfully,
+    TResult Function()? loading,
+    TResult Function(List<Story> stories)? fetchedArchivedStroiesSuccess,
+    TResult Function(String error)? fetchedArchivedStroiesError,
+    TResult Function()? fetchedArchivedStroiesIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (fetchedArchivedStroiesIsEmpty != null) {
+      return fetchedArchivedStroiesIsEmpty();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(RecentImagesFetchedSuccess value)
+        recentImagesFetchedSuccess,
+    required TResult Function(ImageSelected value) imageSelected,
+    required TResult Function(StoryAddedSuccesfully value)
+        storyAddedSuccesfully,
+    required TResult Function(Loading value) loading,
+    required TResult Function(FetchedArchivedStroiesSuccess value)
+        fetchedArchivedStroiesSuccess,
+    required TResult Function(FetchedArchivedStroiesError value)
+        fetchedArchivedStroiesError,
+    required TResult Function(FetchedArchivedStroiesIsEmpty value)
+        fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesIsEmpty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(RecentImagesFetchedSuccess value)?
+        recentImagesFetchedSuccess,
+    TResult? Function(ImageSelected value)? imageSelected,
+    TResult? Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult? Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult? Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
+  }) {
+    return fetchedArchivedStroiesIsEmpty?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(RecentImagesFetchedSuccess value)?
+        recentImagesFetchedSuccess,
+    TResult Function(ImageSelected value)? imageSelected,
+    TResult Function(StoryAddedSuccesfully value)? storyAddedSuccesfully,
+    TResult Function(Loading value)? loading,
+    TResult Function(FetchedArchivedStroiesSuccess value)?
+        fetchedArchivedStroiesSuccess,
+    TResult Function(FetchedArchivedStroiesError value)?
+        fetchedArchivedStroiesError,
+    TResult Function(FetchedArchivedStroiesIsEmpty value)?
+        fetchedArchivedStroiesIsEmpty,
+    required TResult orElse(),
+  }) {
+    if (fetchedArchivedStroiesIsEmpty != null) {
+      return fetchedArchivedStroiesIsEmpty(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FetchedArchivedStroiesIsEmpty implements StoryState {
+  const factory FetchedArchivedStroiesIsEmpty() =
+      _$FetchedArchivedStroiesIsEmptyImpl;
 }

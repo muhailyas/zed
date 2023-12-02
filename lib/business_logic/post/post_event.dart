@@ -12,3 +12,8 @@ class AddPostEvent extends PostEvent {
 class OpenCameraEvent extends PostEvent {}
 
 class SelectImageFromGalleryEvent extends PostEvent {}
+
+class FetchPostsOrSavedPosts extends PostEvent {
+  final bool isSavedPost;
+  FetchPostsOrSavedPosts({required this.isSavedPost});
+}

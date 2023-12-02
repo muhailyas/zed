@@ -9,4 +9,5 @@ const secondaryBlue = Color.fromRGBO(25, 185, 233, 1);
 const greyColor = Colors.grey;
 const whiteColor = Colors.white;
 const red = Colors.red;
+const black = Colors.black;
 const green = Colors.green;

@@ -18,14 +18,14 @@ class RootPage extends StatelessWidget {
       backgroundColor: primaryColor,
       body: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
         builder: (context, state) {
-          return screens[state.index];
+          return IndexedStack(index: state.index, children: screens);
         },
       ),
       bottomNavigationBar: const BottomNavigationWidget(),
       floatingActionButton:
           BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
         builder: (context, state) {
-          if (state.index != 0) {
+          if (state.index != 0 && state.index != 3) {
             return const SizedBox();
           }
           return FloatingActionButton(

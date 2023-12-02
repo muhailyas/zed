@@ -6,4 +6,5 @@ class StoryEvent with _$StoryEvent {
   const factory StoryEvent.selectImageFromGallery() = SelectImageFromGallery;
   const factory StoryEvent.takeImageWithCamera() = TakeImageWithCamera;
   const factory StoryEvent.addToStory({required Story story}) = AddToStory;
+  const factory StoryEvent.fetchArchivedStroies() = FetchArchivedStroies;
 }

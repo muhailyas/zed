@@ -109,6 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     },
                   ),
                 ),
+                height05,
                 _chatInput(),
                 height005,
 

@@ -162,6 +162,32 @@ class MessageDataSource implements MessageRepository {
     }
   }
 
+  @override
+  Future<List<ChatUserWithUserProfile>> searchChatUserWithUserProfileStream(
+      String query) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final users = await _firestore
+        .collection('messageCollection')
+        .where('participants', arrayContainsAny: [userId]).get();
+    final userList =
+        users.docs.map((e) => ChatUser.fromJson(e.data())).toList();
+    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    List<ChatUserWithUserProfile> chatUsersWithProfile = [];
+    for (var user in userList) {
+      final userProfile = await UserDataSource().getUserByUid(
+          user.participants[0] == currentUserId
+              ? user.participants[1]
+              : user.participants[0]);
+
+      if (userProfile!.fullname.toLowerCase().contains(query.toLowerCase())) {
+        chatUsersWithProfile.add(
+            ChatUserWithUserProfile(chatUser: user, userProfile: userProfile));
+      }
+    }
+    return chatUsersWithProfile;
+  }
+
+  @override
   Future<void> sendChatImage(
       {required String imagePath, required String toId}) async {
     final imageUrl = await uploadImageAndGetUrl(imagePath, 'chat images');

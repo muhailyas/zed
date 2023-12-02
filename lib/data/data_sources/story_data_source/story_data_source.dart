@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:zed/data/data_sources/user_data_source/user_data_source.dart';
@@ -117,5 +119,21 @@ class StoryDataSource implements StoryRepository {
     }
     allStories.addAll(followingStories);
     return allStories;
+  }
+  @override
+  Future<Either<String, List<Story>>> fetchArchivedStroies() async {    try {
+      final storyQuerySnapshot = await _storyCollection
+          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      if (storyQuerySnapshot.docs.isEmpty) {
+        return const Right([]);
+      }
+      return Right(storyQuerySnapshot.docs
+          .map((story) => Story.fromJson(story.data()))
+          .toList());
+    } catch (e) {
+      log(e.toString());
+      return Left(e.toString());
+    }
   }
 }
