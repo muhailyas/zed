@@ -56,5 +56,10 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
         }
       });
     });
+    on<FetchStroies>((event, emit) async {
+      emit(StoryState.loading(again: event.again));
+      final stories = await storyRepository.fetchStories();
+      emit(StoryState.fetchedStories(stories: stories));
+    });
   }
 }

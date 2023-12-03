@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/home/home_bloc.dart';
-import 'package:zed/data/data_sources/story_data_source/story_data_source.dart';
+import 'package:zed/business_logic/story/story_bloc.dart';
 import 'package:zed/data/models/story/story.dart';
 import 'package:zed/presentation/screens/chat_list/chat_list.dart';
 import 'package:zed/presentation/screens/create_story/create_story.dart';
@@ -23,11 +23,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<HomeBloc>().add(FetchingPostEvent());
+      context.read<StoryBloc>().add(const StoryEvent.fetchStories(again: null));
     });
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: () async {
           context.read<HomeBloc>().add(FetchingPostEvent());
+          context
+              .read<StoryBloc>()
+              .add(const StoryEvent.fetchStories(again: false));
         },
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -76,11 +80,11 @@ class HomeScreen extends StatelessWidget {
     return SizedBox(
       height: screenHeight * 0.123,
       width: double.infinity,
-      child: FutureBuilder(
-        future: StoryDataSource().fetchStories(),
+      child: BlocBuilder<StoryBloc, StoryState>(
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<StoryWithUser> stories = snapshot.data as List<StoryWithUser>;
+          if (snapshot is FetchedStories) {
+            List<StoryWithUser> stories = snapshot.stories;
+            storiesIn.clear();
             storiesIn.addAll(stories);
             return ListView.separated(
               scrollDirection: Axis.horizontal,
@@ -90,8 +94,17 @@ class HomeScreen extends StatelessWidget {
               itemCount: stories.length,
               separatorBuilder: (context, index) => width10,
             );
-          } else {
+          } else if (snapshot is Loading && snapshot.again == null) {
             return const StoryItemShimmer();
+          } else {
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return _buildStoryItem(index, storiesIn[index], context);
+              },
+              itemCount: storiesIn.length,
+              separatorBuilder: (context, index) => width10,
+            );
           }
         },
       ),

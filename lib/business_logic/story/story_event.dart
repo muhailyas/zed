@@ -7,4 +7,5 @@ class StoryEvent with _$StoryEvent {
   const factory StoryEvent.takeImageWithCamera() = TakeImageWithCamera;
   const factory StoryEvent.addToStory({required Story story}) = AddToStory;
   const factory StoryEvent.fetchArchivedStroies() = FetchArchivedStroies;
+  const factory StoryEvent.fetchStories({required bool? again}) = FetchStroies;
 }

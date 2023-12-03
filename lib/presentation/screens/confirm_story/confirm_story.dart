@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/story/story_bloc.dart';
 import 'package:zed/data/models/story/story.dart';
+import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/constants.dart';
 
@@ -62,35 +63,44 @@ class ScreenConfirmStroy extends StatelessWidget {
                 );
               }),
           height005,
-          BlocBuilder<StoryBloc, StoryState>(
-            builder: (context, state) {
-              if (state is Loading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return InkWell(
-                onTap: () {
-                  final story = Story(
-                    userId: FirebaseAuth.instance.currentUser!.uid,
-                    imageUrl: image.path,
-                    time: DateTime.now(),
-                    isFullView: isZoomed.value,
-                  );
-                  context.read<StoryBloc>().add(AddToStory(story: story));
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: screenHeight * 0.07,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: secondaryBlue, borderRadius: radius20),
-                  child: Center(
-                      child: Text("Add to your story",
-                          style: customFontStyle(size: 18))),
-                ),
-              );
+          BlocConsumer<StoryBloc, StoryState>(
+            listenWhen: (previous, current) => current is StoryAddedSuccesfully,
+            listener: (context, state) {
+              Navigator.pop(context);
+              context
+              .read<StoryBloc>()
+              .add(const StoryEvent.fetchStories(again: false));
+              Navigator.pop(context);
             },
-          )
+            builder: (context, state) {
+              return ElevatedButtonWidget(
+                  height: 0.07,
+                  width: 0.99,
+                  color: secondaryBlue,
+                  label: '',
+                  child: state is Loading
+                      ? const CircularProgressIndicator(
+                          backgroundColor: secondaryBlue,
+                          color: whiteColor,
+                        )
+                      : Text(
+                          'Add to your story',
+                          style: customFontStyle(),
+                        ),
+                  onPressed: () {
+                    if (state is! Loading) {
+                      final story = Story(
+                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        imageUrl: image.path,
+                        time: DateTime.now(),
+                        isFullView: isZoomed.value,
+                      );
+                      context.read<StoryBloc>().add(AddToStory(story: story));
+                    }
+                  });
+            },
+          ),
+          height005
         ],
       )),
     );

@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ChatBloc(MessageDataSource())),
       ],
       child: MaterialApp(
-        title: 'Zed',
+        title: 'ZED',
         theme: ThemeData(
           fontFamily: GoogleFonts.lato().fontFamily,
         ),

@@ -9,7 +9,9 @@ class StoryState with _$StoryState {
   const factory StoryState.imageSelected(
       {required File selectedImage, required bool isCamera}) = ImageSelected;
   const factory StoryState.storyAddedSuccesfully() = StoryAddedSuccesfully;
-  const factory StoryState.loading() = Loading;
+  const factory StoryState.loading({
+    bool? again,
+  }) = Loading;
   const factory StoryState.fetchedArchivedStroiesSuccess({
     required List<Story> stories,
   }) = FetchedArchivedStroiesSuccess;
@@ -17,4 +19,7 @@ class StoryState with _$StoryState {
       {required String error}) = FetchedArchivedStroiesError;
   const factory StoryState.fetchedArchivedStroiesIsEmpty() =
       FetchedArchivedStroiesIsEmpty;
+  const factory StoryState.fetchedStories({
+    required List<StoryWithUser> stories,
+  }) = FetchedStories;
 }

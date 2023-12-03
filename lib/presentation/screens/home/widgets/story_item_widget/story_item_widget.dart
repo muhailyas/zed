@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zed/data/models/story/story.dart';
@@ -21,7 +22,8 @@ class StoryItemWidget extends StatelessWidget {
               color: secondaryDark,
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: NetworkImage(index == 0 &&
+                  image: CachedNetworkImageProvider
+                  (index == 0 &&
                           storyWithUser.userProfile.profilePhoto.isEmpty
                       ? defaultProfileImage
                       : storyWithUser.userProfile.profilePhoto),

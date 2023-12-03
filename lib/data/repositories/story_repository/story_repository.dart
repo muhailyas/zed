@@ -9,4 +9,5 @@ abstract class StoryRepository {
   Future<void> deleteStroy({required String stroyId});
   Future<List<File?>> fetchRecentImages();
   Future<Either<String, List<Story>>> fetchArchivedStroies();
+  Future<List<StoryWithUser>> fetchStories() ;
 }
