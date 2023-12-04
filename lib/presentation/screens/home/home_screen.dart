@@ -54,14 +54,9 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: () async {
-              //test
-            },
-            child: Text(
-              "ZED",
-              style: customFontStyle(size: 35, fontWeight: FontWeight.bold),
-            ),
+          Text(
+            "ZED",
+            style: customFontStyle(size: 35, fontWeight: FontWeight.bold),
           ),
           InkWell(
             onTap: () {

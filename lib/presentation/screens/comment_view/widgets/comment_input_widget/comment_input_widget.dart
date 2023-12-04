@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +18,32 @@ class CommentInputWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: <Widget>[
-          CircleAvatar(
-            backgroundImage: const NetworkImage(defaultProfileImage),
-            radius: screenHeight * 0.023,
+          BlocBuilder<CommentBloc, CommentState>(
+            buildWhen: (previous, current) => current is CommentFetchSuccess,
+            builder: (context, state) {
+              return CircleAvatar(
+                backgroundColor: secondaryDark,
+                radius: screenHeight * 0.023,
+                backgroundImage: state is! CommentFetchSuccess
+                    ? const CachedNetworkImageProvider(defaultProfileImage)
+                    : CachedNetworkImageProvider(
+                        state.user!.profilePhoto.isEmpty
+                            ? defaultProfileImage
+                            : state.user!.profilePhoto,
+                      ),
+                child: state is! CommentFetchSuccess
+                    ? Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 1),
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(strokeWidth: 3),
+                        ),
+                      )
+                    : const SizedBox(),
+              );
+            },
           ),
           width05,
           Expanded(

@@ -85,14 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   _buildTabs(ProfileState state) {
-    // if (state is ProfileFetchSuccess) {
-    //   return [
-    //     Tab(text: "Posts ${state.posts.length.toString()}"),
-    //     Tab(text: "Saved ${state.savedPosts.length.toString()}"),
-    //   ];
-    // } else {
     return [const Tab(text: "Posts "), const Tab(text: "Saved ")];
-    // }
   }
 
   Widget buildInfoSection() {

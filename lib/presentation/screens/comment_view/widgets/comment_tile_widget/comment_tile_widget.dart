@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zed/business_logic/comment/comment_bloc.dart';
@@ -24,7 +25,10 @@ class CommentTileWidget extends StatelessWidget {
       builder: (context, isEditMode, child) {
         return GestureDetector(
           onLongPress: () {
-            editModeNotifier.value = true;
+            if (comment.comment.userId ==
+                FirebaseAuth.instance.currentUser!.uid) {
+              editModeNotifier.value = true;
+            }
           },
           child: Container(
             width: double.infinity,
