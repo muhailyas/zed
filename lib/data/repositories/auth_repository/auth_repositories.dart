@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:zed/data/models/login/login.dart';
 import 'package:zed/data/models/sign_up/sign_up.dart';
 import 'package:zed/utils/enums/enums.dart';
@@ -10,4 +11,5 @@ abstract class AuthRepository {
   Future<AuthResults> signInWithGoogle();
   Future<String> passwordReset({required String email});
   Future<void> sendEmailForVerification();
+  Future<Either<String,bool>>sessionHandling();
 }

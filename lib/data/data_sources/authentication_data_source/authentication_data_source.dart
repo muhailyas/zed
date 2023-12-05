@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zed/data/data_sources/firestore_service/username_exist.dart';
@@ -29,7 +30,7 @@ class AuthenticationDataSource implements AuthRepository {
           completer.complete(AuthResults.verified);
         }
       });
-      
+
       return completer.future;
     }
   }
@@ -123,6 +124,20 @@ class AuthenticationDataSource implements AuthRepository {
       await auth.currentUser!.sendEmailVerification();
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, bool>> sessionHandling() async {
+    await Future.delayed(const Duration(seconds: 2));
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        return right(true);
+      } else {
+        return right(false);
+      }
+    } catch (e) {
+      return left(e.toString());
     }
   }
 }

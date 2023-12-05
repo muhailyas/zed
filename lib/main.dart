@@ -12,6 +12,7 @@ import 'package:zed/business_logic/notification/notification_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
 import 'package:zed/business_logic/profile/profile_bloc.dart';
 import 'package:zed/business_logic/search/search_bloc.dart';
+import 'package:zed/business_logic/splash/splash_bloc.dart';
 import 'package:zed/business_logic/story/story_bloc.dart';
 import 'package:zed/business_logic/user/user_bloc.dart';
 import 'package:zed/data/data_sources/authentication_data_source/authentication_data_source.dart';
@@ -56,6 +57,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => StoryBloc(StoryDataSource())),
         BlocProvider(create: (context) => NotificationBloc()),
         BlocProvider(create: (context) => ChatBloc(MessageDataSource())),
+        BlocProvider(
+            create: (context) => SplashBloc(AuthenticationDataSource()))
       ],
       child: MaterialApp(
         title: 'ZED',
