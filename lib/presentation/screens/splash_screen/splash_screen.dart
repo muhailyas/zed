@@ -29,18 +29,19 @@ class SplashScreen extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        body: Stack(
           children: <Widget>[
-            const SizedBox(width: double.infinity),
-            Text(
-              'Welcome to ZED',
-              style: customFontStyle(),
-            ),
-            const SizedBox(
-                height: 200,
-                width: 200,
-                child: RiveAnimation.asset('assets/loading.riv'))
+            SizedBox(
+                width: screenWidth,
+                height: screenHeight,
+                child: const RiveAnimation.asset('assets/splash.riv')),
+            Positioned(
+                top: screenHeight / 2.5,
+                left: screenWidth * 0.36,
+                child: Text(
+                  "ZED",
+                  style: customFontStyle(fontWeight: FontWeight.bold, size: 60),
+                ))
           ],
         ),
       ),

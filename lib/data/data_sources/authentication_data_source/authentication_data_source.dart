@@ -129,7 +129,7 @@ class AuthenticationDataSource implements AuthRepository {
 
   @override
   Future<Either<String, bool>> sessionHandling() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 4));
     try {
       if (FirebaseAuth.instance.currentUser != null) {
         return right(true);

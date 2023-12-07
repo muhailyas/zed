@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:zed/business_logic/auth/auth_bloc.dart';
 import 'package:zed/business_logic/bottom_nav/bottom_navigation_bloc.dart';
 import 'package:zed/business_logic/post/post_bloc.dart';
+import 'package:zed/presentation/screens/about/about.dart';
 import 'package:zed/presentation/screens/archived_stories/archived_stories.dart';
 import 'package:zed/presentation/screens/login_page/login.dart';
 import 'package:zed/presentation/screens/posts/posts.dart';
@@ -11,6 +12,7 @@ import 'package:zed/presentation/widgets/elevated_button/elevated_button.dart';
 import 'package:zed/utils/colors/colors.dart';
 import 'package:zed/utils/constants/app_strings.dart';
 import 'package:zed/utils/constants/constants.dart';
+import 'package:zed/utils/url_launcher/url_launcher.dart';
 
 class ScreenSettings extends StatelessWidget {
   const ScreenSettings({super.key});
@@ -158,77 +160,50 @@ class ScreenSettings extends StatelessWidget {
             height10,
             const Divider(color: greyColor, thickness: 1),
             height10,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.privacy_tip_outlined,
-                    color: whiteColor,
-                  ),
-                  width10,
-                  Text("Privacy Policy", style: customFontStyle(size: 15)),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward_ios_rounded, color: whiteColor)
-                ],
+            InkWell(
+              onTap: () {
+                launchhUrI();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.privacy_tip_outlined,
+                      color: whiteColor,
+                    ),
+                    width10,
+                    Text("Privacy Policy", style: customFontStyle(size: 15)),
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios_rounded,
+                        color: whiteColor)
+                  ],
+                ),
               ),
             ),
             height10,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.library_books_rounded,
-                    color: whiteColor,
-                  ),
-                  width10,
-                  Text("Terms of Use", style: customFontStyle(size: 15)),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward_ios_rounded, color: whiteColor)
-                ],
-              ),
-            ),
-            height10,
-            const Divider(color: greyColor, thickness: 1),
-            height10,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                "More info and support",
-                style: customFontStyle(color: greyColor, size: 15),
-              ),
-            ),
-            height10,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.support,
-                    color: whiteColor,
-                  ),
-                  width10,
-                  Text("Help", style: customFontStyle(size: 15)),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward_ios_rounded, color: whiteColor)
-                ],
-              ),
-            ),
-            height10,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: [
-                  const Icon(
-                    Iconsax.info_circle,
-                    color: whiteColor,
-                  ),
-                  width10,
-                  Text("About", style: customFontStyle(size: 15)),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward_ios_rounded, color: whiteColor)
-                ],
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ScreenAbout()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Iconsax.info_circle,
+                      color: whiteColor,
+                    ),
+                    width10,
+                    Text("About", style: customFontStyle(size: 15)),
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios_rounded,
+                        color: whiteColor)
+                  ],
+                ),
               ),
             ),
             height10,
