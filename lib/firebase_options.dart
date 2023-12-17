@@ -17,13 +17,19 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -46,33 +52,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDNZlIaN_dC2PIaOKuXS7AyV_uVJBQnN4I',
-    appId: '1:1945711983:web:4de36661617cd3c72b649a',
-    messagingSenderId: '1945711983',
-    projectId: 'zed-social-media',
-    authDomain: 'zed-social-media.firebaseapp.com',
-    databaseURL: 'https://zed-social-media-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'zed-social-media.appspot.com',
-    measurementId: 'G-1LQWTL5FVJ',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBe2kCPQOlaju9W3CpfGyFTbfAkVt153RM',
-    appId: '1:1945711983:android:6491b6f9e71631f92b649a',
+    appId: '1:1945711983:android:074d39bfe55e0d0c2b649a',
     messagingSenderId: '1945711983',
     projectId: 'zed-social-media',
     databaseURL: 'https://zed-social-media-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'zed-social-media.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAEOou6ou6YYKE76wXwArKF259iFX5RHiI',
-    appId: '1:1945711983:ios:232b2a1a1fc6d76d2b649a',
-    messagingSenderId: '1945711983',
-    projectId: 'zed-social-media',
-    databaseURL: 'https://zed-social-media-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'zed-social-media.appspot.com',
-    iosBundleId: 'com.example.zed',
   );
 }
